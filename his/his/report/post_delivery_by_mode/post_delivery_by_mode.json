@@ -1,0 +1,57 @@
+{
+ "add_total_row": 0,
+ "columns": [],
+ "creation": "2025-01-05 16:43:16.443445",
+ "disable_prepared_report": 0,
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [
+  {
+   "default": "Today",
+   "fieldname": "from",
+   "fieldtype": "Date",
+   "label": "From Date",
+   "mandatory": 1,
+   "wildcard_filter": 0
+  },
+  {
+   "default": "Today",
+   "fieldname": "to",
+   "fieldtype": "Date",
+   "label": "To Date",
+   "mandatory": 1,
+   "wildcard_filter": 0
+  }
+ ],
+ "idx": 0,
+ "is_standard": "Yes",
+ "letter_head": "logo",
+ "modified": "2025-07-28 16:11:34.702721",
+ "modified_by": "Administrator",
+ "module": "HIS",
+ "name": "Post Delivery By Mode",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "query": "SELECT \r\n   \r\n   mode AS \"mode:Data:200\", \r\n   count(*) as \"Total No\"\r\n    \r\n \r\n    \r\nFROM \r\n    `tabPost Delivery` \r\nWHERE \r\n    date BETWEEN %(from)s AND %(to)s \r\n    group by mode\r\n\r\n",
+ "ref_doctype": "Post Delivery",
+ "report_name": "Post Delivery By Mode",
+ "report_type": "Query Report",
+ "roles": [
+  {
+   "role": "System Manager"
+  },
+  {
+   "role": "All"
+  },
+  {
+   "role": "Cashier"
+  },
+  {
+   "role": "Main Cashier"
+  },
+  {
+   "role": "Pharmacy"
+  }
+ ]
+}

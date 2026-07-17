@@ -1,0 +1,245 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "VA-.#####",
+ "creation": "2024-09-19 08:53:50.957498",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "patient",
+  "patient_name",
+  "que",
+  "column_break_jbhxa",
+  "age",
+  "sex",
+  "column_break_1aukl",
+  "date",
+  "time",
+  "section_break_taohf",
+  "right_eye_section",
+  "section_break_bmjh4",
+  "va",
+  "pin_hole",
+  "white_glass",
+  "column_break_yob8d",
+  "left_eye_section",
+  "va1",
+  "pin2",
+  "glass2",
+  "amended_from",
+  "section_break_t9ybh",
+  "iop_right",
+  "column_break_yyvwf",
+  "iop_left",
+  "company",
+  "section_break_uruaw",
+  "other_comments"
+ ],
+ "fields": [
+  {
+   "fieldname": "right_eye_section",
+   "fieldtype": "HTML",
+   "label": "Right Eye",
+   "options": "Right Eye"
+  },
+  {
+   "fieldname": "va",
+   "fieldtype": "Data",
+   "label": "VA"
+  },
+  {
+   "fieldname": "pin_hole",
+   "fieldtype": "Data",
+   "label": "PIN HOLE"
+  },
+  {
+   "fieldname": "white_glass",
+   "fieldtype": "Data",
+   "label": "WITH GLASS"
+  },
+  {
+   "fieldname": "left_eye_section",
+   "fieldtype": "HTML",
+   "label": "Left Eye",
+   "options": "Left Eye"
+  },
+  {
+   "fieldname": "va1",
+   "fieldtype": "Data",
+   "label": "VA"
+  },
+  {
+   "fieldname": "pin2",
+   "fieldtype": "Data",
+   "label": "PIN HOLE"
+  },
+  {
+   "fieldname": "glass2",
+   "fieldtype": "Data",
+   "label": "WITH GLASS"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "VA Examination",
+   "print_hide": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_yob8d",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "patient",
+   "fieldtype": "Link",
+   "in_filter": 1,
+   "in_global_search": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Patient",
+   "options": "Patient"
+  },
+  {
+   "fetch_from": "patient.p_age",
+   "fieldname": "age",
+   "fieldtype": "Data",
+   "label": "Age"
+  },
+  {
+   "fetch_from": "patient.sex",
+   "fieldname": "sex",
+   "fieldtype": "Data",
+   "label": "Sex"
+  },
+  {
+   "fieldname": "section_break_taohf",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "section_break_bmjh4",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_jbhxa",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "patient.first_name",
+   "fieldname": "patient_name",
+   "fieldtype": "Data",
+   "label": "Patient Name"
+  },
+  {
+   "default": "Today",
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Date"
+  },
+  {
+   "default": "Now",
+   "fieldname": "time",
+   "fieldtype": "Time",
+   "label": "Time"
+  },
+  {
+   "fieldname": "column_break_1aukl",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_t9ybh",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "iop_left",
+   "fieldtype": "Data",
+   "label": "IOP Left"
+  },
+  {
+   "fieldname": "column_break_yyvwf",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "iop_right",
+   "fieldtype": "Data",
+   "label": "IOP Right"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_uruaw",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "other_comments",
+   "fieldtype": "Text Editor",
+   "label": "Other Comments"
+  },
+  {
+   "fieldname": "que",
+   "fieldtype": "Data",
+   "label": "Que",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2026-07-06 19:37:59.383036",
+ "modified_by": "Administrator",
+ "module": "HIS",
+ "name": "VA Examination",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "select": 1,
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "All",
+   "select": 1,
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "show_title_field_in_link": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "patient_name"
+}

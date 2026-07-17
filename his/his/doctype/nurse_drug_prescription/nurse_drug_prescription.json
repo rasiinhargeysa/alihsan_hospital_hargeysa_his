@@ -1,0 +1,134 @@
+{
+ "actions": [],
+ "allow_copy": 1,
+ "creation": "2023-04-02 15:59:31.774533",
+ "default_view": "List",
+ "doctype": "DocType",
+ "document_type": "Document",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "from",
+  "doc",
+  "drug_code",
+  "drug_name",
+  "qty",
+  "dosage",
+  "dosage_form",
+  "frequecy",
+  "root_type",
+  "comment",
+  "user",
+  "remain",
+  "nurse"
+ ],
+ "fields": [
+  {
+   "fieldname": "from",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "From",
+   "options": "Doctor Plan\nExtra",
+   "read_only": 1
+  },
+  {
+   "columns": 2,
+   "fieldname": "qty",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "QTY"
+  },
+  {
+   "fieldname": "comment",
+   "fieldtype": "Small Text",
+   "ignore_xss_filter": 1,
+   "in_list_view": 1,
+   "label": "Comment"
+  },
+  {
+   "default": "User",
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "label": "User",
+   "options": "User"
+  },
+  {
+   "fieldname": "remain",
+   "fieldtype": "Float",
+   "label": "Remain"
+  },
+  {
+   "fieldname": "drug_name",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "in_list_view": 1,
+   "label": "Drug Name"
+  },
+  {
+   "default": "Item",
+   "fieldname": "doc",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Doc",
+   "options": "DocType",
+   "read_only": 1
+  },
+  {
+   "columns": 2,
+   "fieldname": "drug_code",
+   "fieldtype": "Dynamic Link",
+   "in_list_view": 1,
+   "label": "Drug Code",
+   "options": "doc"
+  },
+  {
+   "columns": 2,
+   "fieldname": "dosage",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Frequecy",
+   "options": "Prescription Dosage"
+  },
+  {
+   "columns": 1,
+   "fieldname": "dosage_form",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Dosage Form",
+   "options": "Dosage Form"
+  },
+  {
+   "fieldname": "frequecy",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Duration",
+   "options": "Prescription Duration"
+  },
+  {
+   "columns": 1,
+   "fieldname": "root_type",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Root Type",
+   "options": "Root Type"
+  },
+  {
+   "fetch_from": "user.full_name",
+   "fieldname": "nurse",
+   "fieldtype": "Data",
+   "label": "Nurse"
+  }
+ ],
+ "istable": 1,
+ "links": [],
+ "modified": "2024-02-27 13:07:34.095181",
+ "modified_by": "Administrator",
+ "module": "HIS",
+ "name": "Nurse Drug Prescription",
+ "owner": "Administrator",
+ "permissions": [],
+ "restrict_to_domain": "Healthcare",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -1,0 +1,86 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+table,
+tr,
+td,
+th {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+.mx {
+  width: 1000px;
+  margin: 0 auto;
+}
+
+.p-main{
+  position: absolute;
+  left: 0;
+}
+
+.headernew {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.head_left {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.ujedo {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.header_right {
+  display: flex;
+  flex-direction: column;
+  font-size: 18px;
+}
+
+.dahir_table_sec {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+  margin-top: 30px;
+}
+.medications {
+  margin-top: 30px;
+}
+
+.total_sec {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* margin-left: 190px; */
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 30px;
+}

@@ -1,0 +1,263 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "IOL-.#####",
+ "creation": "2025-01-02 11:22:58.322319",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "pid",
+  "patient_name",
+  "age",
+  "column_break_jtddt",
+  "sex",
+  "date",
+  "practitioner",
+  "procedure_template",
+  "iol_form_section",
+  "operation_type",
+  "operation_category",
+  "operation",
+  "od_right_eye_section",
+  "od_type",
+  "od_k1",
+  "od_k2",
+  "od_axis",
+  "od_const_a",
+  "od_average_axl",
+  "od_size",
+  "column_break_io5yv",
+  "os_type",
+  "os_k1",
+  "os_k2",
+  "os_axis",
+  "os_const_a",
+  "os_average_axl",
+  "os_size",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "pid",
+   "fieldtype": "Link",
+   "label": "PID",
+   "options": "Patient"
+  },
+  {
+   "fetch_from": "pid.first_name",
+   "fieldname": "patient_name",
+   "fieldtype": "Data",
+   "label": "Patient name"
+  },
+  {
+   "fetch_from": "pid.p_age",
+   "fieldname": "age",
+   "fieldtype": "Data",
+   "label": "Age"
+  },
+  {
+   "default": "Today",
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "label": "Date"
+  },
+  {
+   "fetch_from": "pid.sex",
+   "fieldname": "sex",
+   "fieldtype": "Data",
+   "label": "Sex"
+  },
+  {
+   "fieldname": "column_break_jtddt",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "iol_form_section",
+   "fieldtype": "Section Break",
+   "label": "IOL Form"
+  },
+  {
+   "fieldname": "operation_type",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Operation Type"
+  },
+  {
+   "fieldname": "operation_category",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Operation Category"
+  },
+  {
+   "fieldname": "operation",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Operation"
+  },
+  {
+   "fieldname": "od_right_eye_section",
+   "fieldtype": "Section Break",
+   "label": "OD Right Eye"
+  },
+  {
+   "fieldname": "od_type",
+   "fieldtype": "Data",
+   "label": "Type"
+  },
+  {
+   "fieldname": "od_k1",
+   "fieldtype": "Data",
+   "label": "K1"
+  },
+  {
+   "fieldname": "od_k2",
+   "fieldtype": "Data",
+   "label": "K2"
+  },
+  {
+   "fieldname": "od_const_a",
+   "fieldtype": "Data",
+   "label": "Const A"
+  },
+  {
+   "fieldname": "od_average_axl",
+   "fieldtype": "Data",
+   "label": "Average AXL"
+  },
+  {
+   "fieldname": "od_size",
+   "fieldtype": "Data",
+   "label": "IOL Size"
+  },
+  {
+   "fieldname": "os_type",
+   "fieldtype": "Data",
+   "label": "Type"
+  },
+  {
+   "fieldname": "os_k1",
+   "fieldtype": "Data",
+   "label": "K1"
+  },
+  {
+   "fieldname": "os_k2",
+   "fieldtype": "Data",
+   "label": "K2"
+  },
+  {
+   "fieldname": "os_const_a",
+   "fieldtype": "Data",
+   "label": "Const A"
+  },
+  {
+   "fieldname": "os_average_axl",
+   "fieldtype": "Data",
+   "label": "Average AXL"
+  },
+  {
+   "fieldname": "os_size",
+   "fieldtype": "Data",
+   "label": "IOL Size"
+  },
+  {
+   "fieldname": "column_break_io5yv",
+   "fieldtype": "Column Break",
+   "label": "OS Left Eye"
+  },
+  {
+   "fieldname": "practitioner",
+   "fieldtype": "Link",
+   "label": "Practitioner",
+   "options": "Healthcare Practitioner"
+  },
+  {
+   "fieldname": "procedure_template",
+   "fieldtype": "Link",
+   "label": "Procedure Template",
+   "options": "Clinical Procedure Template"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "IOL Form",
+   "print_hide": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "od_axis",
+   "fieldtype": "Data",
+   "label": "Axis"
+  },
+  {
+   "fieldname": "os_axis",
+   "fieldtype": "Data",
+   "label": "Axis"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2025-01-18 15:12:36.437112",
+ "modified_by": "Administrator",
+ "module": "HIS",
+ "name": "IOL Form",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "select": 1,
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "All",
+   "select": 1,
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Guest",
+   "select": 1,
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [
+  {
+   "color": "Green",
+   "title": "Submitted"
+  }
+ ],
+ "title_field": "patient_name"
+}

@@ -1,0 +1,383 @@
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  table,
+  tr,
+  td,
+  th {
+    border: 1px solid black;
+    border-collapse: collapse;
+  }
+
+  .mx {
+    width: 700px;
+    margin: 0 auto;
+  }
+
+  .ddate {
+    font-weight: bold;
+    font-size: 18px;
+    position: absolute;
+    left: 21%;
+    padding: 8px 0;
+    color: blue;
+    text-decoration: underline;
+  }
+
+  @media print {
+    .ddate {
+      left: 0;
+    }
+  }
+
+  .p-main {
+    position: absolute;
+    left: 0;
+  }
+
+  .headernew {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+  }
+
+  .head_left {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+  }
+
+  .ujedo {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+
+  .header_right {
+    display: flex;
+    flex-direction: column;
+    font-size: 18px;
+  }
+
+  .dahir_table_sec {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    margin-top: 30px;
+  }
+  .medications {
+    margin-top: 30px;
+  }
+
+  .total_sec {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+  }
+
+  .column {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    flex: 1;
+    font-size: 14px;
+  }
+
+  .row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* margin-left: 190px; */
+  }
+
+  .footer {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: 30px;
+  }
+</style>
+
+<main class="page-content">
+  <div class="mx">
+    <img class="mx" src="/files/JSHLOGO.png" alt="" />
+    <header class="headernew mx">
+      <div class="header_right">
+        <span>Patient: {{patient }}</span>
+        <span>Patient Name: {{patient_name}}</span>
+        <span>Age: {{age}}</span>
+        <span>Mobile : {{mobile}}</span>
+        <span>Sex: {{sex}}</span>
+      </div>
+      <div class="header_right">
+        <span>Consultant : {{table[0].practitioner}}</span>
+        <span
+          >Department : {{frappe.db.get_value("Healthcare Practitioner",
+          table[0].practitioner, "department")}}</span
+        >
+      </div>
+    </header>
+
+    {% for d in table %}
+    <!-- details 1 -->
+    <span class="ddate">Date : {{d.encounter_date}}</span>
+    <section class="dahir_table_sec mx" style="position: relative">
+      <div
+        style="width: 100%; display: flex; flex-direction: column; gap: 12px"
+      >
+        <span style="font-weight: bold; font-size: 14px; padding-top: 10px"
+          >Right Eye
+        </span>
+        <table style="width: 100%">
+          <thead style="background-color: black; color: white">
+            <tr>
+              <th style="text-align: start; padding-left: 5px"></th>
+              <th style="text-align: start; padding-left: 5px">SPH</th>
+              <th style="text-align: start; padding-left: 5px">CYL</th>
+      
+             
+              <th style="text-align: start; padding-left: 5px">Axis</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for r in d.right_eye%}
+            <tr>
+              <th style="text-align: start">{{r.name1 or " "}}</th>
+              <th
+                style="
+                  text-align: start;
+                  text-transform: uppercase;
+                  font-size: 14px;
+                  padding-left: 5px;
+                "
+              >
+                {{r.sph or " "}}
+              </th>
+              <th style="text-align: start; padding-left: 5px">
+                {{r.cyl or " "}}
+              </th>
+              <th style="text-align: start; padding-left: 5px">
+                {{r.axis or " "}}
+              </th>
+              
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <div
+        style="width: 100%; display: flex; flex-direction: column; gap: 12px"
+      >
+        <span style="font-weight: bold; font-size: 14px; padding-top: 10px"
+          >Left Eye
+        </span>
+        <table style="width: 100%">
+          <thead style="background-color: black; color: white">
+            <tr>
+              <th style="text-align: start; padding-left: 5px"></th>
+             
+             
+              <th style="text-align: start; padding-left: 5px">SPH</th>
+              <th style="text-align: start; padding-left: 5px">CYL</th>
+              <th style="text-align: start; padding-left: 5px">Axis</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for l in d.left_eye %}
+            <tr>
+              <th style="text-align: start">{{l.name1 or " "}}</th>
+              <th
+                style="
+                  text-align: start;
+                  text-transform: uppercase;
+                  font-size: 14px;
+                  padding-left: 5px;
+                "
+              >
+                {{l.sph or " "}}
+              </th>
+              <th style="text-align: start; padding-left: 5px">
+                {{l.cyl or " "}}
+              </th>
+              <th style="text-align: start; padding-left: 5px">
+                {{l.axis or " "}}
+              </th>
+             
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- details 2 -->
+    <!-- <section class="total_sec mx">
+      <div class="column">
+        <span>PD: {{d.pd or " "}}</span>
+        <span
+          ><input style="pointer-events: none;" type="checkbox" {% if
+          d.custom_full_time == 1 %}checked{% endif %} /> Full Time</span
+        >
+      </div>
+      <div class="column">
+        <span
+          ><input style="pointer-events: none;" type="checkbox" {% if
+          d.custom_plastic == 1 %}checked{% endif %} /> Plastic</span
+        >
+        <span
+          ><input style="pointer-events: none;" type="checkbox" {% if
+          d.custom_glass == 1 %}checked{% endif %} /> Glass</span
+        >
+      </div>
+      <div class="column">
+        <span
+          ><input style="pointer-events: none;" type="checkbox" {% if
+          d.custom_blue_coat == 1 %}checked{% endif %} /> Blue Coat</span
+        >
+        <span
+          ><input style="pointer-events: none;" type="checkbox" {% if
+          d.custom_bifocal == 1 %}checked{% endif %} /> BIFOCAL</span
+        >
+      </div>
+      <div class="column">
+        <span
+          ><input style="pointer-events: none;" type="checkbox" {% if
+          d.custom_progressive == 1 %}checked{% endif %} /> PROGRESSIVE</span
+        >
+        <span
+          ><input style="pointer-events: none;" type="checkbox" {% if
+          d.custom_distance == 1 %}checked{% endif %} /> Distance</span
+        >
+      </div>
+      <div class="column">
+        <span
+          ><input style="pointer-events: none;" type="checkbox" {% if
+          d.custom_reading == 1 %}checked{% endif %} /> Reading</span
+        >
+        <span
+          ><input style="pointer-events: none;" type="checkbox" {% if
+          d.custom_white == 1 %}checked{% endif %} /> White</span
+        >
+      </div>
+      <div class="column">
+        <span
+          ><input style="pointer-events: none;" type="checkbox" {% if
+          d.custom_solar == 1 %}checked{% endif %} /> Solar</span
+        >
+      </div>
+    </section> -->
+
+    <!-- vision therapy -->
+    <!-- <section class="total_sec mx">
+      <div style="display: flex; flex-direction: column; gap: 8px">
+        <span
+          style="font-weight: bold; font-size: 14px; text-decoration: underline"
+          >Vision Therapy
+        </span>
+
+        <span>vision therapy: {{d.custom__vision_therapy or " " }}</span>
+      </div>
+    </section> -->
+
+    <!-- history -->
+    <!-- <section class="headernew mx">
+      <div class="header_right">
+        <span
+          style="
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 10px;
+            text-decoration: underline;
+          "
+          >History
+        </span>
+        <span>Cheif Complaint: {{d.cheif_complaint or " "}}</span>
+        <span
+          >History of present Illness: {{d.history_of_present_illness or "
+          "}}</span
+        >
+        <span>Past Medical History: {{d.past_medical_history or " "}}</span>
+        <span>ROS: {{d.ros or " "}}</span>
+        <span
+          >Differential Diagnosis: {{d.differential__diagnosis or " "}}</span
+        >
+      </div>
+      <div class="header_right">
+        <span>Drug History: {{d.drug_history or " "}}</span>
+        <span>Social History : {{d.social_history or " "}}</span>
+        <span>Family History: {{d.family_history or " "}}</span>
+        <span
+          >Physical Examination: {{d.physical_examinationzzzzzzzzzzzs or "
+          "}}</span
+        >
+      </div>
+    </section> -->
+
+    <!-- Medications -->
+
+    <section class="medications mx">
+      <div
+        style="width: 100%; display: flex; flex-direction: column; gap: 12px"
+      >
+        <span
+          style="font-weight: bold; font-size: 14px; text-decoration: underline"
+          >Opticals
+        </span>
+        <table style="width: 100%">
+          <thead style="background-color: black; color: white">
+            <tr>
+              <th style="text-align: start; padding-left: 5px">No.</th>
+              <th style="text-align: start; padding-left: 5px">Optical</th>
+              <th style="text-align: start; padding-left: 5px">Qty</th>
+              <th style="text-align: start; padding-left: 5px">Comment</th>
+             
+            </tr>
+          </thead>
+          <tbody>
+            {% for drug in d.optical_prescription %}
+            <tr>
+              <th style="text-align: start">{{loop.index}}</th>
+              <th
+                style="
+                  text-align: start;
+                  text-transform: uppercase;
+                  font-size: 14px;
+                  padding-left: 5px;
+                "
+              >
+                {{drug.optical_code}}
+              </th>
+              <th style="text-align: start; padding-left: 5px">
+                {{drug.qty}}
+              </th>
+              
+              <th style="text-align: start; padding-left: 5px">{{drug.comment or ""}}</th>
+              
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="medications mx">
+      <div
+        style="width: 100%; display: flex; flex-direction: column; gap: 12px"
+      >
+        <span
+          style="font-weight: bold; font-size: 14px; text-decoration: underline"
+          >Other Comments
+        </span>
+        <span> {{ d.comment or ""}}</span>
+      </div>
+    </section>
+    {% endfor %}
+  </div>
+</main>

@@ -1,0 +1,185 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "DCT-.#####",
+ "creation": "2025-01-07 09:40:25.110466",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "user",
+  "username",
+  "column_break_b6tr4",
+  "date",
+  "section_break_8dyql",
+  "from_account",
+  "total_credit",
+  "column_break_talot",
+  "to_account",
+  "total_debit",
+  "section_break_5ns5h",
+  "remark",
+  "column_break_ar59s",
+  "cost_center",
+  "journal_entry",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fetch_from": "user.full_name",
+   "fieldname": "username",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Username",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_b6tr4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Today",
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_8dyql",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "from_account",
+   "fieldtype": "Table",
+   "label": "From Account",
+   "options": "Main Account Entery",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_talot",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "to_account",
+   "fieldtype": "Table",
+   "label": "To Account",
+   "options": "Main Account Entery",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_5ns5h",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "Funds Transfer",
+   "fieldname": "remark",
+   "fieldtype": "Small Text",
+   "label": "Remark",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_ar59s",
+   "fieldtype": "Column Break"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "journal_entry",
+   "fieldtype": "Link",
+   "label": "Journal Entry",
+   "options": "Journal Entry",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_credit",
+   "fieldtype": "Currency",
+   "label": "Total Credit",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_debit",
+   "fieldtype": "Currency",
+   "label": "Total Debit",
+   "read_only": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Daily Cash Transfer",
+   "print_hide": 1,
+   "read_only": 1
+  },
+  {
+   "default": "User",
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "User",
+   "options": "User"
+  },
+  {
+   "fieldname": "cost_center",
+   "fieldtype": "Link",
+   "label": "Cost Center",
+   "options": "Cost Center",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2026-06-03 09:00:42.093563",
+ "modified_by": "Administrator",
+ "module": "HIS",
+ "name": "Daily Cash Transfer",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Cashier",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Main Cashier",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -1,0 +1,30 @@
+{
+ "add_total_row": 0,
+ "columns": [],
+ "creation": "2026-07-10 19:38:22.101413",
+ "disable_prepared_report": 0,
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [],
+ "idx": 0,
+ "is_standard": "Yes",
+ "letter_head": "letter had",
+ "modified": "2026-07-10 19:38:22.101413",
+ "modified_by": "Administrator",
+ "module": "HIS",
+ "name": "Hospital incident summary",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "ref_doctype": "Hospital Incident",
+ "report_name": "Hospital incident summary",
+ "report_type": "Script Report",
+ "roles": [
+  {
+   "role": "System Manager"
+  },
+  {
+   "role": "All"
+  }
+ ]
+}

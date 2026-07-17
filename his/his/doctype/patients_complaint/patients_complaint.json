@@ -1,0 +1,143 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "PC-.#####",
+ "beta": 1,
+ "creation": "2025-08-11 10:06:11.774917",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "pid",
+  "name1",
+  "patient_phone",
+  "column_break_tni9a",
+  "date",
+  "doctor",
+  "solved",
+  "solved_date",
+  "section_break_mfmsm",
+  "department",
+  "comments",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "pid",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "PID",
+   "options": "Patient"
+  },
+  {
+   "fetch_from": "pid.first_name",
+   "fieldname": "name1",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Patient Name"
+  },
+  {
+   "fetch_from": "pid.mobile_no",
+   "fieldname": "patient_phone",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Patient Phone"
+  },
+  {
+   "fieldname": "column_break_tni9a",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Today",
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Date"
+  },
+  {
+   "fieldname": "doctor",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Doctor",
+   "options": "Healthcare Practitioner"
+  },
+  {
+   "fieldname": "section_break_mfmsm",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "department",
+   "fieldtype": "Select",
+   "label": "Department",
+   "options": "MATERNITY\nEMERGENCY\nBLOOD BANK\nOT\nENDOSCOPY\nULTRASOUND\nXRAY\nEPI\nMRI\nPHARMACY\nCT SCAN\nLAB\nNICU\nICU\nPHYSIOTHERAPY\nOPD\nCUSTOMER CARE\nCLEANERS\nMAINTENANCE\nRECEPTION\nSECURITY\nIPD"
+  },
+  {
+   "fieldname": "comments",
+   "fieldtype": "Long Text",
+   "label": "Comments"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Patients Complaint",
+   "print_hide": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "solved",
+   "fieldtype": "Select",
+   "label": "Solved",
+   "options": "No\nYes"
+  },
+  {
+   "fieldname": "solved_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Solved Date"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2025-08-11 10:16:02.243769",
+ "modified_by": "Administrator",
+ "module": "HIS",
+ "name": "Patients Complaint",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "All",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

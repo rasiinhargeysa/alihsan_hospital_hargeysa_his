@@ -1,0 +1,181 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "OT-.####",
+ "creation": "2023-06-20 10:37:15.348665",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "patient",
+  "patient_name",
+  "procedure_name",
+  "eye_side",
+  "amount",
+  "column_break_ip7fw",
+  "sex",
+  "mobile",
+  "date",
+  "doctor",
+  "section_break_zt6vu",
+  "laboratory_tests_done",
+  "iol_calculation_done",
+  "consent_form_signed",
+  "column_break_y4h7z",
+  "admission_done",
+  "call_status",
+  "remarks"
+ ],
+ "fields": [
+  {
+   "fieldname": "patient",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Patient",
+   "options": "Patient",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "patient.first_name",
+   "fieldname": "patient_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Patient Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_ip7fw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Today",
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "in_standard_filter": 1,
+   "label": "Date"
+  },
+  {
+   "fetch_from": "patient.sex",
+   "fieldname": "sex",
+   "fieldtype": "Data",
+   "label": "Sex",
+   "read_only": 1
+  },
+  {
+   "fieldname": "procedure_name",
+   "fieldtype": "Data",
+   "label": "Surgery Type",
+   "reqd": 1
+  },
+  {
+   "fieldname": "doctor",
+   "fieldtype": "Link",
+   "label": "Doctor",
+   "options": "Healthcare Practitioner",
+   "reqd": 1
+  },
+  {
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "label": "Amount",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "patient.mobile_no",
+   "fieldname": "mobile",
+   "fieldtype": "Data",
+   "label": "Mobile",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_zt6vu",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "eye_side",
+   "fieldtype": "Select",
+   "label": "Eye Side",
+   "options": "\nRight Eye\nLeft Eye\nBoth Eye"
+  },
+  {
+   "fieldname": "laboratory_tests_done",
+   "fieldtype": "Select",
+   "label": "Laboratory Tests Done",
+   "options": "Yes\nNo\nPending"
+  },
+  {
+   "fieldname": "iol_calculation_done",
+   "fieldtype": "Select",
+   "label": "IOL Calculation Done",
+   "options": "Yes\nNo\nPending\nN/A"
+  },
+  {
+   "fieldname": "consent_form_signed",
+   "fieldtype": "Select",
+   "label": "Consent Form Signed",
+   "options": "Yes\nNo\nPending"
+  },
+  {
+   "fieldname": "admission_done",
+   "fieldtype": "Select",
+   "label": "Admission Done",
+   "options": "Yes\nNo\nPending"
+  },
+  {
+   "fieldname": "call_status",
+   "fieldtype": "Select",
+   "label": "Call Status",
+   "options": "\nAnswered\nNot Answered\nWrong Number\nCall Back"
+  },
+  {
+   "fieldname": "column_break_y4h7z",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Small Text",
+   "label": "Remarks"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-06-24 10:55:01.259104",
+ "modified_by": "Administrator",
+ "module": "HIS",
+ "name": "OT Form",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "All",
+   "select": 1,
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

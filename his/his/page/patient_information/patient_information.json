@@ -1,0 +1,22 @@
+{
+ "content": null,
+ "creation": "2024-09-12 12:04:16.188236",
+ "docstatus": 0,
+ "doctype": "Page",
+ "idx": 0,
+ "modified": "2024-09-12 12:04:16.188236",
+ "modified_by": "Administrator",
+ "module": "HIS",
+ "name": "patient-information",
+ "owner": "Administrator",
+ "page_name": "patient-information",
+ "roles": [
+  {
+   "role": "All"
+  }
+ ],
+ "script": null,
+ "standard": "Yes",
+ "style": null,
+ "system_page": 0
+}

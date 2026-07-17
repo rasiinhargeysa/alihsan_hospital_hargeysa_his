@@ -1,0 +1,334 @@
+{
+ "actions": [],
+ "autoname": "SP-.##### ",
+ "creation": "2023-05-26 10:04:38.988499",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "patient",
+  "patient_name",
+  "sex",
+  "age",
+  "represent",
+  "procedure",
+  "inpatient_record",
+  "column_break_urecj",
+  "consultant",
+  "ipd_doctor",
+  "department",
+  "date",
+  "time",
+  "vitals_tab",
+  "section_break_qcxnm",
+  "view_as_chart",
+  "vitals",
+  "drug_sheet_tab",
+  "section_break_nxyey",
+  "drug",
+  "section_break_62scl",
+  "lab_tab",
+  "section_break_75wgo",
+  "lab",
+  "imaging",
+  "section_break_36nkz",
+  "imaging_html",
+  "surgery_tab",
+  "surgery",
+  "progress_note_tab",
+  "progress_note",
+  "blood_transfusion_tab",
+  "blood_transfusion",
+  "procedures_tab",
+  "procedures",
+  "news_action_chart_tab",
+  "news_action__chart",
+  "prescription_tab",
+  "med",
+  "consent_form",
+  "consent_surgery_form"
+ ],
+ "fields": [
+  {
+   "fieldname": "patient",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Patient",
+   "options": "Patient"
+  },
+  {
+   "fieldname": "vitals_tab",
+   "fieldtype": "Tab Break",
+   "label": "Vitals"
+  },
+  {
+   "fieldname": "view_as_chart",
+   "fieldtype": "Button",
+   "label": "View As Chart"
+  },
+  {
+   "fieldname": "vitals",
+   "fieldtype": "HTML",
+   "label": "Vitals",
+   "options": "<div id=\"vitals\">  </div>"
+  },
+  {
+   "fieldname": "drug_sheet_tab",
+   "fieldtype": "Tab Break",
+   "hidden": 1,
+   "label": "Drug Sheet"
+  },
+  {
+   "fieldname": "drug",
+   "fieldtype": "HTML",
+   "label": "drug",
+   "options": "<div id=\"drug_sheet\">  </div>"
+  },
+  {
+   "fieldname": "lab_tab",
+   "fieldtype": "Tab Break",
+   "label": "Labs"
+  },
+  {
+   "fieldname": "lab",
+   "fieldtype": "HTML",
+   "label": "lab",
+   "options": "<div id=\"labs\">  </div>"
+  },
+  {
+   "fieldname": "imaging",
+   "fieldtype": "Tab Break",
+   "label": "Imaging"
+  },
+  {
+   "fieldname": "imaging_html",
+   "fieldtype": "HTML",
+   "label": "Imaging_html",
+   "options": "<div id=\"imaging\">  </div>"
+  },
+  {
+   "fieldname": "surgery_tab",
+   "fieldtype": "Tab Break",
+   "hidden": 1,
+   "label": "Surgery"
+  },
+  {
+   "fieldname": "surgery",
+   "fieldtype": "HTML",
+   "label": "Surgery",
+   "options": "<div id=\"surgery\">  </div>"
+  },
+  {
+   "fieldname": "progress_note_tab",
+   "fieldtype": "Tab Break",
+   "hidden": 1,
+   "label": "Progress Note"
+  },
+  {
+   "fieldname": "progress_note",
+   "fieldtype": "HTML",
+   "label": "Progress Note",
+   "options": "<div id=\"progress_note\">  </div>"
+  },
+  {
+   "fieldname": "blood_transfusion_tab",
+   "fieldtype": "Tab Break",
+   "hidden": 1,
+   "label": "Blood Transfusion"
+  },
+  {
+   "fieldname": "blood_transfusion",
+   "fieldtype": "HTML",
+   "label": "Blood Transfusion",
+   "options": "<div id=\"blood_transfusion\">  </div>"
+  },
+  {
+   "fieldname": "procedures_tab",
+   "fieldtype": "Tab Break",
+   "hidden": 1,
+   "label": "Procedures"
+  },
+  {
+   "fieldname": "procedures",
+   "fieldtype": "HTML",
+   "label": "Procedures",
+   "options": "<div id=\"procedures\">  </div>"
+  },
+  {
+   "fieldname": "news_action_chart_tab",
+   "fieldtype": "Tab Break",
+   "hidden": 1,
+   "label": "News Action  Chart"
+  },
+  {
+   "fieldname": "news_action__chart",
+   "fieldtype": "HTML",
+   "label": "News Action  Chart",
+   "options": "<div id=\"news_action_chart\">  </div>"
+  },
+  {
+   "fieldname": "prescription_tab",
+   "fieldtype": "Tab Break",
+   "hidden": 1,
+   "label": "Prescription",
+   "read_only": 1
+  },
+  {
+   "fieldname": "med",
+   "fieldtype": "HTML",
+   "label": "med",
+   "options": "<div id=\"med\">  </div>"
+  },
+  {
+   "fetch_from": "patient.first_name",
+   "fieldname": "patient_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Patient name",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "patient.sex",
+   "fieldname": "sex",
+   "fieldtype": "Link",
+   "label": "Sex",
+   "options": "Gender"
+  },
+  {
+   "fetch_from": "patient.p_age",
+   "fieldname": "age",
+   "fieldtype": "Data",
+   "label": "Age",
+   "read_only": 1
+  },
+  {
+   "fieldname": "procedure",
+   "fieldtype": "Link",
+   "label": "Procedure",
+   "options": "Clinical Procedure Template",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_urecj",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "consultant",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Consultant",
+   "options": "Healthcare Practitioner",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "consultant.department",
+   "fieldname": "department",
+   "fieldtype": "Data",
+   "label": "Department",
+   "read_only": 1
+  },
+  {
+   "default": "Today",
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Date"
+  },
+  {
+   "default": "Now",
+   "fieldname": "time",
+   "fieldtype": "Time",
+   "label": "Time"
+  },
+  {
+   "fieldname": "represent",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "in_list_view": 1,
+   "label": "Represent"
+  },
+  {
+   "fetch_from": "patient.inpatient_status",
+   "fieldname": "inpatient_record",
+   "fieldtype": "Data",
+   "label": "Inpatient Record",
+   "read_only": 1
+  },
+  {
+   "fieldname": "ipd_doctor",
+   "fieldtype": "Link",
+   "label": "Prepared Doctor",
+   "options": "Healthcare Practitioner"
+  },
+  {
+   "fieldname": "consent_form",
+   "fieldtype": "Link",
+   "label": "Consent Form",
+   "options": "Consent Surgery Form",
+   "read_only": 1
+  },
+  {
+   "fieldname": "consent_surgery_form",
+   "fieldtype": "Link",
+   "label": "Consent Surgery Form",
+   "options": "Consent Surgery Form",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_qcxnm",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "section_break_nxyey",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "section_break_62scl",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "section_break_75wgo",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "section_break_36nkz",
+   "fieldtype": "Section Break"
+  }
+ ],
+ "links": [],
+ "modified": "2024-09-14 11:24:39.342602",
+ "modified_by": "Administrator",
+ "module": "HIS",
+ "name": "Surgery Preparation",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "All",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "route": "history",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

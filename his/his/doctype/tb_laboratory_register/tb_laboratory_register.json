@@ -1,0 +1,218 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "Lab Serial No.-.#####",
+ "creation": "2025-02-22 16:44:24.614796",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "date_specimen_received",
+  "full_name",
+  "age",
+  "column_break_vmhq3",
+  "sex",
+  "district",
+  "mobile",
+  "section_break_etohl",
+  "refer_by",
+  "section_break_rikoh",
+  "reason_of_sputum_smear_microscopy_section",
+  "diagnosis",
+  "column_break_ujep3",
+  "follow_upmonth",
+  "section_break_fgrlu",
+  "examination_result_section",
+  "results",
+  "column_break_c66vd",
+  "result_of_sputum_smear_microscopy",
+  "section_break_rwl9b",
+  "tbmu_no_after_reg3",
+  "section_break_rsgzs",
+  "hiv_status",
+  "column_break_fmiof",
+  "date_of_test",
+  "section_break_d13hy",
+  "remarks",
+  "labotory_technician_singature"
+ ],
+ "fields": [
+  {
+   "default": "Today",
+   "fieldname": "date_specimen_received",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Date specimen Received",
+   "reqd": 1
+  },
+  {
+   "fieldname": "full_name",
+   "fieldtype": "Data",
+   "in_standard_filter": 1,
+   "label": "Full Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "age",
+   "fieldtype": "Int",
+   "label": "Age",
+   "reqd": 1
+  },
+  {
+   "fieldname": "district",
+   "fieldtype": "Select",
+   "in_standard_filter": 1,
+   "label": "District",
+   "options": "Boondheere\nCabdicasiis\nDeyniile\nDharkeenley\nDarusalam\nHodan\nWadajir\nWarta Nabadda\nXamarjajab\nXamarweyne\nYaaqshiid\nHowlwadaag\nHeliwaa\nKaxda\nKaaraan\nShibis\nShingaani\nWaaberi\nGubadley\nGarasbaley"
+  },
+  {
+   "fieldname": "column_break_vmhq3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_etohl",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "Jazeera Specialist Hospital",
+   "fieldname": "refer_by",
+   "fieldtype": "Data",
+   "in_standard_filter": 1,
+   "label": "Refer by"
+  },
+  {
+   "fieldname": "section_break_rikoh",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "reason_of_sputum_smear_microscopy_section",
+   "fieldtype": "Section Break",
+   "label": "Reason of Sputum smear Microscopy"
+  },
+  {
+   "fieldname": "diagnosis",
+   "fieldtype": "Data",
+   "label": "Diagnosis"
+  },
+  {
+   "fieldname": "follow_upmonth",
+   "fieldtype": "Int",
+   "label": "Follow up(month)"
+  },
+  {
+   "fieldname": "column_break_ujep3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "examination_result_section",
+   "fieldtype": "Section Break",
+   "label": "Examination Result"
+  },
+  {
+   "fieldname": "results",
+   "fieldtype": "Select",
+   "label": "Xpert Results",
+   "options": "\nMTB+RS\nMTB+RR\nMTB -\nOthers"
+  },
+  {
+   "fieldname": "column_break_c66vd",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "result_of_sputum_smear_microscopy",
+   "fieldtype": "Select",
+   "label": "Result of sputum Smear Microscopy",
+   "options": "\n1\n2\n3"
+  },
+  {
+   "fieldname": "section_break_rwl9b",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "tbmu_no_after_reg3",
+   "fieldtype": "Data",
+   "label": "TBMU No. (after reg)3"
+  },
+  {
+   "fieldname": "hiv_status",
+   "fieldtype": "Select",
+   "label": "HIV status",
+   "options": "POS\nNEG\nDeclined\nNot Done"
+  },
+  {
+   "default": "Today",
+   "fieldname": "date_of_test",
+   "fieldtype": "Date",
+   "label": "Date of test"
+  },
+  {
+   "fieldname": "section_break_d13hy",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "User",
+   "fieldname": "labotory_technician_singature",
+   "fieldtype": "Link",
+   "label": "Labotory TEchnician Singature",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Data",
+   "label": "Remarks"
+  },
+  {
+   "fieldname": "section_break_fgrlu",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "sex",
+   "fieldtype": "Select",
+   "label": "Sex",
+   "options": "\nMale\nFemale",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_fmiof",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_rsgzs",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "mobile",
+   "fieldtype": "Int",
+   "in_standard_filter": 1,
+   "label": "Mobile"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-03-03 11:00:44.173807",
+ "modified_by": "Administrator",
+ "module": "HIS",
+ "name": "TB Laboratory Register",
+ "name_case": "UPPER CASE",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "All",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

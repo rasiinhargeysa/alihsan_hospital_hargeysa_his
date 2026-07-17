@@ -1,0 +1,293 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "Hos-In-.#####",
+ "creation": "2026-07-10 19:13:49.068503",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_section",
+  "incident_title",
+  "incident_date",
+  "column_break_cgfum",
+  "incident_type",
+  "severity",
+  "status",
+  "reporting_details_section",
+  "reported_by",
+  "department",
+  "column_break_c7l5a",
+  "location",
+  "anonymous_report",
+  "incident_description_section",
+  "description",
+  "column_break_j1wye",
+  "immediate_action",
+  "investigation_details_section",
+  "investigator",
+  "investigation_findings",
+  "column_break_rv9d4",
+  "investigation_start_date",
+  "root_cause",
+  "corrective_actions_section",
+  "corrective_action",
+  "assigned_to",
+  "column_break_llsw1",
+  "due_date",
+  "completion_date",
+  "action_status",
+  "supporting_documents_section",
+  "incident_attachment",
+  "column_break_ckw2z",
+  "additional_attachment",
+  "closure_details_section",
+  "closure_summary",
+  "column_break_mwbvm",
+  "closed_by",
+  "closed_date"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_section",
+   "fieldtype": "Section Break",
+   "label": "Incident Information"
+  },
+  {
+   "fieldname": "incident_title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": " Incident Title",
+   "reqd": 1
+  },
+  {
+   "default": "Today",
+   "fieldname": "incident_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Incident Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_cgfum",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "incident_type",
+   "fieldtype": "Select",
+   "label": "Incident Type",
+   "options": "Clinical\nNon-Clinical Medication\nEquipment\nSafety\nOther"
+  },
+  {
+   "fieldname": "severity",
+   "fieldtype": "Select",
+   "label": "Severity",
+   "options": "Low\nMedium\nHigh\nCritical"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Open\nUnder Review Investigating\nAction Required\nClosed"
+  },
+  {
+   "fieldname": "reporting_details_section",
+   "fieldtype": "Section Break",
+   "label": "Reporting Details"
+  },
+  {
+   "default": "User",
+   "fieldname": "reported_by",
+   "fieldtype": "Link",
+   "label": "Reported By",
+   "options": "User"
+  },
+  {
+   "fieldname": "department",
+   "fieldtype": "Link",
+   "label": "Department",
+   "options": "Department"
+  },
+  {
+   "fieldname": "column_break_c7l5a",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "location",
+   "fieldtype": "Data",
+   "label": "Location"
+  },
+  {
+   "fieldname": "anonymous_report",
+   "fieldtype": "Data",
+   "label": "Anonymous Report"
+  },
+  {
+   "fieldname": "incident_description_section",
+   "fieldtype": "Section Break",
+   "label": "Incident Description"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description"
+  },
+  {
+   "fieldname": "column_break_j1wye",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "immediate_action",
+   "fieldtype": "Small Text",
+   "label": "Immediate Action"
+  },
+  {
+   "fieldname": "investigation_details_section",
+   "fieldtype": "Section Break",
+   "label": "Investigation Details"
+  },
+  {
+   "fieldname": "investigator",
+   "fieldtype": "Link",
+   "label": "Investigator",
+   "options": "User"
+  },
+  {
+   "fieldname": "investigation_start_date",
+   "fieldtype": "Date",
+   "label": "Investigation Start Date"
+  },
+  {
+   "fieldname": "column_break_rv9d4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "investigation_findings",
+   "fieldtype": "Small Text",
+   "label": "Investigation Findings"
+  },
+  {
+   "fieldname": "root_cause",
+   "fieldtype": "Small Text",
+   "label": "Root Cause"
+  },
+  {
+   "fieldname": "corrective_actions_section",
+   "fieldtype": "Section Break",
+   "label": "Corrective Actions"
+  },
+  {
+   "fieldname": "corrective_action",
+   "fieldtype": "Small Text",
+   "label": "Corrective Action"
+  },
+  {
+   "fieldname": "assigned_to",
+   "fieldtype": "Link",
+   "label": "Assigned To",
+   "options": "User"
+  },
+  {
+   "fieldname": "column_break_llsw1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "due_date",
+   "fieldtype": "Date",
+   "label": "Due Date"
+  },
+  {
+   "fieldname": "completion_date",
+   "fieldtype": "Data",
+   "label": "Completion Date"
+  },
+  {
+   "fieldname": "action_status",
+   "fieldtype": "Select",
+   "label": "Action Status",
+   "options": "Not Started\nIn Progress\nCompleted"
+  },
+  {
+   "fieldname": "supporting_documents_section",
+   "fieldtype": "Section Break",
+   "label": "Supporting Documents"
+  },
+  {
+   "fieldname": "incident_attachment",
+   "fieldtype": "Attach",
+   "label": "Incident Attachment"
+  },
+  {
+   "fieldname": "column_break_ckw2z",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "additional_attachment",
+   "fieldtype": "Attach",
+   "label": " Additional Attachment"
+  },
+  {
+   "fieldname": "closure_details_section",
+   "fieldtype": "Section Break",
+   "label": "Closure Details"
+  },
+  {
+   "fieldname": "closure_summary",
+   "fieldtype": "Small Text",
+   "label": "Closure Summary"
+  },
+  {
+   "fieldname": "column_break_mwbvm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "closed_by",
+   "fieldtype": "Link",
+   "label": "Closed By",
+   "options": "User"
+  },
+  {
+   "fieldname": "closed_date",
+   "fieldtype": "Date",
+   "label": "Closed Date"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-07-10 19:40:59.633814",
+ "modified_by": "Administrator",
+ "module": "HIS",
+ "name": "Hospital Incident",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "All",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

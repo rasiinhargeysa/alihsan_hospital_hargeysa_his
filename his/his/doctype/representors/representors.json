@@ -1,0 +1,73 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2023-06-25 10:38:18.386062",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "represent_name",
+  "mobile",
+  "relation",
+  "capture_signature",
+  "signature",
+  "capture_fingerprint",
+  "fingerprint"
+ ],
+ "fields": [
+  {
+   "fieldname": "represent_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Represent Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "relation",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Relation",
+   "reqd": 1
+  },
+  {
+   "fieldname": "signature",
+   "fieldtype": "Attach",
+   "label": "Signature"
+  },
+  {
+   "fieldname": "mobile",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Mobile",
+   "reqd": 1
+  },
+  {
+   "fieldname": "capture_signature",
+   "fieldtype": "Button",
+   "label": "Capture Signature"
+  },
+  {
+   "fieldname": "capture_fingerprint",
+   "fieldtype": "Button",
+   "label": "Capture Fingerprint"
+  },
+  {
+   "fieldname": "fingerprint",
+   "fieldtype": "Attach",
+   "label": "Fingerprint"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2025-10-04 10:16:22.900614",
+ "modified_by": "Administrator",
+ "module": "HIS",
+ "name": "Representors",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

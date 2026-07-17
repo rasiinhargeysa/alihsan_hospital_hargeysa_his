@@ -1,0 +1,51 @@
+{
+ "add_total_row": 1,
+ "columns": [],
+ "creation": "2025-02-23 14:30:50.525622",
+ "disable_prepared_report": 0,
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [
+  {
+   "default": "Today",
+   "fieldname": "Start_date",
+   "fieldtype": "Date",
+   "label": "From Date",
+   "mandatory": 1,
+   "wildcard_filter": 0
+  },
+  {
+   "default": "Today",
+   "fieldname": "End_date",
+   "fieldtype": "Date",
+   "label": "To Date",
+   "mandatory": 1,
+   "wildcard_filter": 0
+  }
+ ],
+ "idx": 0,
+ "is_standard": "Yes",
+ "letter_head": "logo",
+ "modified": "2025-03-11 16:23:22.760461",
+ "modified_by": "Administrator",
+ "module": "HIS",
+ "name": "TB Report",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "query": "\n    SELECT \n    t1.date_specimen_received AS \"Date specimen Received\",\n    t1.full_name AS \"Full Name\",\n    t1.age AS \"Age\",\n    t1.sex AS \"Sex\",\n    t1.District AS \"District\",\n    t1.mobile AS \"Mobile\",\n    t1.refer_by AS \"Refer by\",\n    t1.diagnosis AS \"Diagnosis\",\n    t1.follow_upmonth AS \"Follow up(month)\",\n    t1.results AS \"Xpert Results\",\n    t1.result_of_sputum_smear_microscopy AS \"Result of sputum Smear Microscopy\",\n    t1.tbmu_no_after_reg3 AS \"TBMU No. (after reg)3\",\n    t1.hiv_status AS \"HIV status\",\n    t1.date_of_test AS \"Date of test\",\n    t1.remarks AS \"Remarks\",\n    \n    t2.full_name AS \"Technician Name\"\nFROM \n    `tabTB Laboratory Register` t1\nLEFT JOIN \n    `tabUser` t2\nON \n    t1.labotory_technician_singature = t2.name\nWHERE \n    t1.date_specimen_received BETWEEN %(Start_date)s AND %(End_date)s;\n\n",
+ "ref_doctype": "TB Laboratory Register",
+ "report_name": "TB Report",
+ "report_type": "Query Report",
+ "roles": [
+  {
+   "role": "Accounts User"
+  },
+  {
+   "role": "Accounts Manager"
+  },
+  {
+   "role": "Employee Self Service"
+  }
+ ]
+}

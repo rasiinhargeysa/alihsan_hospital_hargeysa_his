@@ -1,0 +1,77 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-09-12 08:52:27.717540",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "ucva",
+  "sph",
+  "cyl",
+  "add",
+  "axis",
+  "prisma",
+  "s_va"
+ ],
+ "fields": [
+  {
+   "columns": 1,
+   "fieldname": "sph",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "SPH"
+  },
+  {
+   "columns": 1,
+   "fieldname": "cyl",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "CYL"
+  },
+  {
+   "columns": 1,
+   "fieldname": "axis",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Axis"
+  },
+  {
+   "columns": 1,
+   "fieldname": "s_va",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "C V/A"
+  },
+  {
+   "columns": 2,
+   "fieldname": "ucva",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "UCVA"
+  },
+  {
+   "fieldname": "add",
+   "fieldtype": "Data",
+   "label": "ADD"
+  },
+  {
+   "fieldname": "prisma",
+   "fieldtype": "Data",
+   "label": "PRISMA"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-04-29 10:48:48.967869",
+ "modified_by": "Administrator",
+ "module": "HIS",
+ "name": "Righteye",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

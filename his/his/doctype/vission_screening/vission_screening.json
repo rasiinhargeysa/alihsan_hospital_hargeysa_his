@@ -1,0 +1,263 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "SCREENING-.#####",
+ "creation": "2026-06-21 17:20:27.527884",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "full_name",
+  "age",
+  "mobile",
+  "sex",
+  "column_break_uk2xm",
+  "date",
+  "address",
+  "doctor",
+  "section_break_zn55h",
+  "history_of_eye_pain_and_discomfort",
+  "difficult_in_vision_near_far",
+  "have_you_experienced_any_of_the_following_symptoms",
+  "history_of_redness_tching_in_eyes",
+  "column_break_spcqj",
+  "history_of_watering_or_discharge",
+  "history_of_injury_or_surgery",
+  "do_you_wear_glasses_or_contact_lenses",
+  "history_of_chronic_diseases_dmhtn",
+  "tests",
+  "visual_acuity_column",
+  "right_eye",
+  "left_eye",
+  "iop_column",
+  "r_eye",
+  "l_eye",
+  "section_break_rjubx",
+  "overall_vision_status",
+  "diagnosis",
+  "column_break_arzcx",
+  "referral",
+  "referral__comments"
+ ],
+ "fields": [
+  {
+   "fieldname": "full_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Full Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "age",
+   "fieldtype": "Data",
+   "label": "Age"
+  },
+  {
+   "fieldname": "mobile",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Mobile",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_uk2xm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Today",
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "address",
+   "fieldtype": "Data",
+   "label": "Address"
+  },
+  {
+   "fieldname": "section_break_zn55h",
+   "fieldtype": "Section Break",
+   "label": "Medical History & Related Questions"
+  },
+  {
+   "fieldname": "sex",
+   "fieldtype": "Link",
+   "label": "Sex",
+   "options": "Gender"
+  },
+  {
+   "default": "No",
+   "fieldname": "history_of_eye_pain_and_discomfort",
+   "fieldtype": "Select",
+   "label": "History of eye pain and discomfort?",
+   "options": "Yes\nNo"
+  },
+  {
+   "default": "No",
+   "fieldname": "difficult_in_vision_near_far",
+   "fieldtype": "Select",
+   "label": "Difficult in vision near/ far",
+   "options": "Yes\nNo"
+  },
+  {
+   "fieldname": "have_you_experienced_any_of_the_following_symptoms",
+   "fieldtype": "Select",
+   "label": "Have you experienced any of the following symptoms? ",
+   "options": "\nBlurred vision\nDouble vision\nEye pain\nFlashes or floaters"
+  },
+  {
+   "default": "No",
+   "fieldname": "history_of_redness_tching_in_eyes",
+   "fieldtype": "Select",
+   "label": "History of redness tching in eyes",
+   "options": "Yes\nNo"
+  },
+  {
+   "default": "No",
+   "fieldname": "history_of_watering_or_discharge",
+   "fieldtype": "Select",
+   "label": "History of watering or discharge ",
+   "options": "Yes\nNo"
+  },
+  {
+   "default": "No",
+   "fieldname": "history_of_injury_or_surgery",
+   "fieldtype": "Select",
+   "label": "History of Injury or Surgery",
+   "options": "Yes\nNo"
+  },
+  {
+   "default": "No",
+   "fieldname": "do_you_wear_glasses_or_contact_lenses",
+   "fieldtype": "Select",
+   "label": "Do you wear glasses or contact lenses?",
+   "options": "Yes\nNo"
+  },
+  {
+   "default": "No",
+   "fieldname": "history_of_chronic_diseases_dmhtn",
+   "fieldtype": "Select",
+   "label": "History of Chronic Diseases DM/HTN",
+   "options": "Yes\nNo"
+  },
+  {
+   "fieldname": "column_break_spcqj",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "tests",
+   "fieldtype": "Section Break",
+   "label": "Tests"
+  },
+  {
+   "fieldname": "visual_acuity_column",
+   "fieldtype": "Column Break",
+   "label": "Visual Acuity"
+  },
+  {
+   "fieldname": "right_eye",
+   "fieldtype": "Data",
+   "label": "Right Eye"
+  },
+  {
+   "fieldname": "left_eye",
+   "fieldtype": "Data",
+   "label": "Left Eye"
+  },
+  {
+   "fieldname": "iop_column",
+   "fieldtype": "Column Break",
+   "label": "IOP"
+  },
+  {
+   "fieldname": "r_eye",
+   "fieldtype": "Data",
+   "label": "Right Eye"
+  },
+  {
+   "fieldname": "l_eye",
+   "fieldtype": "Data",
+   "label": "Left Eye"
+  },
+  {
+   "fieldname": "section_break_rjubx",
+   "fieldtype": "Section Break",
+   "label": "Vision Status"
+  },
+  {
+   "fieldname": "overall_vision_status",
+   "fieldtype": "Select",
+   "label": "Overall Vision Status",
+   "options": "\nNormal\nAbnormal"
+  },
+  {
+   "fieldname": "diagnosis",
+   "fieldtype": "Link",
+   "label": "Diagnosis",
+   "options": "Diagnosis"
+  },
+  {
+   "fieldname": "column_break_arzcx",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "referral__comments",
+   "fieldtype": "Small Text",
+   "label": "Comments"
+  },
+  {
+   "fieldname": "doctor",
+   "fieldtype": "Link",
+   "label": "Doctor",
+   "options": "Healthcare Practitioner"
+  },
+  {
+   "fieldname": "referral",
+   "fieldtype": "Select",
+   "label": "Referral",
+   "options": "\nYes"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-07-11 12:10:03.464718",
+ "modified_by": "Administrator",
+ "module": "HIS",
+ "name": "Vission Screening",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "All",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

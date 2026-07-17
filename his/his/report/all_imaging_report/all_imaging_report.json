@@ -1,0 +1,51 @@
+{
+ "add_total_row": 1,
+ "columns": [],
+ "creation": "2025-01-12 16:19:28.533503",
+ "disable_prepared_report": 0,
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [
+  {
+   "default": "Today",
+   "fieldname": "Start_date",
+   "fieldtype": "Date",
+   "label": "From Date",
+   "mandatory": 1,
+   "wildcard_filter": 0
+  },
+  {
+   "default": "Today",
+   "fieldname": "End_date",
+   "fieldtype": "Date",
+   "label": "To Date",
+   "mandatory": 1,
+   "wildcard_filter": 0
+  }
+ ],
+ "idx": 0,
+ "is_standard": "Yes",
+ "letter_head": "logo",
+ "modified": "2025-07-28 16:12:27.196101",
+ "modified_by": "Administrator",
+ "module": "HIS",
+ "name": "All Imaging Report",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "query": "SELECT \n    S.patient AS \"Patient:Data:100\", \n    S.patient_name AS \"Patient Name:Data:250\", \n    S.posting_date AS \"Date:Date:150\", \n    COALESCE(S.ref_practitioner, S.oustside) AS \"Doctor:Data:200\", \n    I.item_code AS \"Service Name:Data:250\", \n    I.Item_group AS \"Service Type\", \n    I.qty AS Qty,\n    R.section AS \"Radiology Section\",  -- Add Radiology Section here\n    S.owner AS \"Owner\"  -- Add Owner column from tabSales Invoice\n   \nFROM \n    `tabSales Invoice` S\nJOIN \n    `tabSales Invoice Item` I ON S.name = I.parent\nLEFT JOIN\n    `tabRadiology` R ON S.patient = R.patient  -- Join Radiology table, assuming 'patient' is a common column\nWHERE \n    R.docstatus = 1\n    AND S.posting_date BETWEEN %(Start_date)s AND %(End_date)s\n    And S.is_return =  0\n    AND I.Item_group IN (\"Imaging\", \"ECO\", \"ECG\")\n",
+ "ref_doctype": "Sales Invoice",
+ "report_name": "All Imaging Report",
+ "report_type": "Query Report",
+ "roles": [
+  {
+   "role": "Accounts User"
+  },
+  {
+   "role": "Accounts Manager"
+  },
+  {
+   "role": "Employee Self Service"
+  }
+ ]
+}

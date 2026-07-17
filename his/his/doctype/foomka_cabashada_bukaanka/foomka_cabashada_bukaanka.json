@@ -1,0 +1,258 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-10-30 13:09:49.313983",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "pid",
+  "patient_name",
+  "sex",
+  "column_break_x2vyq",
+  "age",
+  "mobile",
+  "district",
+  "section_break_4xn4y",
+  "taariikhda_cabashad",
+  "column_break_rvtbo",
+  "saacadda_qiyaasta_ah_ee_dhacdada",
+  "nuuca_cabashada",
+  "amended_from",
+  "shaqaalaha_dhakhtar_kalkaaliye_shaqaale_maamul_iwm",
+  "adeegga_caafimaad_daaweyn_baadhis_qalliin_iwm",
+  "sugitaanka_wakhti_dheer",
+  "column_break_trzmi",
+  "nadaafad_laaan_ama_deegaan_aan_habboonayn",
+  "biilasha_ama_lacagaha",
+  "ammaan_darro",
+  "section_break_hjtop",
+  "kuwo_kale_fadlan_qeex_hoos",
+  "column_break_pxtwx",
+  "faahfaahinta_cabashada",
+  "waxa_aad_doonayso_in_la_sameeyo",
+  "column_break_2qcdu",
+  "maxaa_xal_ah_oo_aad_soo_jeedinaysaa",
+  "macluumaad_dheeraad_ah",
+  "section_break_m9gyd",
+  "document_attachment",
+  "section_break_pk6hl",
+  "reported_by",
+  "column_break_rtpry",
+  "reported_date",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "pid",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "PID",
+   "options": "Patient",
+   "reqd": 1
+  },
+  {
+   "fieldname": "patient_name",
+   "fieldtype": "Data",
+   "label": "Patient Name"
+  },
+  {
+   "fieldname": "sex",
+   "fieldtype": "Data",
+   "label": "Sex"
+  },
+  {
+   "fieldname": "column_break_x2vyq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "age",
+   "fieldtype": "Data",
+   "label": "Age"
+  },
+  {
+   "fieldname": "mobile",
+   "fieldtype": "Data",
+   "label": "Mobile"
+  },
+  {
+   "fieldname": "district",
+   "fieldtype": "Data",
+   "label": "District"
+  },
+  {
+   "fieldname": "section_break_4xn4y",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "taariikhda_cabashad",
+   "fieldtype": "Data",
+   "label": "Taariikhda Cabashada",
+   "options": "Today",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_rvtbo",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "saacadda_qiyaasta_ah_ee_dhacdada",
+   "fieldtype": "Time",
+   "label": "Saacadda Qiyaasta ah ee Dhacdada (haddii ay jirto)",
+   "options": "Now"
+  },
+  {
+   "fieldname": "nuuca_cabashada",
+   "fieldtype": "Section Break",
+   "label": "Nuuca Cabashada"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "options": "Foomka Cabashada Bukaanka",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "shaqaalaha_dhakhtar_kalkaaliye_shaqaale_maamul_iwm",
+   "fieldtype": "Check",
+   "label": "Shaqaalaha (dhakhtar, kalkaaliye, shaqaale maamul, iwm.)"
+  },
+  {
+   "default": "0",
+   "fieldname": "adeegga_caafimaad_daaweyn_baadhis_qalliin_iwm",
+   "fieldtype": "Check",
+   "label": "Adeegga Caafimaad (daaweyn, baadhis, qalliin, iwm.)"
+  },
+  {
+   "default": "0",
+   "fieldname": "sugitaanka_wakhti_dheer",
+   "fieldtype": "Check",
+   "label": "Sugitaanka Wakhti Dheer"
+  },
+  {
+   "fieldname": "column_break_trzmi",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "nadaafad_laaan_ama_deegaan_aan_habboonayn",
+   "fieldtype": "Check",
+   "label": "Nadaafad La'aan ama Deegaan Aan Habboonayn"
+  },
+  {
+   "default": "0",
+   "fieldname": "biilasha_ama_lacagaha",
+   "fieldtype": "Check",
+   "label": "Biilasha ama Lacagaha"
+  },
+  {
+   "default": "0",
+   "fieldname": "ammaan_darro",
+   "fieldtype": "Check",
+   "label": "Ammaan darro"
+  },
+  {
+   "fieldname": "section_break_hjtop",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "kuwo_kale_fadlan_qeex_hoos",
+   "fieldtype": "Data",
+   "label": "Kuwo Kale (fadlan qeex hoos)"
+  },
+  {
+   "fieldname": "column_break_pxtwx",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "faahfaahinta_cabashada",
+   "fieldtype": "Data",
+   "label": "Faahfaahinta Cabashada",
+   "reqd": 1
+  },
+  {
+   "fieldname": "waxa_aad_doonayso_in_la_sameeyo",
+   "fieldtype": "Data",
+   "label": "Maxaad jeceshahay in laga qabto cabashadaada?"
+  },
+  {
+   "fieldname": "column_break_2qcdu",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "maxaa_xal_ah_oo_aad_soo_jeedinaysaa",
+   "fieldtype": "Data",
+   "label": "Maxaa xal ah oo aad soo jeedinaysaa?"
+  },
+  {
+   "fieldname": "macluumaad_dheeraad_ah",
+   "fieldtype": "Data",
+   "label": "Macluumaad Dheeraad Ah"
+  },
+  {
+   "fieldname": "section_break_m9gyd",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "document_attachment",
+   "fieldtype": "Attach",
+   "label": "Document Attachment"
+  },
+  {
+   "fieldname": "section_break_pk6hl",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "reported_by",
+   "fieldtype": "Data",
+   "label": "Reported By",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_rtpry",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "reported_date",
+   "fieldtype": "Date",
+   "label": "Reported Date"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Foomka Cabashada Bukaanka",
+   "print_hide": 1,
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2025-10-30 13:09:49.313983",
+ "modified_by": "Administrator",
+ "module": "HIS",
+ "name": "Foomka Cabashada Bukaanka",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

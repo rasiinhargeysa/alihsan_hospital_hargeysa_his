@@ -1,0 +1,60 @@
+{
+ "add_total_row": 0,
+ "columns": [],
+ "creation": "2025-02-13 11:06:09.005734",
+ "disable_prepared_report": 0,
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [
+  {
+   "default": "Today",
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "label": "From Date",
+   "mandatory": 1,
+   "wildcard_filter": 0
+  },
+  {
+   "default": "Today",
+   "fieldname": "end_date",
+   "fieldtype": "Date",
+   "label": "To Date",
+   "mandatory": 1,
+   "wildcard_filter": 0
+  }
+ ],
+ "idx": 0,
+ "is_standard": "Yes",
+ "letter_head": "logo",
+ "modified": "2025-03-11 16:24:36.296832",
+ "modified_by": "Administrator",
+ "module": "HIS",
+ "name": "Discharge Patients",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "query": "SELECT \n    patient AS \"Patient ID\",\n    patient_name AS \"Patient Name\",\n    gender AS \"Gender\",\n    mobile AS \"Mobile\",\n    scheduled_date AS \"Admission Date\",\n    admission_practitioner AS \"Doctor\",\n    type AS \"Department\",\n    room AS \"Room\",\n    bed AS \"Bed Name\",\n    status AS \"Status\",\n    DATE(discharge_datetime) AS \"Discharge Date\"\nFROM `tabInpatient Record`\nWHERE status = 'discharged'\n  AND DATE(discharge_datetime) BETWEEN %(start_date)s AND %(end_date)s;\n",
+ "ref_doctype": "Inpatient Record",
+ "report_name": "Discharge Patients",
+ "report_type": "Query Report",
+ "roles": [
+  {
+   "role": "Physician"
+  },
+  {
+   "role": "System Manager"
+  },
+  {
+   "role": "Healthcare Administrator"
+  },
+  {
+   "role": "Nurse"
+  },
+  {
+   "role": "Emergency Nurse"
+  },
+  {
+   "role": "Nursing User"
+  }
+ ]
+}

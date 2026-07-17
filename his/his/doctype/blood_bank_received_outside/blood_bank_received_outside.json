@@ -1,0 +1,188 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "BBRO-.#####",
+ "creation": "2025-01-25 12:14:47.675901",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "pid",
+  "name1",
+  "patient_phone",
+  "column_break_tni9a",
+  "date",
+  "doctor",
+  "section_break_mfmsm",
+  "unit_number",
+  "blood_group",
+  "gxm_date",
+  "expiry_date",
+  "issue_time",
+  "department",
+  "column_break_vg9nj",
+  "blood_product",
+  "compatibility",
+  "gxm_time",
+  "issue_time_2",
+  "section_break_alsfs",
+  "recieved_by"
+ ],
+ "fields": [
+  {
+   "fieldname": "pid",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "PID",
+   "options": "Patient"
+  },
+  {
+   "fetch_from": "pid.first_name",
+   "fieldname": "name1",
+   "fieldtype": "Data",
+   "in_standard_filter": 1,
+   "label": "Patient Name"
+  },
+  {
+   "fetch_from": "pid.mobile_no",
+   "fieldname": "patient_phone",
+   "fieldtype": "Data",
+   "label": "Patient Phone"
+  },
+  {
+   "fieldname": "column_break_tni9a",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Today",
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "label": "Date"
+  },
+  {
+   "fieldname": "doctor",
+   "fieldtype": "Link",
+   "label": "Doctor",
+   "options": "Healthcare Practitioner",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_mfmsm",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "unit_number",
+   "fieldtype": "Data",
+   "label": "Unit Number",
+   "reqd": 1
+  },
+  {
+   "fieldname": "blood_group",
+   "fieldtype": "Link",
+   "label": "Blood group",
+   "options": "Blood Group",
+   "reqd": 1
+  },
+  {
+   "fieldname": "gxm_date",
+   "fieldtype": "Date",
+   "label": "GXM Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "expiry_date",
+   "fieldtype": "Date",
+   "label": "Expiry Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "issue_time",
+   "fieldtype": "Time",
+   "label": "Issue Time",
+   "reqd": 1
+  },
+  {
+   "fieldname": "department",
+   "fieldtype": "Data",
+   "label": "Department",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_vg9nj",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "blood_product",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Blood Product",
+   "reqd": 1
+  },
+  {
+   "fieldname": "compatibility",
+   "fieldtype": "Select",
+   "label": "Compatibility",
+   "options": "Yes\nNo"
+  },
+  {
+   "fieldname": "gxm_time",
+   "fieldtype": "Time",
+   "label": "GXM Time",
+   "reqd": 1
+  },
+  {
+   "fieldname": "issue_time_2",
+   "fieldtype": "Time",
+   "label": "Issue Time",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_alsfs",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "recieved_by",
+   "fieldtype": "Data",
+   "label": "Recieved by",
+   "reqd": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-01-25 12:20:46.537390",
+ "modified_by": "Administrator",
+ "module": "HIS",
+ "name": "Blood Bank Received Outside",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "All",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

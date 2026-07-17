@@ -1,0 +1,45 @@
+{
+ "add_total_row": 0,
+ "columns": [],
+ "creation": "2025-01-09 13:26:40.965993",
+ "disable_prepared_report": 0,
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [
+  {
+   "default": "Today",
+   "fieldname": "from",
+   "fieldtype": "Date",
+   "label": "From Date",
+   "mandatory": 1,
+   "wildcard_filter": 0
+  },
+  {
+   "default": "Today",
+   "fieldname": "to",
+   "fieldtype": "Date",
+   "label": "To Date",
+   "mandatory": 1,
+   "wildcard_filter": 0
+  }
+ ],
+ "idx": 0,
+ "is_standard": "Yes",
+ "letter_head": "logo",
+ "modified": "2025-07-28 16:12:07.413414",
+ "modified_by": "Administrator",
+ "module": "HIS",
+ "name": "No. of teckets not worked",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "query": "SELECT \n    practitioner_name as \"Doctor Name:Data:300\",\n    COUNT(patient_name) AS \"total of Patients\"\nFROM \n    `tabQue`\nWHERE \n    status = 'open' \n    AND date BETWEEN %(from)s AND %(to)s\nGROUP BY \n    practitioner_name",
+ "ref_doctype": "Que Managament",
+ "report_name": "No. of teckets not worked",
+ "report_type": "Query Report",
+ "roles": [
+  {
+   "role": "System Manager"
+  }
+ ]
+}

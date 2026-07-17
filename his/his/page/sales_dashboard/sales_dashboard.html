@@ -1,0 +1,161 @@
+<div class="sd-wrap">
+
+  <!-- Top Bar -->
+  <div class="sd-topbar">
+    <div class="sd-topbar-left">
+      <span class="sd-title">Sales &amp; Payments Dashboard</span>
+      <span class="sd-subtitle" id="sd-date-range">Loading...</span>
+    </div>
+    <div class="sd-topbar-right">
+      <div class="sd-filter-group">
+        <input type="date" id="sd-from-date" class="sd-input" />
+        <span class="sd-filter-sep">to</span>
+        <input type="date" id="sd-to-date" class="sd-input" />
+        <select id="sd-customer" class="sd-input sd-select">
+          <option value="">All Customers</option>
+        </select>
+        <select id="sd-owner" class="sd-input sd-select">
+          <option value="">All Users</option>
+        </select>
+        <select id="sd-cost-center" class="sd-input sd-select">
+          <option value="">All Cost Centers</option>
+        </select>
+        <button class="sd-btn-refresh" id="sd-refresh-btn" onclick="sales_dashboard.refresh()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+          Refresh
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- KPI Cards -->
+  <div class="sd-kpi-grid" id="sd-kpi-grid">
+    <div class="sd-kpi" id="kpi-total">
+      <div class="sd-kpi-top"><div class="sd-kpi-dot" style="background:#3b6cf7"></div><div class="sd-kpi-name">Total Sales</div></div>
+      <div class="sd-kpi-val" id="kpi-total-val">—</div>
+      <div class="sd-kpi-sub">All invoices</div>
+    </div>
+    <div class="sd-kpi" id="kpi-paid">
+      <div class="sd-kpi-top"><div class="sd-kpi-dot" style="background:#22c55e"></div><div class="sd-kpi-name">Paid</div></div>
+      <div class="sd-kpi-val" id="kpi-paid-val">—</div>
+      <div class="sd-kpi-sub">Collected</div>
+    </div>
+    <div class="sd-kpi" id="kpi-unpaid">
+      <div class="sd-kpi-top"><div class="sd-kpi-dot" style="background:#f59e0b"></div><div class="sd-kpi-name">Unpaid</div></div>
+      <div class="sd-kpi-val" id="kpi-unpaid-val">—</div>
+      <div class="sd-kpi-sub">Outstanding</div>
+    </div>
+    <div class="sd-kpi" id="kpi-partial">
+      <div class="sd-kpi-top"><div class="sd-kpi-dot" style="background:#6366f1"></div><div class="sd-kpi-name">Partial</div></div>
+      <div class="sd-kpi-val" id="kpi-partial-val">—</div>
+      <div class="sd-kpi-sub">Partially paid</div>
+    </div>
+    <div class="sd-kpi" id="kpi-orders">
+      <div class="sd-kpi-top"><div class="sd-kpi-dot" style="background:#14b8a6"></div><div class="sd-kpi-name">Total invoice</div></div>
+      <div class="sd-kpi-val" id="kpi-orders-val">—</div>
+      <div class="sd-kpi-sub">This period</div>
+    </div>
+    <div class="sd-kpi" id="kpi-customers">
+      <div class="sd-kpi-top"><div class="sd-kpi-dot" style="background:#ec4899"></div><div class="sd-kpi-name">Customers</div></div>
+      <div class="sd-kpi-val" id="kpi-customers-val">—</div>
+      <div class="sd-kpi-sub">Active</div>
+    </div>
+    <div class="sd-kpi" id="kpi-payment">
+      <div class="sd-kpi-top"><div class="sd-kpi-dot" style="background:#8b5cf6"></div><div class="sd-kpi-name">Payment Received</div></div>
+      <div class="sd-kpi-val" id="kpi-payment-val">—</div>
+      <div class="sd-kpi-sub">From Payment Entry</div>
+    </div>
+  </div>
+
+  <!-- Row: Top Customers + Customer Group + Item Group -->
+  <div class="sd-row3">
+
+    <!-- Top Customers -->
+    <div class="sd-card">
+      <div class="sd-card-title">Top customers by income</div>
+      <div id="sd-top-customers">
+        <div class="sd-loading">Loading...</div>
+      </div>
+    </div>
+
+    <!-- Income by Customer Group -->
+    <div class="sd-card">
+      <div class="sd-card-title">Income by customer group</div>
+      <div style="position:relative;height:180px;">
+        <canvas id="sd-chart-cg"></canvas>
+      </div>
+      <div class="sd-leg" id="sd-leg-cg"></div>
+    </div>
+
+    <!-- Income by Item Group -->
+    <div class="sd-card">
+      <div class="sd-card-title">Income by item group</div>
+      <div style="position:relative;height:180px;">
+        <canvas id="sd-chart-ig"></canvas>
+      </div>
+      <div class="sd-leg" id="sd-leg-ig"></div>
+    </div>
+
+  </div>
+
+  <!-- Income by Date -->
+  <div class="sd-card sd-card-full">
+    <div class="sd-card-title">Income by date</div>
+    <div class="sd-leg">
+      <span class="sd-leg-item"><span class="sd-leg-sq" style="background:#3b6cf7"></span>Sales</span>
+      <span class="sd-leg-item"><span class="sd-leg-sq" style="background:#22c55e"></span>Payments received</span>
+      <span class="sd-leg-item"><span class="sd-leg-sq" style="background:#f59e0b;border:1px dashed #f59e0b"></span>Outstanding</span>
+    </div>
+    <div style="position:relative;height:180px;">
+      <canvas id="sd-chart-date"></canvas>
+    </div>
+  </div>
+
+  <!-- Row: Customer Table + Item Group Table -->
+  <div class="sd-row2">
+
+    <div class="sd-card">
+      <div class="sd-card-title">Sales by customer group</div>
+      <div class="sd-table-wrap">
+        <table class="sd-tbl" id="sd-tbl-customer">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Customer Group</th>
+              <th>Revenue</th>
+              <th>Share %</th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="sd-tbl-customer-body">
+            <tr><td colspan="6" class="sd-loading">Loading...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="sd-card">
+      <div class="sd-card-title">Sales by item group</div>
+      <div class="sd-table-wrap">
+        <table class="sd-tbl" id="sd-tbl-itemgroup">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Item group</th>
+              <th>Revenue</th>
+              <th>Qty</th>
+              <th>Avg price</th>
+              <th>%</th>
+            </tr>
+          </thead>
+          <tbody id="sd-tbl-itemgroup-body">
+            <tr><td colspan="6" class="sd-loading">Loading...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+</div>

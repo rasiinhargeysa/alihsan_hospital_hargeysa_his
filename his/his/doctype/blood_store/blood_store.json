@@ -1,0 +1,120 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "BS-.#####",
+ "creation": "2023-05-12 16:43:25.326410",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "donor",
+  "column_break_77eh6",
+  "date",
+  "column_break_fustu",
+  "expired_date",
+  "section_break_ipbpe",
+  "blood_group",
+  "column_break_wevhq",
+  "units",
+  "column_break_vufvo",
+  "bag_nr"
+ ],
+ "fields": [
+  {
+   "fieldname": "column_break_77eh6",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_ipbpe",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "Today",
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_wevhq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "donor",
+   "fieldtype": "Data",
+   "label": "Donor"
+  },
+  {
+   "fieldname": "blood_group",
+   "fieldtype": "Select",
+   "label": "Blood Group",
+   "options": "\nA+\nO+\nB+\nAB+\nA-\nO-\nB-\nAB-",
+   "reqd": 1
+  },
+  {
+   "fieldname": "units",
+   "fieldtype": "Float",
+   "label": "Units",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_vufvo",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "bag_nr",
+   "fieldtype": "Data",
+   "label": "Bag Nr",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_fustu",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "expired_date",
+   "fieldtype": "Date",
+   "label": "Expired Date"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-06-26 12:51:36.616054",
+ "modified_by": "Administrator",
+ "module": "HIS",
+ "name": "Blood Store",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Laboratory User",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

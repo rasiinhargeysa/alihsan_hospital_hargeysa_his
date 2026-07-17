@@ -1,0 +1,33 @@
+{
+ "add_total_row": 1,
+ "columns": [],
+ "creation": "2025-08-12 14:31:14.308728",
+ "disable_prepared_report": 0,
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [],
+ "idx": 0,
+ "is_standard": "Yes",
+ "json": "{}",
+ "letter_head": "logo",
+ "modified": "2025-08-12 14:49:19.407904",
+ "modified_by": "Administrator",
+ "module": "HIS",
+ "name": "Complaint Report",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "query": "SELECT \n     date as \"Date:Data:100\",\n    pid as \"PID:Data:100\",\n    name1 as \"Type:Data:250\",\n    patient_phone as \"Mobile:Data:100\",\n    doctor as \"Doctor:Data:250\",\n    department as \"Department:Data:90\",\n    comments  as \"Comment:Data:1500\"\n    \nFROM \n     `tabPatients Complaint`\nwhere solved='No'",
+ "ref_doctype": "Patients Complaint",
+ "reference_report": "",
+ "report_name": "Complaint Report",
+ "report_type": "Query Report",
+ "roles": [
+  {
+   "role": "System Manager"
+  },
+  {
+   "role": "All"
+  }
+ ]
+}

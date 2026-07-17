@@ -1,0 +1,361 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": " PD-.##### ",
+ "creation": "2023-05-14 17:03:50.555125",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "patient",
+  "patient_name",
+  "sex",
+  "age",
+  "age_type",
+  "column_break_8zqcd",
+  "practitioner",
+  "date",
+  "time",
+  "section_break_ehpqt",
+  "mode",
+  "column_break_xosp6",
+  "baby_weight",
+  "column_break_xo9yr",
+  "baby_sex",
+  "section_break_bl5c0",
+  "apgar_score",
+  "column_break_tpe9k",
+  "placenta_expressed",
+  "column_break_olp5a",
+  "episiotomys",
+  "section_break_cmzem",
+  "repaired",
+  "column_break_plvdu",
+  "complication",
+  "column_break_qhny2",
+  "head_size",
+  "section_break_fjafb",
+  "user",
+  "midwife",
+  "column_break_2vwtz",
+  "suppervisor",
+  "section_break_m40d1",
+  "post_deliver_mother_condition",
+  "delivery_date",
+  "type_of_delivery",
+  "placenta",
+  "episiotomy",
+  "post_delivery_tab",
+  "section_break_glckv",
+  "procedure_prescription",
+  "services_so",
+  "medication_so"
+ ],
+ "fields": [
+  {
+   "fieldname": "patient",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Patient",
+   "options": "Patient",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "patient.first_name",
+   "fieldname": "patient_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Patient Name"
+  },
+  {
+   "fetch_from": "patient.sex",
+   "fieldname": "sex",
+   "fieldtype": "Data",
+   "label": "Sex"
+  },
+  {
+   "fetch_from": "patient.p_age",
+   "fieldname": "age",
+   "fieldtype": "Data",
+   "label": "Age"
+  },
+  {
+   "default": "Today",
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "label": "DOB"
+  },
+  {
+   "fieldname": "post_deliver_mother_condition",
+   "fieldtype": "HTML",
+   "label": "POST DELIVER MOTHER CONDITION",
+   "options": "POST DELIVER MOTHER CONDITION"
+  },
+  {
+   "fieldname": "column_break_8zqcd",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_m40d1",
+   "fieldtype": "Section Break",
+   "hidden": 1
+  },
+  {
+   "fieldname": "delivery_date",
+   "fieldtype": "Datetime",
+   "label": "Delivery Date"
+  },
+  {
+   "fieldname": "type_of_delivery",
+   "fieldtype": "Data",
+   "label": "Type oF delivery"
+  },
+  {
+   "fieldname": "episiotomy",
+   "fieldtype": "Data",
+   "label": "Episiotomy"
+  },
+  {
+   "fieldname": "post_delivery_tab",
+   "fieldtype": "Tab Break",
+   "label": "Neonatal Details"
+  },
+  {
+   "fieldname": "placenta",
+   "fieldtype": "Data",
+   "label": "Placenta:"
+  },
+  {
+   "fieldname": "section_break_glckv",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "procedure_prescription",
+   "fieldtype": "Table",
+   "label": "Procedure Prescription",
+   "options": "Procedure Prescription",
+   "reqd": 1
+  },
+  {
+   "fieldname": "services_so",
+   "fieldtype": "Link",
+   "label": "services_so",
+   "options": "Sales Order",
+   "read_only": 1
+  },
+  {
+   "fieldname": "medication_so",
+   "fieldtype": "Link",
+   "label": "medication_so",
+   "options": "Sales Order",
+   "read_only": 1
+  },
+  {
+   "fieldname": "practitioner",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Consultant",
+   "options": "Healthcare Practitioner"
+  },
+  {
+   "fetch_from": "patient.age_type",
+   "fieldname": "age_type",
+   "fieldtype": "Data",
+   "label": "Age Type"
+  },
+  {
+   "default": "Now",
+   "fieldname": "time",
+   "fieldtype": "Data",
+   "label": "Time",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_ehpqt",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "mode",
+   "fieldtype": "Select",
+   "label": "Mode Of Delivery",
+   "options": "\nNormal\nC/S\nSVD",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_xosp6",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "baby_weight",
+   "fieldtype": "Float",
+   "label": "Baby Weight",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_xo9yr",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "baby_sex",
+   "fieldtype": "Select",
+   "label": "Baby Sex",
+   "options": "Male\nFemale",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_bl5c0",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "apgar_score",
+   "fieldtype": "Data",
+   "label": "APGAR SCORE",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_tpe9k",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "placenta_expressed",
+   "fieldtype": "Select",
+   "label": "Placenta Expressed",
+   "options": "Spontaneous\nCCT\nManual",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_olp5a",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "episiotomys",
+   "fieldtype": "Select",
+   "label": "Episiotomy",
+   "options": "Yes\nNo",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_cmzem",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "repaired",
+   "fieldtype": "Select",
+   "label": "Repaired",
+   "options": "Yes\nNo",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_plvdu",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "complication",
+   "fieldtype": "Select",
+   "label": "Complication",
+   "options": "Yes\nNo",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_qhny2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "User",
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "label": "User",
+   "options": "User"
+  },
+  {
+   "fieldname": "head_size",
+   "fieldtype": "Data",
+   "label": "Head Size"
+  },
+  {
+   "fieldname": "section_break_fjafb",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_2vwtz",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "suppervisor",
+   "fieldtype": "Data",
+   "label": "Suppervisor"
+  },
+  {
+   "fetch_from": "user.full_name",
+   "fieldname": "midwife",
+   "fieldtype": "Data",
+   "label": "Midwife",
+   "read_only": 1
+  }
+ ],
+ "in_create": 1,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-01-05 14:24:19.676134",
+ "modified_by": "Administrator",
+ "module": "HIS",
+ "name": "Post Delivery",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Maternity",
+   "select": 1,
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "OBS",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "All",
+   "select": 1,
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

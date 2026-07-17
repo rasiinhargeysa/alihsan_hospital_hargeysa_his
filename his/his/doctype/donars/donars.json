@@ -1,0 +1,49 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-06-25 13:56:29.051774",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "donar_name",
+  "blood_type",
+  "units"
+ ],
+ "fields": [
+  {
+   "fieldname": "donar_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Donar Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "blood_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Blood Type ",
+   "options": "A+\nA-\nO+\nO-\nB+\nB-\nAB+\nAB-",
+   "reqd": 1
+  },
+  {
+   "fieldname": "units",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Units",
+   "reqd": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-06-25 13:56:29.051774",
+ "modified_by": "Administrator",
+ "module": "HIS",
+ "name": "Donars",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

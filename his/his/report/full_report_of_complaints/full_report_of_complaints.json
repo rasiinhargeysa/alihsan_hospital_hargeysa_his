@@ -1,0 +1,60 @@
+{
+ "add_total_row": 1,
+ "columns": [],
+ "creation": "2025-08-12 15:31:52.947321",
+ "disable_prepared_report": 0,
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [
+  {
+   "default": "Today",
+   "fieldname": "from",
+   "fieldtype": "Date",
+   "label": "From Date",
+   "mandatory": 1,
+   "wildcard_filter": 0
+  },
+  {
+   "default": "Today",
+   "fieldname": "to",
+   "fieldtype": "Date",
+   "label": "To Date",
+   "mandatory": 1,
+   "wildcard_filter": 0
+  }
+ ],
+ "idx": 0,
+ "is_standard": "Yes",
+ "letter_head": "logo",
+ "modified": "2025-08-12 16:50:48.923755",
+ "modified_by": "Administrator",
+ "module": "HIS",
+ "name": "Full Report of Complaints",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "query": "SELECT\n    -- Total new patients\n    (SELECT COUNT(*) \n     FROM `tabQue`\n     WHERE date BETWEEN %(from)s AND %(to)s\n       AND que_type = 'New Patient'\n    ) AS \"Total New Patients\",\n    \n    -- Total complaints\n    (SELECT COUNT(*)\n     FROM `tabPatients Complaint`\n     WHERE solved = 'No'\n    ) AS \"Total Complaints\",\n    \n    -- Total solved complaints\n    (SELECT COUNT(*)\n     FROM `tabPatients Complaint`\n     WHERE solved = 'Yes'\n    ) AS \"Total Solved Complaints\",\n    \n    -- Remaining complaints (unsolved minus solved)\n    ( (SELECT COUNT(*) FROM `tabPatients Complaint` WHERE solved = 'No') -\n      (SELECT COUNT(*) FROM `tabPatients Complaint` WHERE solved = 'Yes') \n    ) AS \"Remaining Complaints\",\n    \n    -- New patients who had no complaints\n    ( (SELECT COUNT(*) \n       FROM `tabQue` \n       WHERE date BETWEEN %(from)s AND %(to)s\n         AND que_type = 'New Patient') \n      - \n      (SELECT COUNT(*) FROM `tabPatients Complaint`)\n    ) AS \"No Complaints Patients\"\n",
+ "ref_doctype": "Que",
+ "report_name": "Full Report of Complaints",
+ "report_type": "Query Report",
+ "roles": [
+  {
+   "role": "System Manager"
+  },
+  {
+   "role": "Cashier"
+  },
+  {
+   "role": "Physician"
+  },
+  {
+   "role": "Accounts User"
+  },
+  {
+   "role": "Nursing User"
+  },
+  {
+   "role": "Laboratory User"
+  }
+ ]
+}

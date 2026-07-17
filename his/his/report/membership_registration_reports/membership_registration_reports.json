@@ -1,0 +1,48 @@
+{
+ "add_total_row": 0,
+ "columns": [],
+ "creation": "2025-01-25 11:09:10.059510",
+ "disable_prepared_report": 0,
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [
+  {
+   "default": "Today",
+   "fieldname": "from",
+   "fieldtype": "Date",
+   "label": "From Date",
+   "mandatory": 1,
+   "wildcard_filter": 0
+  },
+  {
+   "default": "Today",
+   "fieldname": "to",
+   "fieldtype": "Date",
+   "label": "To Date",
+   "mandatory": 1,
+   "wildcard_filter": 0
+  }
+ ],
+ "idx": 0,
+ "is_standard": "Yes",
+ "letter_head": "logo",
+ "modified": "2025-03-11 16:25:32.092911",
+ "modified_by": "Administrator",
+ "module": "HIS",
+ "name": "Membership Registration Reports",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "query": "SELECT \n    name AS \"ID No.\",\n    date as \"Date\",\n    customer_name AS \"Customer Name:Data:190\",\n    district_name AS \"District Name\",\n    village AS \"Village\",\n    mobile_no AS \"Mobile:Data:100\",\n    family_no AS \"Family No.\",\n    registrated_by as \"Registrated By\"\n    \nFROM  \n    `tabMembership Registration`\nWHERE \n    date BETWEEN %(from)s AND %(to)s\n",
+ "ref_doctype": "Membership Registration",
+ "report_name": "Membership Registration Reports",
+ "report_type": "Query Report",
+ "roles": [
+  {
+   "role": "System Manager"
+  },
+  {
+   "role": "All"
+  }
+ ]
+}

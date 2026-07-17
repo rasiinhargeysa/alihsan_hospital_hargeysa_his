@@ -1,0 +1,284 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "M-.##### ",
+ "creation": "2023-05-13 16:36:25.429723",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "patient",
+  "patient_name",
+  "age",
+  "age_type",
+  "sex",
+  "column_break_tbea1",
+  "date",
+  "time",
+  "practitioner",
+  "department",
+  "section_break_fkyfq",
+  "g",
+  "column_break_0h988",
+  "p",
+  "column_break_abkdi",
+  "abortion",
+  "column_break_xzyji",
+  "ano",
+  "section_break_86l8x",
+  "cheif_complaint",
+  "section_break_rlyf8",
+  "previos_trasfusion",
+  "yes",
+  "no",
+  "section_break_jciaf",
+  "if_yes_reason",
+  "drug_allergy",
+  "if_yes_which",
+  "history_of_medication",
+  "column_break_qw2hs",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "patient",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Patient",
+   "options": "Patient",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "patient.first_name",
+   "fieldname": "patient_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Patient Name",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "patient.p_age",
+   "fieldname": "age",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Age"
+  },
+  {
+   "fieldname": "column_break_tbea1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "practitioner",
+   "fieldtype": "Link",
+   "label": "Practitioner",
+   "options": "Healthcare Practitioner"
+  },
+  {
+   "default": "Today",
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "label": "Date"
+  },
+  {
+   "default": "Now",
+   "fieldname": "time",
+   "fieldtype": "Time",
+   "label": "Time"
+  },
+  {
+   "fieldname": "section_break_fkyfq",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "g",
+   "fieldtype": "Data",
+   "label": "FHR"
+  },
+  {
+   "fieldname": "column_break_0h988",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "p",
+   "fieldtype": "Select",
+   "label": "VULVA CONDITION",
+   "options": "------\nInfubulated\nOpen"
+  },
+  {
+   "fieldname": "column_break_abkdi",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "abortion",
+   "fieldtype": "Data",
+   "label": "Cervical Dilation"
+  },
+  {
+   "fieldname": "column_break_xzyji",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "ano",
+   "fieldtype": "Data",
+   "label": "Cervical Effacement"
+  },
+  {
+   "fieldname": "section_break_86l8x",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "cheif_complaint",
+   "fieldtype": "Data",
+   "label": "Descent"
+  },
+  {
+   "fetch_from": "practitioner.department",
+   "fieldname": "department",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Department"
+  },
+  {
+   "fieldname": "section_break_rlyf8",
+   "fieldtype": "Column Break",
+   "hidden": 1
+  },
+  {
+   "fieldname": "previos_trasfusion",
+   "fieldtype": "Select",
+   "label": "Membrane Condition",
+   "options": "Intact\nRupture"
+  },
+  {
+   "fieldname": "if_yes_reason",
+   "fieldtype": "Data",
+   "label": "If Yes Reason"
+  },
+  {
+   "fieldname": "drug_allergy",
+   "fieldtype": "Data",
+   "label": "Drug Allergy"
+  },
+  {
+   "fieldname": "if_yes_which",
+   "fieldtype": "Data",
+   "label": "If Yes Which"
+  },
+  {
+   "default": "0",
+   "fieldname": "yes",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "no",
+   "fieldtype": "Select",
+   "label": "Presentation",
+   "options": "-----\nCaphalic\nVartex\nFace\nBarrow\nBreach\nHand\nTransfer"
+  },
+  {
+   "fieldname": "section_break_jciaf",
+   "fieldtype": "Section Break",
+   "hidden": 1
+  },
+  {
+   "fieldname": "column_break_qw2hs",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "history_of_medication",
+   "fieldtype": "Data",
+   "label": "Medical Histroy"
+  },
+  {
+   "fetch_from": "patient.sex",
+   "fieldname": "sex",
+   "fieldtype": "Link",
+   "label": "Sex",
+   "options": "Gender"
+  },
+  {
+   "fetch_from": "patient.age_type",
+   "fieldname": "age_type",
+   "fieldtype": "Data",
+   "label": "Age Type"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Meternity Card",
+   "print_hide": 1,
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2025-01-02 17:16:09.064899",
+ "modified_by": "Administrator",
+ "module": "HIS",
+ "name": "Meternity Card",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Maternity",
+   "select": 1,
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "OBS",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "All",
+   "select": 1,
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

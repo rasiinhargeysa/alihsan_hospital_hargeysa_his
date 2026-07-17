@@ -1,0 +1,54 @@
+{
+ "add_total_row": 1,
+ "columns": [],
+ "creation": "2025-04-12 11:30:20.454048",
+ "disable_prepared_report": 0,
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [
+  {
+   "default": "Today",
+   "fieldname": "from",
+   "fieldtype": "Date",
+   "label": "From Date",
+   "mandatory": 1,
+   "wildcard_filter": 0
+  },
+  {
+   "default": "Today",
+   "fieldname": "to",
+   "fieldtype": "Date",
+   "label": "To Date",
+   "mandatory": 1,
+   "wildcard_filter": 0
+  }
+ ],
+ "idx": 0,
+ "is_standard": "Yes",
+ "letter_head": "logo",
+ "modified": "2025-04-14 16:26:29.210063",
+ "modified_by": "Administrator",
+ "module": "HIS",
+ "name": "Department Isue Details",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "query": "SELECT \n    \n    t2.item_name as 'Item Name:Data:250',\n    sum(t2.qty) as 'Qty',\n    t1.department,\n    t2.modified as 'Date:Data:200'\nFROM \n    `tabAssign Department` t1\nJOIN \n    `tabStock Entry Detail` t2 ON t1.account = t2.expense_account\nWHERE \n    t2.item_group = 'Consumable'\n    and t2.docstatus=1\n    AND DATE(t2.modified) BETWEEN %(from)s AND %(to)s\ngroup BY \n     t2.item_code, t1.department;",
+ "ref_doctype": "Stock Entry",
+ "report_name": "Department Isue Details",
+ "report_type": "Query Report",
+ "roles": [
+  {
+   "role": "Stock User"
+  },
+  {
+   "role": "Manufacturing User"
+  },
+  {
+   "role": "Manufacturing Manager"
+  },
+  {
+   "role": "Stock Manager"
+  }
+ ]
+}
