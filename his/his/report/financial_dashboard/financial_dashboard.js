@@ -29,7 +29,7 @@ frappe.query_reports["Financial Dashboard"] = {
             fieldname : "from_date",
             label     : __("From Date"),
             fieldtype : "Date",
-            default   : frappe.datetime.year_start(),
+            default   : frappe.datetime.month_start(), 
             reqd      : 1,
         },
         {

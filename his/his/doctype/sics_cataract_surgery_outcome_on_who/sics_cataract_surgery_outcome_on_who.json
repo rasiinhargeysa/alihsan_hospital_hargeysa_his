@@ -1,6 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "SICS-.#####",
  "creation": "2026-07-05 12:08:09.097180",
  "default_view": "List",
  "doctype": "DocType",
@@ -21,6 +22,7 @@
   "previous_trauma",
   "previous_eye_surgery",
   "history_of_glaucoma",
+  "practitioner",
   "column_break_z2bez",
   "diabetes",
   "blood_thinner_use",
@@ -94,12 +96,18 @@
   {
    "fieldname": "patient_id",
    "fieldtype": "Data",
-   "label": "Patient ID"
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Patient ID",
+   "reqd": 1
   },
   {
    "fieldname": "patient_name",
    "fieldtype": "Data",
-   "label": "Patient Name"
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Patient Name",
+   "reqd": 1
   },
   {
    "fieldname": "age",
@@ -109,8 +117,11 @@
   {
    "fieldname": "sex",
    "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Sex",
-   "options": "Gender"
+   "options": "Gender",
+   "reqd": 1
   },
   {
    "fieldname": "column_break_r80g1",
@@ -119,7 +130,10 @@
   {
    "fieldname": "mobile",
    "fieldtype": "Data",
-   "label": "Mobile"
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Mobile",
+   "reqd": 1
   },
   {
    "fieldname": "address_district",
@@ -177,7 +191,7 @@
    "fieldname": "blood_thinner_use",
    "fieldtype": "Select",
    "label": "Blood thinner use",
-   "options": "No\nAspirin Warfarin Clopidogrel Other"
+   "options": "No\nAspirin\nWarfarin\nClopidogrel\nOther"
   },
   {
    "fieldname": "history_of_uveitis",
@@ -231,7 +245,7 @@
    "fieldname": "pupil_dilation",
    "fieldtype": "Select",
    "label": "Pupil dilation",
-   "options": "Good Moderate Poor"
+   "options": "Good\nModerate\nPoor"
   },
   {
    "fieldname": "cornea",
@@ -482,7 +496,7 @@
    "fieldname": "final_outcome_by_va",
    "fieldtype": "Select",
    "label": "Final outcome by VA",
-   "options": "Good \u22656/18 Borderline <6/18\u20136/60 Poor <6/60"
+   "options": "Good \u22656/18\nBorderline <6/18\u20136/60\nPoor <6/60"
   },
   {
    "fieldname": "cause_of_poor_borderline_outcome",
@@ -544,14 +558,21 @@
   {
    "fieldname": "column_break_tom0y",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "practitioner",
+   "fieldtype": "Link",
+   "label": "Practitioner",
+   "options": "Healthcare Practitioner"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-07-05 13:16:44.995100",
+ "modified": "2026-08-11 10:29:43.991954",
  "modified_by": "Administrator",
  "module": "HIS",
  "name": "SICS Cataract Surgery Outcome on WHO",
+ "naming_rule": "Expression (old style)",
  "owner": "Administrator",
  "permissions": [
   {
@@ -563,6 +584,18 @@
    "read": 1,
    "report": 1,
    "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "All",
    "share": 1,
    "write": 1
   }

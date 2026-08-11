@@ -353,7 +353,7 @@ def _get_gl_ar_by_party(f):
     return frappe.db.sql("""
         SELECT
             gle.party                                       AS party,
-           
+            MAX(cus.customer_name)                          AS party_name,
             gle.party_type                                  AS party_type,
             SUM(gle.debit)                                  AS total_debit,
             SUM(gle.credit)                                 AS total_credit,
@@ -362,17 +362,18 @@ def _get_gl_ar_by_party(f):
         FROM `tabGL Entry` gle
         INNER JOIN `tabAccount` acc
                ON acc.name = gle.account
+        LEFT JOIN `tabCustomer` cus
+               ON cus.name = gle.party
         WHERE gle.is_cancelled  = 0
           AND gle.party_type    = 'Customer'
           AND gle.party        IS NOT NULL
           AND gle.party        != ''
           AND acc.account_type  = 'Receivable'
           {cond}
-        GROUP BY gle.party
+        GROUP BY gle.party, gle.party_type
         HAVING outstanding > 0.005
         ORDER BY outstanding DESC
     """.format(cond=cond), f, as_dict=True)
-
 
 # ─────────────────────────────────────────────────────────────────────────────
 #  SQL — AP from GL Entry grouped by party

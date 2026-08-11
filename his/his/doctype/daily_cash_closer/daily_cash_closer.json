@@ -1,0 +1,167 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "DAILY-CASH-.#####",
+ "creation": "2026-08-04 10:21:35.003824",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "user",
+  "username",
+  "column_break_2r3bw",
+  "date",
+  "section_break_yjsrz",
+  "daily_collection_detail",
+  "total_collection",
+  "column_break_fe23c",
+  "daily_payment_mode_detail",
+  "total_payments",
+  "variance",
+  "final_section_section",
+  "account_balance_detail",
+  "section_break_ac4ud",
+  "remarks",
+  "column_break_bgumm",
+  "total_account_balance"
+ ],
+ "fields": [
+  {
+   "default": "User",
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "in_list_view": 1,
+   "label": "User",
+   "options": "User",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fetch_from": "user.full_name",
+   "fieldname": "username",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Username",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_2r3bw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Today",
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Date"
+  },
+  {
+   "fieldname": "section_break_yjsrz",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "daily_collection_detail",
+   "fieldtype": "Table",
+   "label": "Daily Collection Detail",
+   "options": "Daily Collection Detail"
+  },
+  {
+   "fieldname": "column_break_fe23c",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "daily_payment_mode_detail",
+   "fieldtype": "Table",
+   "label": "Daily Payment Mode Detail",
+   "options": "Daily Payment Mode Detail"
+  },
+  {
+   "fieldname": "total_collection",
+   "fieldtype": "Currency",
+   "label": "Total Collection",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_payments",
+   "fieldtype": "Currency",
+   "label": "Total Payments",
+   "read_only": 1
+  },
+  {
+   "fieldname": "final_section_section",
+   "fieldtype": "Section Break",
+   "label": "Account Balances"
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Small Text",
+   "label": "Remarks"
+  },
+  {
+   "fieldname": "variance",
+   "fieldtype": "Currency",
+   "label": "Variance",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_account_balance",
+   "fieldtype": "Currency",
+   "label": "Total",
+   "read_only": 1
+  },
+  {
+   "fieldname": "account_balance_detail",
+   "fieldtype": "Table",
+   "label": "Account Balance Detail",
+   "options": "Account Balance Detail"
+  },
+  {
+   "fieldname": "column_break_bgumm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_ac4ud",
+   "fieldtype": "Section Break"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-08-04 23:27:58.557586",
+ "modified_by": "Administrator",
+ "module": "HIS",
+ "name": "Daily Cash Closer",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -1,6 +1,5 @@
 {
  "actions": [],
- "allow_events_in_timeline": 1,
  "allow_import": 1,
  "allow_rename": 1,
  "autoname": "QUE-.#####",
@@ -469,7 +468,7 @@
    "link_fieldname": "patient"
   }
  ],
- "modified": "2026-07-06 19:44:26.017259",
+ "modified": "2026-07-18 17:17:55.324944",
  "modified_by": "Administrator",
  "module": "HIS",
  "name": "Que",

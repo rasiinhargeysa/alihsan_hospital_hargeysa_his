@@ -134,6 +134,7 @@
    "label": "Patient Name"
   },
   {
+   "allow_on_submit": 1,
    "default": "Today",
    "fieldname": "date",
    "fieldtype": "Date",
@@ -197,7 +198,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-07-06 19:37:59.383036",
+ "modified": "2026-08-06 16:35:45.162009",
  "modified_by": "Administrator",
  "module": "HIS",
  "name": "VA Examination",

@@ -94,12 +94,14 @@
    "read_only": 1
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "total_credit",
    "fieldtype": "Currency",
    "label": "Total Credit",
    "read_only": 1
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "total_debit",
    "fieldtype": "Currency",
    "label": "Total Debit",
@@ -133,7 +135,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-06-03 09:00:42.093563",
+ "modified": "2026-08-06 18:31:46.620517",
  "modified_by": "Administrator",
  "module": "HIS",
  "name": "Daily Cash Transfer",

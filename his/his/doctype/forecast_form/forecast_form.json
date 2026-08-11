@@ -1,0 +1,154 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "FOR-.#####",
+ "creation": "2026-07-22 18:26:55.058200",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "user",
+  "username",
+  "column_break_phq00",
+  "date",
+  "department",
+  "section_break_gxuhb",
+  "income",
+  "column_break_jxeat",
+  "expenses",
+  "totals_section_section",
+  "total_income",
+  "column_break_9acn8",
+  "total_expenses",
+  "column_break_hyzmi",
+  "profit_or_loss"
+ ],
+ "fields": [
+  {
+   "default": "User",
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "in_list_view": 1,
+   "label": "User",
+   "options": "User",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "user.full_name",
+   "fieldname": "username",
+   "fieldtype": "Data",
+   "label": "Username",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_phq00",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Today",
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "label": "Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "department",
+   "fieldtype": "Link",
+   "label": "Department",
+   "options": "Department",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_gxuhb",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "total_income",
+   "fieldtype": "Currency",
+   "label": "Total Income",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_jxeat",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_expenses",
+   "fieldtype": "Currency",
+   "label": "Total Expenses",
+   "read_only": 1
+  },
+  {
+   "fieldname": "income",
+   "fieldtype": "Table",
+   "label": "Forecast Form Income",
+   "options": "Forecast Form Income",
+   "reqd": 1
+  },
+  {
+   "fieldname": "expenses",
+   "fieldtype": "Table",
+   "label": "Forecast Form Expenses",
+   "options": "Forecast Form Expenses",
+   "reqd": 1
+  },
+  {
+   "fieldname": "totals_section_section",
+   "fieldtype": "Section Break",
+   "label": "Totals Section"
+  },
+  {
+   "fieldname": "column_break_9acn8",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_hyzmi",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "profit_or_loss",
+   "fieldtype": "Currency",
+   "label": "Profit / Loss",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-07-22 19:26:47.134485",
+ "modified_by": "Administrator",
+ "module": "HIS",
+ "name": "Forecast Form",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "All",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

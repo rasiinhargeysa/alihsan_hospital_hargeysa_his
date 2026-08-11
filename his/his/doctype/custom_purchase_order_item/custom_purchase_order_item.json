@@ -1,0 +1,73 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-08-08 19:12:22.219784",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "item_name",
+  "description",
+  "qty",
+  "rate",
+  "amount",
+  "expired_date"
+ ],
+ "fields": [
+  {
+   "columns": 2,
+   "fieldname": "item_name",
+   "fieldtype": "Text",
+   "in_list_view": 1,
+   "label": "Item Name",
+   "reqd": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "qty",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Qty",
+   "reqd": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "rate",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Rate"
+  },
+  {
+   "columns": 1,
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "expired_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Expired Date"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text",
+   "label": "Description"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-08-08 19:42:39.457738",
+ "modified_by": "Administrator",
+ "module": "HIS",
+ "name": "Custom Purchase Order Item",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

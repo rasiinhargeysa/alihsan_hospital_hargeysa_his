@@ -1,4 +1,6 @@
-<html lang="en"><head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Al-ihsan specialist Hospital - Doctor Queue</title>
@@ -34,20 +36,15 @@
         .hospital-logo {
             width: 40vh; /* Adjust as needed */
             height: 15vh; /* Adjust as needed */
-            /*background: #00b4d8;*/ /* Remove background */
-            border-radius: 0; /* Remove border-radius */
             display: grid;
             place-items: center;
-            /*font-weight: bold;
-            font-size: 5vh;
-            box-shadow: 0 0 2vh rgba(0,180,216,0.5);*/ /* Remove styles for image */
         }
 
         .hospital-logo img {
-            max-width: 100%; /* Make the image responsive within its container */
+            max-width: 100%;
             max-height: 100%;
-            display: block; /* Remove extra space below image */
-            object-fit: contain; /* scale logo to fit */
+            display: block;
+            object-fit: contain;
         }
 
         .branding-text {
@@ -119,17 +116,15 @@
         .queue-list {
             flex: 1;
             padding: 0 4vw 4vh 4vw;
-            overflow-y: auto; /* Restore scrollbar for more than 5 items */
+            overflow-y: auto;
             display: flex;
             flex-direction: column;
-            /*height: 48vh;*/ /* Remove fixed height */
         }
 
-        /* Responsive Table Styling */
         .queue-table {
             width: 100%;
             border-collapse: collapse;
-            table-layout: fixed; /* Keep columns equal width */
+            table-layout: fixed;
         }
 
         .queue-table th, .queue-table td {
@@ -148,9 +143,7 @@
 
         .queue-table td {
             color: #fff;
-            /* height: 12vh;*//* Ensure each row has a minimum height */
         }
-
 
         .news-ticker {
             background: #002b55;
@@ -176,31 +169,62 @@
             100% { transform: translateX(-100%); }
         }
 
-        /* Responsive Font Sizes */
         .current-number {
-            font-size: 18vh; /* Adjusted for smaller screens */
+            font-size: 18vh;
         }
         .current-name {
-            font-size: 4vh; /* Adjusted for smaller screens */
+            font-size: 4vh;
         }
 
         .queue-table td, .queue-table th {
-            font-size: 2vh; /* Responsive table text */
+            font-size: 2vh;
         }
         @media (max-width: 768px) {
             .current-number {
                 font-size: 12vh;
             }
             .current-name {
-                font-size: 3vh; /* Adjusted for smaller screens */
+                font-size: 3vh;
             }
             .queue-table td, .queue-table th {
-                font-size: 1.5vh; /* Responsive table text */
+                font-size: 1.5vh;
             }
+        }
+
+        /* Overlay to unlock audio on kiosk/TV screens (autoplay policy) */
+        .sound-unlock-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 26, 51, 0.96);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2vh;
+            z-index: 999;
+            cursor: pointer;
+        }
+
+        .sound-unlock-overlay .icon {
+            font-size: 10vh;
+        }
+
+        .sound-unlock-overlay .label {
+            font-size: 3.5vh;
+            color: #90e0ef;
+            text-align: center;
+            padding: 0 4vw;
         }
     </style>
 </head>
 <body>
+
+    <!-- Tap anywhere once so the browser allows the beep sound to play automatically afterwards -->
+    <div class="sound-unlock-overlay" id="soundUnlockOverlay">
+        <div class="icon">🔊</div>
+        <div class="label">Taabo shaashadda si dhawaaqu u shaqeeyo<br>Tap the screen to enable sound</div>
+    </div>
+
     <div class="branding-header">
         <div class="hospital-logo">
             <img id="hodanLogo" src="/files/alihsan.png" alt="Hodan Hospital Logo">
@@ -212,8 +236,11 @@
             <div class="doctor-name" id="doctorName"></div>
             <div class="room-number" id="roomNumber"></div>
         </div>
-        <div style="font-size: 3vh; color: #90e0ef;">
-            Bukaanka sugaya: <span id="queueCount"></span>
+        <div style="display: flex; align-items: center; gap: 2vw;">
+            <!-- <button id="testSoundBtn" style="font-size: 2vh; padding: 1vh 2vw; background: #00b4d8; color: #001a33; border: none; border-radius: 0.5vh; cursor: pointer; font-weight: bold;">🔔 Test sound</button> -->
+            <div style="font-size: 3vh; color: #90e0ef;">
+                Bukaanka sugaya: <span id="queueCount"></span>
+            </div>
         </div>
     </div>
 
@@ -241,18 +268,171 @@
             📢 Tixraac Degdeg ah: 6677  •
         </div>
     </div>
+
     <script>
         let queueList = [];
         let doctors = [];
         let calledQueue = {};
         let currentPatient = null;
+        let lastAnnouncedToken = null; // tracks the last token we already beeped for
         const updateInterval = 5000; // Every 5 seconds for near real-time updates
-    
+
         const url = window.location.href;
         let room = url.split("/").pop();
         const baseUrl = `${window.location.protocol}//${window.location.host}`;
-    
-        // Function to fetch updated data
+
+        /* ---------------- Sound (beep/chime) ---------------- */
+        let audioCtx = null;
+
+        function unlockAudio() {
+            try {
+                if (!audioCtx) {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                    console.log('AudioContext created, state:', audioCtx.state);
+                }
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume().then(() => console.log('AudioContext resumed, state:', audioCtx.state));
+                }
+                // Play a near-silent blip so iOS/Chrome fully unlock the audio pipeline
+                playTone(1, 0.0001, 'sine');
+
+                // Prime the speech synthesis engine too, so the first real announcement isn't dropped
+                if ('speechSynthesis' in window) {
+                    const primer = new SpeechSynthesisUtterance(' ');
+                    primer.volume = 0;
+                    window.speechSynthesis.speak(primer);
+                }
+            } catch (err) {
+                console.error('Audio unlock failed:', err);
+            }
+
+            const overlay = document.getElementById('soundUnlockOverlay');
+            if (overlay) overlay.style.display = 'none';
+        }
+
+        function playTone(frequency, volume, type) {
+            if (!audioCtx) return;
+            const oscillator = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+
+            oscillator.type = type || 'sine';
+            oscillator.frequency.value = frequency;
+
+            gainNode.gain.setValueAtTime(volume, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.4);
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            oscillator.start();
+            oscillator.stop(audioCtx.currentTime + 0.4);
+        }
+
+        // Three-note rising chime used to signal a newly called patient
+        function playCallChime() {
+            if (!audioCtx) {
+                console.warn('playCallChime skipped: audioCtx not unlocked yet. Tap the screen first.');
+                return;
+            }
+            console.log('Playing call chime');
+            playTone(523.25, 0.25, 'sine');               // note 1 (C5)
+            setTimeout(() => playTone(659.25, 0.25, 'sine'), 250);  // note 2 (E5)
+            setTimeout(() => playTone(784, 0.25, 'sine'), 500);     // note 3 (G5)
+        }
+
+        document.getElementById('soundUnlockOverlay').addEventListener('click', unlockAudio);
+        // Also try to unlock on the very first tap/click anywhere, in case the overlay is missed
+        document.body.addEventListener('click', unlockAudio, { once: true });
+
+        // Manual test button - lets staff verify the chime + voice work, independent of live queue changes
+        // document.getElementById('testSoundBtn').addEventListener('click', () => {
+        //     unlockAudio();
+        //     playCallChime();
+        //     setTimeout(() => speakAnnouncement(999, '5'), 900);
+        // });
+
+        /* ---------------- Voice announcement (English) ----------------
+           3-layer fallback so it also works inside Fully Kiosk, where the
+           WebView's built-in speechSynthesis is unreliable:
+
+           Layer 1: window.fully.textToSpeech() — Fully Kiosk's native
+                    Android TTS, with the locale forced to en_US via
+                    setTextToSpeechParams() first (this is the actual fix —
+                    without it Fully can silently fail on a missing locale).
+           Layer 2: Fully Kiosk's local REST API (localhost:2323), used if
+                    the JS interface isn't injected.
+           Layer 3: Web Speech API — used in regular browsers like Chrome.
+        ---------------------------------------------------------------- */
+        // Only attempt Fully-specific sound paths when actually running inside
+        // Fully Kiosk. On a normal browser (Chrome, etc.) this is false, so
+        // speakAnnouncement() goes straight to Web Speech, same as before.
+        const isFullyKioskEnv = /fully/i.test(navigator.userAgent) || typeof window.fully !== 'undefined';
+
+        function speakAnnouncement(tokenNo, roomNo) {
+            const text = roomNo
+                ? `Patient number ${tokenNo}, please come to room ${roomNo}`
+                : `Patient number ${tokenNo}, please come in`;
+
+            // Layer 1: Fully Kiosk JS interface
+            if (window.fully && typeof window.fully.textToSpeech === 'function') {
+                try {
+                    if (typeof window.fully.setTextToSpeechParams === 'function') {
+                        window.fully.setTextToSpeechParams('en_US', 0.9, 1.0, 1.0);
+                    }
+                    console.log('Speaking via Fully TTS:', text);
+                    window.fully.textToSpeech(text);
+                } catch (e) {
+                    console.warn('Fully TTS failed, falling back:', e);
+                    if (isFullyKioskEnv) {
+                        speakViaFullyRest(text);
+                    } else {
+                        speakViaWebSpeech(text);
+                    }
+                }
+                return;
+            }
+
+            // Not on Fully Kiosk at all (e.g. testing in Chrome) — go straight
+            // to Web Speech, exactly like the original file did.
+            if (!isFullyKioskEnv) {
+                speakViaWebSpeech(text);
+                return;
+            }
+
+            // On Fully Kiosk but window.fully wasn't injected (JS interface
+            // setting is off) — try its REST API instead.
+            speakViaFullyRest(text);
+        }
+
+        function speakViaFullyRest(text) {
+            const encoded = encodeURIComponent(text);
+            fetch(`http://localhost:2323/?cmd=textToSpeech&text=${encoded}&locale=en_US&type=json`)
+                .then(res => {
+                    if (!res.ok) throw new Error('Fully REST TTS failed');
+                    console.log('Spoke via Fully REST API');
+                })
+                .catch(err => {
+                    console.warn('Fully REST TTS unavailable, falling back to Web Speech:', err);
+                    speakViaWebSpeech(text);
+                });
+        }
+
+        function speakViaWebSpeech(text) {
+            if (!('speechSynthesis' in window)) {
+                console.warn('speechSynthesis not supported in this browser.');
+                return;
+            }
+            console.log('Speaking via Web Speech API:', text);
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'en-US';
+            utterance.rate = 0.9;
+            utterance.volume = 1;
+            utterance.onerror = (e) => console.error('Speech error:', e);
+            window.speechSynthesis.cancel(); // stop any queued announcement before speaking the new one
+            window.speechSynthesis.speak(utterance);
+        }
+
+        /* ---------------- Data fetching ---------------- */
         const fetchQuePatients = async () => {
             try {
                 const options = {
@@ -263,76 +443,68 @@
                         'Authorization': 'token 8c95da6b718cebe:1fd4ad32e02f31f'
                     },
                 };
-    
+
                 const response = await fetch(`${baseUrl}/api/method/his.www.screen.screen.get_doctors?room=${room}`, options);
                 const data = await response.json();
-    
+
                 if (data && data.message) {
-                    // Only update UI if data has changed
                     if (JSON.stringify(queueList) !== JSON.stringify(data.message.que) ||
                         JSON.stringify(doctors) !== JSON.stringify(data.message.doctors) ||
                         JSON.stringify(calledQueue) !== JSON.stringify(data.message.by_doc_call)) {
-                        
+
                         queueList = data.message.que || [];
                         doctors = data.message.doctors || [];
                         calledQueue = data.message.by_doc_call || {};
-                        
-                        updateDisplay(); // Update only if there is a change
+
+                        updateDisplay();
                     }
                 } else {
                     console.warn("No patient data received from API.");
                 }
             } catch (error) {
                 console.error("Error fetching patient data:", error);
-            }   
+            }
         };
-    
-        // Function to create a queue row
-        function createQueueRow(patient) {
-            let doctor = doctors[0] || {};
 
+        function createQueueRow(patient) {
             const tr = document.createElement('tr');
             tr.innerHTML = `<td>${patient.token_no}</td><td>${patient.patient_name}</td>`;
             return tr;
         }
-    
-        // Function to update the UI without refreshing
+
         function updateDisplay() {
             const queueBody = document.getElementById('queueBody');
-            queueBody.innerHTML = ''; // Clear existing queue
-    
+            queueBody.innerHTML = '';
+
             let doctor = doctors[0] || {};
-            let calledPatient = null;
-    
-            // Check if doctor has called a patient
-            if (doctor.practitioner_name && calledQueue[doctor.practitioner_name]?.que_steps === "Called") {
-                calledPatient = calledQueue[doctor.practitioner_name];
-            }
-    
-            // Determine the current patient (prioritize called patient, otherwise first in queue)
-            currentPatient =  queueList[0] || null;
-    
-            // Update the current patient display
+
+            currentPatient = queueList[0] || null;
+
             document.querySelector('.current-number').textContent = currentPatient ? `${currentPatient.token_no}` : '-';
-            document.querySelector('.current-name').textContent = currentPatient ? currentPatient.patient_name : 'Sug bukaanka koowaad';
-    
-            // Populate the queue list (Show all patients)
+            document.querySelector('.current-name').textContent = currentPatient ? currentPatient.patient_name : '';
+
+            // Beep + English voice announcement only when the front-of-queue patient actually changes
+            const currentToken = currentPatient ? currentPatient.token_no : null;
+            if (currentToken !== null && currentToken !== lastAnnouncedToken) {
+                playCallChime();
+                setTimeout(() => speakAnnouncement(currentToken, doctor.doctor_room), 900);
+                lastAnnouncedToken = currentToken;
+            }
+
             queueList.forEach(patient => {
                 const queueRow = createQueueRow(patient);
                 queueBody.appendChild(queueRow);
             });
-    
-            // Update queue count
+
             document.getElementById('queueCount').textContent = queueList.length;
-    
-            // Update doctor details
+
             document.getElementById('doctorName').textContent = doctor.practitioner_name || "Unknown Doctor";
             document.getElementById('roomNumber').textContent = doctor.doctor_room ? `Qolka ${doctor.doctor_room}` : "Unknown Room";
         }
-    
-        // Fetch and update without refreshing
-        fetchQuePatients(); // Initial load
-        setInterval(fetchQuePatients, updateInterval); // Fetch new data every 5 seconds
+
+        fetchQuePatients();
+        setInterval(fetchQuePatients, updateInterval);
     </script>
-    
-</body></html>
+
+</body>
+</html>

@@ -1,7 +1,7 @@
-// Copyright (c) 2023, Rasiin Tech and contributors
+// Copyright (c) 2026, Rasiin Tech and contributors
 // For license information, please see license.txt
 
-frappe.ui.form.on('Employee Warning', {
+frappe.ui.form.on('Forecast Form', {
 	// refresh: function(frm) {
 
 	// }

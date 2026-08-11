@@ -22,6 +22,7 @@ def get_doctors():
     doctors = frappe.db.sql(query, as_dict=True)
 
     # Fetch queue list filtered by room number
+    # Patient stays in the list until status is "Closed" - being "Called" no longer removes them
     query_que = f"""
     SELECT 
         practitioner_name,
@@ -31,16 +32,15 @@ def get_doctors():
     FROM `tabQue`
     WHERE 
         date = CURDATE()
-        AND status = "Open"  
-        AND que_steps != "Called"
+        AND status != "Closed"
         AND practitioner_name IN (
             SELECT practitioner_name FROM `tabHealthcare Practitioner` WHERE doctor_room = '{room}'
         )
-    ORDER BY modified ASC
+    ORDER BY token_no ASC
     """
     que = frappe.db.sql(query_que, as_dict=True)
 
-    # Fetch the called queue list (patients already called by the doctor)
+    # Fetch the called queue list (patients already called by the doctor, still open)
     called_que = f"""
     SELECT 
         practitioner_name,
@@ -50,29 +50,28 @@ def get_doctors():
     FROM `tabQue`
     WHERE 
         date = CURDATE()
-        AND status = "Open"  
+        AND status != "Closed"
         AND que_steps = "Called"
         AND practitioner_name IN (
             SELECT practitioner_name FROM `tabHealthcare Practitioner` WHERE doctor_room = '{room}'
         )
-    ORDER BY modified ASC
+    ORDER BY token_no ASC
     """
     c_que = frappe.db.sql(called_que, as_dict=True)
 
     all_doc_query_ques = """
         SELECT 
             q.practitioner_name,
-            hp.doctor_room,  -- ✅ Now correctly fetched from `tabHealthcare Practitioner`
+            hp.doctor_room,
             q.token_no,
             q.patient_name,
             q.que_steps
         FROM `tabQue` q
         LEFT JOIN `tabHealthcare Practitioner` hp 
-            ON q.practitioner_name = hp.practitioner_name  -- ✅ Join to get `doctor_room`
+            ON q.practitioner_name = hp.practitioner_name
         WHERE 
             q.date = CURDATE()
-            AND q.status = "Open"  
-            AND q.que_steps != "Called"
+            AND q.status != "Closed"
         ORDER BY q.modified DESC
     """
 
@@ -81,22 +80,21 @@ def get_doctors():
     all_doc_called_que = """
         SELECT 
             q.practitioner_name,
-            hp.doctor_room,  -- ✅ Now correctly fetched from `tabHealthcare Practitioner`
+            hp.doctor_room,
             q.token_no,
             q.patient_name,
             q.que_steps
         FROM `tabQue` q
         LEFT JOIN `tabHealthcare Practitioner` hp 
-            ON q.practitioner_name = hp.practitioner_name  -- ✅ Join to get `doctor_room`
+            ON q.practitioner_name = hp.practitioner_name
         WHERE 
             q.date = CURDATE()
-            AND q.status = "Open"  
+            AND q.status != "Closed"
             AND q.que_steps = "Called"
         ORDER BY q.modified DESC
     """
 
     called_ques = frappe.db.sql(all_doc_called_que, as_dict=True)
-
 
     # Structure called queue by doctor
     by_doc_call = {item["practitioner_name"]: item for item in c_que}
@@ -130,6 +128,7 @@ def get_drshiine():
     doctors = frappe.db.sql(query, as_dict=True)
 
     # Fetch queue list filtered by room number
+    # Patient stays in the list until status is "Closed" - being "Called" no longer removes them
     query_que = f"""
     SELECT 
         practitioner_name,
@@ -139,12 +138,11 @@ def get_drshiine():
     FROM `tabQue`
     WHERE 
         date = CURDATE()
-        AND status = "Open"  
-        AND que_steps != "Called"
+        AND status != "Closed"
         AND practitioner_name IN (
             SELECT practitioner_name FROM `tabHealthcare Practitioner` WHERE doctor_room = '{room}'
         )
-    ORDER BY modified ASC
+    ORDER BY token_no ASC
     """
     que = frappe.db.sql(query_que, as_dict=True)
 
@@ -168,17 +166,16 @@ def get_drshiine():
     all_doc_query_ques = """
         SELECT 
             q.practitioner_name,
-            hp.doctor_room,  -- ✅ Now correctly fetched from `tabHealthcare Practitioner`
+            hp.doctor_room,
             q.token_no,
             q.patient_name,
             q.que_steps
         FROM `tabQue` q
         LEFT JOIN `tabHealthcare Practitioner` hp 
-            ON q.practitioner_name = hp.practitioner_name  -- ✅ Join to get `doctor_room`
+            ON q.practitioner_name = hp.practitioner_name
         WHERE 
             q.date = CURDATE()
-            AND q.status = "Open"  
-            AND q.que_steps != "Called"
+            AND q.status != "Closed"
         ORDER BY q.modified DESC
     """
 
@@ -187,22 +184,21 @@ def get_drshiine():
     all_doc_called_que = """
         SELECT 
             q.practitioner_name,
-            hp.doctor_room,  -- ✅ Now correctly fetched from `tabHealthcare Practitioner`
+            hp.doctor_room,
             q.token_no,
             q.patient_name,
             q.que_steps
         FROM `tabQue` q
         LEFT JOIN `tabHealthcare Practitioner` hp 
-            ON q.practitioner_name = hp.practitioner_name  -- ✅ Join to get `doctor_room`
+            ON q.practitioner_name = hp.practitioner_name
         WHERE 
             q.date = CURDATE()
-            AND q.status = "Open"  
+            AND q.status != "Closed"
             AND q.que_steps = "Called"
         ORDER BY q.modified DESC
     """
 
     called_ques = frappe.db.sql(all_doc_called_que, as_dict=True)
-
 
     # Structure called queue by doctor
     by_doc_call = {item["practitioner_name"]: item for item in c_que}
@@ -214,7 +210,6 @@ def get_drshiine():
         "ques": ques,
         "called_ques": called_ques
     }
-
 
 
 @frappe.whitelist()
@@ -260,14 +255,3 @@ def get_collection():
 @frappe.whitelist()
 def is_user_logged_in(user):
 	pass
-	# session = frappe.db.get_value("tabSessions", filters={"user": "cashier@testdomain.com"}, fieldname=["sessiondata", "session_expiry"])
-	# if session and session[0] and session[1] and session[1] > frappe.utils.now():
-	# 	print("Session of user cashier@testdomain.com is active")
-	# else:
-	# 	print("Session of user cashier@testdomain.com is not active")
-
-	# 	return session
-	
-# 	sessions = frappe.db.sql(f"""SELECT * FROM `tabSessions` WHERE  user = "{user}" and lastupdate < DATE_SUB(NOW(), INTERVAL 1
-# MINUTE)""", as_dict=True)
-	# return session
