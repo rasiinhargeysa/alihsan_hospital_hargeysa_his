@@ -34,7 +34,29 @@
   "column_break_yyvwf",
   "iop_left",
   "company",
+  "anterior_ssessment_re_section",
+  "lid",
+  "conj",
+  "cornea",
+  "ac",
+  "pupil",
+  "lens",
+  "anterior_segment_le_column",
+  "lid2",
+  "conj2",
+  "cornea2",
+  "ac2",
+  "pupil2",
+  "lens2",
   "section_break_uruaw",
+  "posterior_segment",
+  "fundus_canvas_re",
+  "fundus_drawing_re",
+  "column_break_hdyrw",
+  "posterior_segment2",
+  "fundus_canvas_le",
+  "fundus_drawing_le",
+  "section_break_gkaal",
   "other_comments"
  ],
  "fields": [
@@ -45,16 +67,19 @@
    "options": "Right Eye"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "va",
    "fieldtype": "Data",
    "label": "VA"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "pin_hole",
    "fieldtype": "Data",
    "label": "PIN HOLE"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "white_glass",
    "fieldtype": "Data",
    "label": "WITH GLASS"
@@ -66,16 +91,19 @@
    "options": "Left Eye"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "va1",
    "fieldtype": "Data",
    "label": "VA"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "pin2",
    "fieldtype": "Data",
    "label": "PIN HOLE"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "glass2",
    "fieldtype": "Data",
    "label": "WITH GLASS"
@@ -159,6 +187,7 @@
    "fieldtype": "Section Break"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "iop_left",
    "fieldtype": "Data",
    "label": "IOP Left"
@@ -168,6 +197,7 @@
    "fieldtype": "Column Break"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "iop_right",
    "fieldtype": "Data",
    "label": "IOP Right"
@@ -181,9 +211,11 @@
   },
   {
    "fieldname": "section_break_uruaw",
-   "fieldtype": "Section Break"
+   "fieldtype": "Section Break",
+   "label": "Posterior Segment RE"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "other_comments",
    "fieldtype": "Text Editor",
    "label": "Other Comments"
@@ -193,12 +225,136 @@
    "fieldtype": "Data",
    "label": "Que",
    "read_only": 1
+  },
+  {
+   "fieldname": "anterior_ssessment_re_section",
+   "fieldtype": "Section Break",
+   "label": "Anterior Segment"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "lid",
+   "fieldtype": "Data",
+   "label": "Lid"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "conj",
+   "fieldtype": "Data",
+   "label": "Conj"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "cornea",
+   "fieldtype": "Data",
+   "label": "Cornea"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "ac",
+   "fieldtype": "Data",
+   "label": "AC"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "pupil",
+   "fieldtype": "Data",
+   "label": "Pupil"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "lens",
+   "fieldtype": "Data",
+   "label": "Lens"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "posterior_segment",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Posterior Segment"
+  },
+  {
+   "fieldname": "anterior_segment_le_column",
+   "fieldtype": "Column Break"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "lid2",
+   "fieldtype": "Data",
+   "label": "Lid"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "conj2",
+   "fieldtype": "Data",
+   "label": "Conj"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "cornea2",
+   "fieldtype": "Data",
+   "label": "Cornea"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "ac2",
+   "fieldtype": "Data",
+   "label": "AC"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "pupil2",
+   "fieldtype": "Data",
+   "label": "Pupil"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "lens2",
+   "fieldtype": "Data",
+   "label": "Lens"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "posterior_segment2",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Posterior Segment"
+  },
+  {
+   "fieldname": "section_break_gkaal",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_hdyrw",
+   "fieldtype": "Column Break",
+   "label": "Posterior Segment LE"
+  },
+  {
+   "fieldname": "fundus_canvas_re",
+   "fieldtype": "HTML"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "fundus_drawing_re",
+   "fieldtype": "Long Text",
+   "hidden": 1
+  },
+  {
+   "fieldname": "fundus_canvas_le",
+   "fieldtype": "HTML"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "fundus_drawing_le",
+   "fieldtype": "Long Text",
+   "hidden": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-08-06 16:35:45.162009",
+ "modified": "2026-08-23 15:20:08.547467",
  "modified_by": "Administrator",
  "module": "HIS",
  "name": "VA Examination",

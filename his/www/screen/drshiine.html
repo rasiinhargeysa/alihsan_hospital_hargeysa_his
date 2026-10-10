@@ -69,7 +69,7 @@
         }
 
         .branding-header {
-            background: #fff;
+            background: #FFFFFF;
             padding: 1.5vh 4vw;
             display: flex;
             align-items: center;
@@ -311,11 +311,14 @@
 
     <div class="news-ticker">
         <div class="ticker-content">
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Welcome to Al-Ihsan Specialist Hospital — We Care Before We Cure
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Welcome to Al-Ihsan Specialist Hospital, We Care Before We Cure
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Please follow staff instructions and maintain order in the waiting area
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Thank you for choosing Al-Ihsan Specialist Hospital &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </div>
     </div>
+
+    <!-- Served directly by your bench's own socket.io server - no external CDN dependency -->
+    <script src="/socket.io/socket.io.js"></script>
 
     <script>
 
@@ -348,13 +351,12 @@
 
 
         /* ════════════════════════════════════════
-           SYSTEM START  (unlocks audio on user gesture)
+           SYSTEM START
         ════════════════════════════════════════ */
         let audioUnlocked = false;
         let lastCalledKey = null;
 
         function startSystem() {
-            // Unlock Web Speech API with a silent utterance
             if (window.speechSynthesis) {
                 const unlock = new SpeechSynthesisUtterance(' ');
                 unlock.volume = 0;
@@ -364,7 +366,6 @@
             audioUnlocked = true;
             document.getElementById('startOverlay').style.display = 'none';
 
-            // Detect TTS engine and update badge
             if (window.fully && typeof window.fully.textToSpeech === 'function') {
                 document.getElementById('soundLabel').textContent = 'FULLY TTS ON';
             } else if (window.speechSynthesis) {
@@ -373,44 +374,33 @@
                 document.getElementById('soundLabel').textContent = 'NO SOUND';
             }
 
-            fetchQuePatients();
-            setInterval(fetchQuePatients, updateInterval);
+            fetchQuePatients();       // initial load
+            connectRealtime();        // push-based updates
+            scheduleNextPoll();       // adaptive safety net
+        }
+
+        // Self-rescheduling poll loop, interval adapts to socket health.
+        function scheduleNextPoll() {
+            const interval = socketConnected ? connectedPollInterval : disconnectedPollInterval;
+            setTimeout(async () => {
+                await fetchQuePatients();
+                scheduleNextPoll();
+            }, interval);
         }
 
 
         /* ════════════════════════════════════════
            ANNOUNCE — 3-layer TTS with fixed locale
-
-           Layer 1 : window.fully.textToSpeech()
-                     → Uses Fully Kiosk's built-in TTS engine
-                     → Does NOT rely on Android locale / language pack
-                     → This is the fix: pass locale="en" explicitly via
-                       fully.setTextToSpeechParams() before speaking
-
-           Layer 2 : Fully Kiosk REST API (localhost:2323)
-                     → Falls back if JS interface unavailable
-
-           Layer 3 : Web Speech API (Chrome / standard browsers)
-                     → Last resort, English voice only
         ════════════════════════════════════════ */
         function announce(fromNo, toNo) {
             if (!audioUnlocked) return;
 
             const text = `Patient Number ${fromNo} to ${toNo}, Please Come to Room Number One`;
 
-            /* ── Layer 1: Fully Kiosk JS Interface ──
-               Key fix: call setTextToSpeechParams first to force
-               English locale so it never tries Somali/missing locale */
             if (window.fully && typeof window.fully.textToSpeech === 'function') {
                 try {
-                    // Force English locale — prevents "locale not available" error
                     if (typeof window.fully.setTextToSpeechParams === 'function') {
-                        window.fully.setTextToSpeechParams(
-                            /* locale  */ 'en_US',
-                            /* rate    */ 0.9,
-                            /* pitch   */ 1.0,
-                            /* volume  */ 1.0
-                        );
+                        window.fully.setTextToSpeechParams('en_US', 0.9, 1.0, 1.0);
                     }
                     window.fully.textToSpeech(text);
                     setTimeout(() => window.fully.textToSpeech(text), 3500);
@@ -421,7 +411,6 @@
                 return;
             }
 
-            /* ── Layer 2: Fully Kiosk REST API ── */
             const encoded = encodeURIComponent(text);
             const apiUrl  = `http://localhost:2323/?cmd=textToSpeech&text=${encoded}&locale=en_US&type=json`;
 
@@ -435,19 +424,17 @@
                 .catch(() => speakWebAPI(text));
         }
 
-        /* ── Layer 3: Web Speech API ── */
         function speakWebAPI(text) {
             if (!window.speechSynthesis) return;
 
             window.speechSynthesis.cancel();
 
             const utter    = new SpeechSynthesisUtterance(text);
-            utter.lang     = 'en-US';   // always English — no missing locale
+            utter.lang     = 'en-US';
             utter.rate     = 0.88;
             utter.pitch    = 1;
             utter.volume   = 1;
 
-            // Prefer a male English voice
             const voices    = window.speechSynthesis.getVoices();
             const maleVoice = voices.find(v =>
                 /\bmale\b/i.test(v.name)                  ||
@@ -459,7 +446,6 @@
                 v.name.includes('Microsoft David')        ||
                 v.name.includes('Microsoft Mark')
             );
-            // Fallback: any English voice
             const engVoice  = maleVoice || voices.find(v => v.lang.startsWith('en'));
             if (engVoice) utter.voice = engVoice;
 
@@ -474,12 +460,19 @@
 
 
         /* ════════════════════════════════════════
-           QUEUE
+           QUEUE  +  REALTIME
         ════════════════════════════════════════ */
         let queueList   = [];
         let doctors     = [];
         let calledQueue = {};
-        const updateInterval = 5000;
+
+        // Sound is mission-critical here, so polling never fully depends on
+        // the socket working. Connected: light sanity-check poll.
+        // Disconnected: fast, reliable fallback close to the original 5s
+        // behavior, so a called patient is never missed.
+        let socketConnected = false;
+        const connectedPollInterval    = 30000;
+        const disconnectedPollInterval = 5000;
 
         const url     = window.location.href;
         let room      = url.split("/").pop();
@@ -550,6 +543,40 @@
             document.getElementById('queueCount').textContent = queueList.length;
             document.getElementById('doctorName').textContent  = doctor.practitioner_name || '';
             document.getElementById('roomNumber').textContent  = doctor.doctor_room ? `Qolka ${doctor.doctor_room}` : '';
+        }
+
+        /* ---------------- Realtime ---------------- */
+        let socket = null;
+
+        function connectRealtime() {
+            socket = io(baseUrl, {
+                path: "/socket.io",
+                withCredentials: true,
+                reconnection: true,
+                reconnectionDelay: 2000,
+            });
+
+            socket.on("connect", () => {
+                console.log("Realtime connected");
+                socketConnected = true;
+                fetchQuePatients();
+            });
+
+            socket.on("disconnect", () => {
+                console.warn("Realtime disconnected - switching to fast fallback polling so sound isn't delayed");
+                socketConnected = false;
+            });
+
+            socket.on("connect_error", () => {
+                socketConnected = false;
+            });
+
+            socket.on("queue_update", (data) => {
+                if (!data) return;
+                if (String(data.doctor_room) === String(room)) {
+                    fetchQuePatients();
+                }
+            });
         }
 
     </script>

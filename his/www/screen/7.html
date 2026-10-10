@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Al-ihsan specialist Hospital - Doctor Queue</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background: #001a33;
+            color: white;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+       .branding-header {
+            background: #FFFFFF;
+            padding: 2vh 4vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3vw;
+            border-bottom: 0.5vh solid #00b4d8;
+        }
+
+        .hospital-logo {
+            width: 40vh;
+            height: 15vh;
+            display: grid;
+            place-items: center;
+        }
+
+        .hospital-logo img {
+            max-width: 100%;
+            max-height: 100%;
+            display: block;
+            object-fit: contain;
+        }
+
+        .branding-text {
+            text-align: center;
+        }
+
+        .hospital-name {
+            font-size: 6vh;
+            letter-spacing: 0.2vh;
+            margin-bottom: 1vh;
+        }
+
+        .doctor-header {
+            background: #003366;
+            padding: 2.5vh 4vw;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .doctor-info {
+            display: flex;
+            gap: 4vw;
+            align-items: baseline;
+        }
+
+        .doctor-name {
+            font-size: 4.5vh;
+            color: #00e1ff;
+        }
+
+        .room-number {
+            font-size: 4vh;
+            color: #ffd700;
+        }
+
+        .current-patient {
+            padding: 4vh 4vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: pulse 2s infinite;
+        }
+
+        .current-number {
+            font-size: 25vh;
+            font-weight: 900;
+            color: #00ff88;
+            line-height: 0.8;
+            text-shadow: 0 0 3vh rgba(0,255,136,0.3);
+            margin-bottom: 3vh;
+        }
+
+        .current-name {
+            font-size: 6vh;
+            text-align: center;
+            color: #fff;
+            max-width: 90vw;
+            word-wrap: break-word;
+        }
+
+        .queue-container {
+            flex: 1;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .queue-list {
+            flex: 1;
+            padding: 0 4vw 4vh 4vw;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .queue-table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+
+        .queue-table th, .queue-table td {
+            padding: 1.5vh;
+            text-align: left;
+            border-bottom: 0.2vh solid #003366;
+            word-break: break-word;
+            font-size: 3vh;
+            min-height: 10vh;
+        }
+
+        .queue-table th {
+            background-color: #003366;
+            color: #90e0ef;
+        }
+
+        .queue-table td {
+            color: #fff;
+        }
+
+        .news-ticker {
+            background: #002b55;
+            padding: 2vh 4vw;
+            border-top: 0.5vh solid #00b4d8;
+        }
+
+        .ticker-content {
+            font-size: 3vh;
+            white-space: nowrap;
+            animation: marquee 30s linear infinite;
+            color: #90e0ef;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        .current-number {
+            font-size: 18vh;
+        }
+        .current-name {
+            font-size: 4vh;
+        }
+
+        .queue-table td, .queue-table th {
+            font-size: 2vh;
+        }
+        @media (max-width: 768px) {
+            .current-number {
+                font-size: 12vh;
+            }
+            .current-name {
+                font-size: 3vh;
+            }
+            .queue-table td, .queue-table th {
+                font-size: 1.5vh;
+            }
+        }
+
+        /* Overlay to unlock audio on kiosk/TV screens (autoplay policy) */
+        .sound-unlock-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 26, 51, 0.96);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2vh;
+            z-index: 999;
+            cursor: pointer;
+        }
+
+        .sound-unlock-overlay .icon {
+            font-size: 10vh;
+        }
+
+        .sound-unlock-overlay .label {
+            font-size: 3.5vh;
+            color: #90e0ef;
+            text-align: center;
+            padding: 0 4vw;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Tap anywhere once so the browser allows the beep sound to play automatically afterwards -->
+    <div class="sound-unlock-overlay" id="soundUnlockOverlay">
+        <div class="icon">🔊</div>
+        <div class="label">Taabo shaashadda si dhawaaqu u shaqeeyo<br>Tap the screen to enable sound</div>
+    </div>
+
+    <div class="branding-header">
+        <div class="hospital-logo">
+            <img id="hodanLogo" src="/files/alihsan.png" alt="Hodan Hospital Logo">
+        </div>
+    </div>
+
+    <div class="doctor-header">
+        <div class="doctor-info">
+            <div class="doctor-name" id="doctorName"></div>
+            <div class="room-number" id="roomNumber"></div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 2vw;">
+            <div style="font-size: 3vh; color: #90e0ef;">
+                Bukaanka sugaya: <span id="queueCount"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="current-patient">
+        <div class="current-number"></div>
+        <div class="current-name"></div>
+    </div>
+
+    <div class="queue-container">
+        <div class="queue-list" id="queueList">
+            <table class="queue-table">
+                <thead>
+                <tr>
+                    <th>Number</th>
+                    <th>Name</th>
+                </tr>
+                </thead>
+                <tbody id="queueBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="news-ticker">
+        <div class="ticker-content">
+             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Welcome to Al-Ihsan Specialist Hospital, We Care Before We Cure
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Please follow staff instructions and maintain order in the waiting area
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Thank you for choosing Al-Ihsan Specialist Hospital &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </div>
+    </div>
+
+    <!-- Served directly by your bench's own socket.io server - no external CDN dependency -->
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script>
+        let queueList = [];
+        let doctors = [];
+        let currentPatient = null;
+        let lastAnnouncedToken = null; // tracks the last token we already beeped for
+
+        // Sound is mission-critical, so polling never fully depends on the
+        // socket working. Connected: light sanity-check poll. Disconnected:
+        // fast, reliable fallback close to the original 5s behavior, so a
+        // called patient is never missed because of a socket problem.
+        let socketConnected = false;
+        const connectedPollInterval    = 30000; // socket healthy
+        const disconnectedPollInterval = 15000;  // socket down
+
+        const url = window.location.href;
+        let room = url.split("/").pop();
+        const baseUrl = `${window.location.protocol}//${window.location.host}`;
+
+        /* ---------------- Sound (beep/chime) ---------------- */
+        let audioCtx = null;
+
+        function unlockAudio() {
+            try {
+                if (!audioCtx) {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                    console.log('AudioContext created, state:', audioCtx.state);
+                }
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume().then(() => console.log('AudioContext resumed, state:', audioCtx.state));
+                }
+                playTone(1, 0.0001, 'sine');
+
+                if ('speechSynthesis' in window) {
+                    const primer = new SpeechSynthesisUtterance(' ');
+                    primer.volume = 0;
+                    window.speechSynthesis.speak(primer);
+                }
+            } catch (err) {
+                console.error('Audio unlock failed:', err);
+            }
+
+            const overlay = document.getElementById('soundUnlockOverlay');
+            if (overlay) overlay.style.display = 'none';
+        }
+
+        function playTone(frequency, volume, type) {
+            if (!audioCtx) return;
+            const oscillator = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+
+            oscillator.type = type || 'sine';
+            oscillator.frequency.value = frequency;
+
+            gainNode.gain.setValueAtTime(volume, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.4);
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            oscillator.start();
+            oscillator.stop(audioCtx.currentTime + 0.4);
+        }
+
+        function playCallChime() {
+            if (!audioCtx) {
+                console.warn('playCallChime skipped: audioCtx not unlocked yet. Tap the screen first.');
+                return;
+            }
+            console.log('Playing call chime');
+            playTone(523.25, 0.25, 'sine');
+            setTimeout(() => playTone(659.25, 0.25, 'sine'), 250);
+            setTimeout(() => playTone(784, 0.25, 'sine'), 500);
+        }
+
+        document.getElementById('soundUnlockOverlay').addEventListener('click', unlockAudio);
+        document.body.addEventListener('click', unlockAudio, { once: true });
+
+        /* ---------------- Voice announcement (English) ---------------- */
+        const isFullyKioskEnv = /fully/i.test(navigator.userAgent) || typeof window.fully !== 'undefined';
+
+        function speakAnnouncement(tokenNo, roomNo) {
+            const text = roomNo
+                ? `Patient number ${tokenNo}, please come to room ${roomNo}`
+                : `Patient number ${tokenNo}, please come in`;
+
+            if (window.fully && typeof window.fully.textToSpeech === 'function') {
+                try {
+                    if (typeof window.fully.setTextToSpeechParams === 'function') {
+                        window.fully.setTextToSpeechParams('en_US', 0.9, 1.0, 1.0);
+                    }
+                    console.log('Speaking via Fully TTS:', text);
+                    window.fully.textToSpeech(text);
+                } catch (e) {
+                    console.warn('Fully TTS failed, falling back:', e);
+                    if (isFullyKioskEnv) {
+                        speakViaFullyRest(text);
+                    } else {
+                        speakViaWebSpeech(text);
+                    }
+                }
+                return;
+            }
+
+            if (!isFullyKioskEnv) {
+                speakViaWebSpeech(text);
+                return;
+            }
+
+            speakViaFullyRest(text);
+        }
+
+        function speakViaFullyRest(text) {
+            const encoded = encodeURIComponent(text);
+            fetch(`http://localhost:2323/?cmd=textToSpeech&text=${encoded}&locale=en_US&type=json`)
+                .then(res => {
+                    if (!res.ok) throw new Error('Fully REST TTS failed');
+                    console.log('Spoke via Fully REST API');
+                })
+                .catch(err => {
+                    console.warn('Fully REST TTS unavailable, falling back to Web Speech:', err);
+                    speakViaWebSpeech(text);
+                });
+        }
+
+        function speakViaWebSpeech(text) {
+            if (!('speechSynthesis' in window)) {
+                console.warn('speechSynthesis not supported in this browser.');
+                return;
+            }
+            console.log('Speaking via Web Speech API:', text);
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'en-US';
+            utterance.rate = 0.9;
+            utterance.volume = 1;
+            utterance.onerror = (e) => console.error('Speech error:', e);
+            window.speechSynthesis.cancel();
+            window.speechSynthesis.speak(utterance);
+        }
+
+        /* ---------------- Data fetching ---------------- */
+        const fetchQuePatients = async () => {
+            try {
+                const options = {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json;charset=UTF-8',
+                        'Authorization': 'token 8c95da6b718cebe:1fd4ad32e02f31f'
+                    },
+                };
+
+                const response = await fetch(`${baseUrl}/api/method/his.www.screen.screen.get_doctors?room=${room}`, options);
+                const data = await response.json();
+
+                if (data && data.message) {
+                    if (JSON.stringify(queueList) !== JSON.stringify(data.message.que) ||
+                        JSON.stringify(doctors) !== JSON.stringify(data.message.doctors)) {
+
+                        queueList = data.message.que || [];
+                        doctors = data.message.doctors || [];
+
+                        updateDisplay();
+                    }
+                } else {
+                    console.warn("No patient data received from API.");
+                }
+            } catch (error) {
+                console.error("Error fetching patient data:", error);
+            }
+        };
+
+        function createQueueRow(patient) {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td>${patient.token_no}</td><td>${patient.patient_name}</td>`;
+            return tr;
+        }
+
+        function updateDisplay() {
+            const queueBody = document.getElementById('queueBody');
+            queueBody.innerHTML = '';
+
+            let doctor = doctors[0] || {};
+
+            currentPatient = queueList[0] || null;
+
+            document.querySelector('.current-number').textContent = currentPatient ? `${currentPatient.token_no}` : '-';
+            document.querySelector('.current-name').textContent = currentPatient ? currentPatient.patient_name : '';
+
+            const currentToken = currentPatient ? currentPatient.token_no : null;
+            if (currentToken !== null && currentToken !== lastAnnouncedToken) {
+                playCallChime();
+                setTimeout(() => speakAnnouncement(currentToken, doctor.doctor_room), 900);
+                lastAnnouncedToken = currentToken;
+            }
+
+            queueList.forEach(patient => {
+                const queueRow = createQueueRow(patient);
+                queueBody.appendChild(queueRow);
+            });
+
+            document.getElementById('queueCount').textContent = queueList.length;
+
+            document.getElementById('doctorName').textContent = doctor.practitioner_name || "Unknown Doctor";
+            document.getElementById('roomNumber').textContent = doctor.doctor_room ? `Qolka ${doctor.doctor_room}` : "Unknown Room";
+        }
+
+        /* ---------------- Realtime ---------------- */
+        let socket = null;
+
+        function connectRealtime() {
+            socket = io(baseUrl, {
+                path: "/socket.io",
+                withCredentials: true,
+                reconnection: true,
+                reconnectionDelay: 2000,
+            });
+
+            socket.on("connect", () => {
+                console.log("Realtime connected");
+                socketConnected = true;
+                fetchQuePatients();
+            });
+
+            socket.on("disconnect", () => {
+                console.warn("Realtime disconnected - switching to fast fallback polling so sound isn't delayed");
+                socketConnected = false;
+            });
+
+            socket.on("connect_error", () => {
+                socketConnected = false;
+            });
+
+            socket.on("queue_update", (data) => {
+                if (!data) return;
+                if (String(data.doctor_room) === String(room)) {
+                    fetchQuePatients();
+                }
+            });
+        }
+
+        // Self-rescheduling poll loop, interval adapts to socket health.
+        function scheduleNextPoll() {
+            const interval = socketConnected ? connectedPollInterval : disconnectedPollInterval;
+            setTimeout(async () => {
+                await fetchQuePatients();
+                scheduleNextPoll();
+            }, interval);
+        }
+
+        fetchQuePatients();          // initial load
+        connectRealtime();           // push-based updates
+        scheduleNextPoll();          // adaptive safety net
+    </script>
+
+</body>
+</html>

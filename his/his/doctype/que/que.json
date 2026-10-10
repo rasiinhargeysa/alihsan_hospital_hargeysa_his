@@ -22,6 +22,7 @@
   "refered_by",
   "refered_from",
   "phone",
+  "insurance_id",
   "comments",
   "column_break_dtetj",
   "practitioner",
@@ -68,14 +69,16 @@
    "fieldname": "patient_name",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Patient name"
+   "label": "Patient name",
+   "read_only": 1
   },
   {
    "allow_in_quick_entry": 1,
    "fetch_from": "patient.sex",
    "fieldname": "gender",
    "fieldtype": "Data",
-   "label": "Gender"
+   "label": "Gender",
+   "read_only": 1
   },
   {
    "fieldname": "age",
@@ -323,7 +326,8 @@
    "fetch_from": "patient.mobile",
    "fieldname": "mobile",
    "fieldtype": "Data",
-   "label": "Mobile"
+   "label": "Mobile",
+   "read_only": 1
   },
   {
    "fieldname": "sales_order",
@@ -447,6 +451,13 @@
    "fieldname": "comments",
    "fieldtype": "Data",
    "label": "Comments"
+  },
+  {
+   "fetch_from": "patient.insurance_id",
+   "fieldname": "insurance_id",
+   "fieldtype": "Data",
+   "label": "Insurance ID",
+   "read_only": 1
   }
  ],
  "hide_toolbar": 1,
@@ -468,7 +479,7 @@
    "link_fieldname": "patient"
   }
  ],
- "modified": "2026-07-18 17:17:55.324944",
+ "modified": "2026-09-16 21:38:32.513113",
  "modified_by": "Administrator",
  "module": "HIS",
  "name": "Que",

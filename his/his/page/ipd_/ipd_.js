@@ -56,7 +56,10 @@ IPD = Class.extend(
 			let currdate = this.currDate
 		let tbldata = []
 		frappe.db.get_list('Inpatient Record', {
-			fields: ['patient','patient_name', 'age', 'dob', 'type', 'floor', 'room' , 'bed' , 'admitted_datetime' , 'medical_department', 'admission_practitioner' , 'diagnose'],
+			fields: ['patient','patient_name', 'age', 'dob', 'type', 'floor', 'room' , 'bed' , 'admitted_datetime' , 'medical_department', 
+				'admission_practitioner' , 'diagnose',
+				'inpatient_occupancies.check_in as check_in'
+			],
 			filters: {
 				"status": 'Admitted',
 				"type": "IPD"
@@ -93,7 +96,7 @@ IPD = Class.extend(
 			{title:"Date", field:"admitted_datetime" ,  headerFilter:"input"},
 			{title:"Duration", field:"duration" ,  headerFilter:"input" , formatter:durationformatter},
 			{title:"Doctor Name", field:"admission_practitioner" ,  headerFilter:"input",},
-			{title:"Medical Department", field:"medical_department" ,  headerFilter:"input",},
+			// {title:"Medical Department", field:"medical_department" ,  headerFilter:"input",},
 			{title:"Floor", field:"floor" ,  headerFilter:"input",},
 			
 
@@ -102,75 +105,22 @@ IPD = Class.extend(
 			{title:"Bed", field:"bed" ,  headerFilter:"input",},
 			// {title:"Status", field:"inpatient_status" ,  headerFilter:"input",},
 			{title:"Diagnosis", field:"diagnose" ,  headerFilter:"input",},
+			{title:"Check In", field:"check_in" ,  headerFilter:"input",},
+			
 			
 
 			// {title:"Action", field:"action", hozAlign:"center" , formatter:"html"},
 			
 		 ]
-		//  fields.forEach(field => {
-		// 	if(field.in_list_view){
-		// 		columns.push(
-		// 			{title:field.label, field:field.fieldname}
-		// 		)
-		// 	}
-		//  })
-		// if(!gr_ref){
-		// 	columns.unshift(
-		// 		// {formatter:"responsiveCollapse", width:30, minWidth:30, hozAlign:"center", resizable:false, headerSort:false},
-    
-		// 		{formatter:"rowSelection", titleFormatter:"rowSelection", hozAlign:"left", headerSort:false, checked:function(e, cell){
-		// 			// cell.getRow().toggleSelect();
-		// 			// alert("ok 2")
-		// 			me.toggle_actions_menu_button(true);
-		// 		  }}
-		// 	)
-			
-			
-			
-
-		// }
-		// console.log("this is ",doctype)
+	
 		let list_btns = frappe.listview_settings[`Sales Invoice`]
 		// tbldata = tbldata[0]['action'] = "Button"
 		let new_data = []
 		// if(list_btns)
 		// console.log(tbldata)
 		tbldata.forEach(row => {
-			// console.log(row.status)
-			// if(row.status === "To Deliver and Bill"){
-			// 	row.status = "To Bill"
-
-			// }
-			// console.log("this is ",row.per_billed)
+			
 			let btnhml = ''
-			// if(row.status !== "Draft" && row.status !== "Cancelled" && row.status!= "Completed" ){
-			
-			// btnhml += `
-			// <button class='btn btn-primary ml-2' onclick = "get_history('${row.patient }' , '${row.patient_name}')"> History</button>
-		
-			// <button class='btn btn-danger ml-2' onclick = "credit_sales('${row.name}')"> Ready To Surgery</button>
-			
-			// `
-			// }
-			// else{
-			// 	btnhml += `
-			// 	<div style="height: 100px; background-color: rgba(255,255,250);"> </div>
-		
-			
-			// `
-
-			// }
-			// list_btns.forEach(btn => {
-			// 	btnhml += `<button class='btn btn-primary' > ${btn.get_label()}</button>`
-			// })
-			// for (const key in list_btns) {
-
-			// 	if (list_btns.hasOwnProperty(key) && list_btns[key].type == "btn") {
-			
-			// 		// console.log(`${key}: ${btn[key].get_label()}`);
-			// 		btnhml += `<button class='btn btn-${list_btns[key].color} ml-2' onclick = ""> ${list_btns[key].get_label()}</button>`
-			// 	}
-			// }
 			row['action'] = btnhml
 			row['duration']  = row.admitted_datetime
 			new_data.push(row)

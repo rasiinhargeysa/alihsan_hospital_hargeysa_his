@@ -157,7 +157,14 @@ doc_events = {
         "on_submit": "his.his.doctype.sales_invoice.sales_invoice_refund_control.update_imaging_results_status",
         "on_cancel": "his.his.doctype.sales_invoice.sales_invoice_refund_control.handle_imaging_result_cancellation"
     },
-    
+    "Que": {
+        "after_insert": "his.www.screen.screen.on_queue_change",
+        "on_update": "his.www.screen.screen.on_queue_change",
+    },
+    "Que Managment": {
+        "after_insert": "his.www.screen.screen.on_queue_change",
+        "on_update": "his.www.screen.screen.on_queue_change",
+    },
     
 
     #     "Doctor Plan": {

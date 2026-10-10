@@ -218,7 +218,7 @@ function admit(inpatient_record, patient, practitioner, type){
 		],
 		primary_action_label: 'Submit',
 		primary_action(values) {
-			admit_p(inpatient_record ,values.bed , values.amount, values.discount, values.paid_amount, patient, values.is_insurance, values.insurance, practitioner, values.type , values.comment)
+			admit_p(inpatient_record ,values.bed , values.amount, values.discount, values.paid_amount, patient, values.is_insurance, values.insurance, practitioner, values.type , values.comment, values.check_in)
 			// function admit_p(inpatient_record, bed, amount, discount, paid_amount,  patient_name, is_insurance, insurance, practitioner) {
 			// alert("ok")
 				// console.log(values.room)
@@ -256,7 +256,7 @@ function admit(inpatient_record, patient, practitioner, type){
 	d.show();
 }
 
-function admit_p(inpatient_record, bed, amount, discount, paid_amount,  patient_name, is_insurance, insurance, practitioner,type, comment) {
+function admit_p(inpatient_record, bed, amount, discount, paid_amount,  patient_name, is_insurance, insurance, practitioner,type, comment, check_in) {
 	frappe.call({
 		method: 'his.api.admit.admit_p',
 		args: {
@@ -268,7 +268,8 @@ function admit_p(inpatient_record, bed, amount, discount, paid_amount,  patient_
 			"discount": discount,
 			"is_insurance": is_insurance,
 			"insurance": insurance,
-			"comment": comment
+			"comment": comment,
+			"check_in": check_in
 		},
 		callback: function (data) {
 			frappe.utils.play_sound("submit");

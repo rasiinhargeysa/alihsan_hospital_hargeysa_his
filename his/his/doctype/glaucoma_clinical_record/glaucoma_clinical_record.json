@@ -1,0 +1,548 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "GCR-.#####",
+ "creation": "2026-09-25 14:05:23.781209",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "patient",
+  "patient_name",
+  "que",
+  "column_break_jbhxa",
+  "doctor",
+  "age",
+  "sex",
+  "column_break_1aukl",
+  "date",
+  "time",
+  "history_section",
+  "chief_complaint",
+  "column_break_7yg1g",
+  "duration",
+  "family_hx",
+  "column_break_mzt1n",
+  "steroid_use",
+  "previous",
+  "column_break_mxeqs",
+  "systemic_hx",
+  "glaucoma_history",
+  "section_break_taohf",
+  "right_eye_section",
+  "section_break_bmjh4",
+  "va",
+  "pin_hole",
+  "white_glass",
+  "column_break_yob8d",
+  "left_eye_section",
+  "va1",
+  "pin2",
+  "glass2",
+  "section_break_t9ybh",
+  "iop_right",
+  "iop_method",
+  "column_break_yyvwf",
+  "iop_left",
+  "company",
+  "anterior_ssessment_re_section",
+  "lid",
+  "conj",
+  "cornea",
+  "ac",
+  "pupil",
+  "lens",
+  "anterior_segment_le_column",
+  "lid2",
+  "conj2",
+  "cornea2",
+  "ac2",
+  "pupil2",
+  "lens2",
+  "section_break_uruaw",
+  "re_cd_ratio",
+  "re_rim_snt",
+  "column_break_orqqb",
+  "le_cd_ratio",
+  "le_rim_snt",
+  "gonioscopy_section",
+  "gonioscopy_html",
+  "gonioscopy_data",
+  "section_break_gkaal",
+  "investigation",
+  "diagnosis_stage",
+  "diagnosis_stages",
+  "od",
+  "target_iop_od",
+  "os",
+  "target_iop_os",
+  "management_section",
+  "managements",
+  "section_break_y7tvh",
+  "other_comments",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "patient",
+   "fieldtype": "Link",
+   "in_filter": 1,
+   "in_global_search": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Patient",
+   "options": "Patient"
+  },
+  {
+   "fetch_from": "patient.first_name",
+   "fieldname": "patient_name",
+   "fieldtype": "Data",
+   "label": "Patient Name"
+  },
+  {
+   "fieldname": "que",
+   "fieldtype": "Data",
+   "label": "Que",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_jbhxa",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "doctor",
+   "fieldtype": "Link",
+   "ignore_user_permissions": 1,
+   "label": "Doctor",
+   "options": "Healthcare Practitioner",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "patient.p_age",
+   "fieldname": "age",
+   "fieldtype": "Data",
+   "label": "Age"
+  },
+  {
+   "fetch_from": "patient.sex",
+   "fieldname": "sex",
+   "fieldtype": "Data",
+   "label": "Sex"
+  },
+  {
+   "fieldname": "column_break_1aukl",
+   "fieldtype": "Column Break"
+  },
+  {
+   "allow_on_submit": 1,
+   "default": "Today",
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Date"
+  },
+  {
+   "default": "Now",
+   "fieldname": "time",
+   "fieldtype": "Time",
+   "label": "Time"
+  },
+  {
+   "fieldname": "section_break_taohf",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "right_eye_section",
+   "fieldtype": "HTML",
+   "label": "Right Eye",
+   "options": "Right Eye"
+  },
+  {
+   "fieldname": "section_break_bmjh4",
+   "fieldtype": "Section Break"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "va",
+   "fieldtype": "Data",
+   "label": "VA"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "pin_hole",
+   "fieldtype": "Data",
+   "label": "PIN HOLE"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "white_glass",
+   "fieldtype": "Data",
+   "label": "WITH GLASS"
+  },
+  {
+   "fieldname": "column_break_yob8d",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "left_eye_section",
+   "fieldtype": "HTML",
+   "label": "Left Eye",
+   "options": "Left Eye"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "va1",
+   "fieldtype": "Data",
+   "label": "VA"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "pin2",
+   "fieldtype": "Data",
+   "label": "PIN HOLE"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "glass2",
+   "fieldtype": "Data",
+   "label": "WITH GLASS"
+  },
+  {
+   "fieldname": "section_break_t9ybh",
+   "fieldtype": "Section Break"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "iop_right",
+   "fieldtype": "Data",
+   "label": "IOP Right"
+  },
+  {
+   "fieldname": "column_break_yyvwf",
+   "fieldtype": "Column Break"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "iop_left",
+   "fieldtype": "Data",
+   "label": "IOP Left"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "read_only": 1
+  },
+  {
+   "fieldname": "anterior_ssessment_re_section",
+   "fieldtype": "Section Break",
+   "label": "Anterior Segment"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "lid",
+   "fieldtype": "Data",
+   "label": "Lid"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "conj",
+   "fieldtype": "Data",
+   "label": "Conj"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "cornea",
+   "fieldtype": "Data",
+   "label": "Cornea"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "ac",
+   "fieldtype": "Data",
+   "label": "AC"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "pupil",
+   "fieldtype": "Data",
+   "label": "Pupil"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "lens",
+   "fieldtype": "Data",
+   "label": "Lens"
+  },
+  {
+   "fieldname": "anterior_segment_le_column",
+   "fieldtype": "Column Break"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "lid2",
+   "fieldtype": "Data",
+   "label": "Lid"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "conj2",
+   "fieldtype": "Data",
+   "label": "Conj"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "cornea2",
+   "fieldtype": "Data",
+   "label": "Cornea"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "ac2",
+   "fieldtype": "Data",
+   "label": "AC"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "pupil2",
+   "fieldtype": "Data",
+   "label": "Pupil"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "lens2",
+   "fieldtype": "Data",
+   "label": "Lens"
+  },
+  {
+   "fieldname": "section_break_uruaw",
+   "fieldtype": "Section Break",
+   "label": "Posterior Segment RE"
+  },
+  {
+   "fieldname": "section_break_gkaal",
+   "fieldtype": "Section Break",
+   "label": "INVESTIGATIONS"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "other_comments",
+   "fieldtype": "Text Editor",
+   "label": "Other Comments"
+  },
+  {
+   "fieldname": "iop_method",
+   "fieldtype": "Select",
+   "label": "IOP Method",
+   "options": "\nGAT\niCare\nPerkins\nOther"
+  },
+  {
+   "fieldname": "history_section",
+   "fieldtype": "Section Break",
+   "label": "History"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "GLAUCOMA CLINICAL RECORD",
+   "print_hide": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "chief_complaint",
+   "fieldtype": "Small Text",
+   "label": "Chief complaint"
+  },
+  {
+   "fieldname": "glaucoma_history",
+   "fieldtype": "Select",
+   "label": "Glaucoma history",
+   "options": "New\nKnown"
+  },
+  {
+   "fieldname": "duration",
+   "fieldtype": "Data",
+   "label": "Duration"
+  },
+  {
+   "fieldname": "family_hx",
+   "fieldtype": "Select",
+   "label": "Family Hx",
+   "options": "Yes\nNo"
+  },
+  {
+   "fieldname": "steroid_use",
+   "fieldtype": "Select",
+   "label": "Steroid use",
+   "options": "Yes\nNo"
+  },
+  {
+   "fieldname": "previous",
+   "fieldtype": "Table MultiSelect",
+   "label": "Previous",
+   "options": "Previous History"
+  },
+  {
+   "fieldname": "systemic_hx",
+   "fieldtype": "Table MultiSelect",
+   "label": "Systemic Hx",
+   "options": "Patient Encounter Symptom"
+  },
+  {
+   "fieldname": "column_break_7yg1g",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_mzt1n",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_mxeqs",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "re_cd_ratio",
+   "fieldtype": "Data",
+   "label": "RE C/D Ratio"
+  },
+  {
+   "fieldname": "column_break_orqqb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "le_cd_ratio",
+   "fieldtype": "Data",
+   "label": "LE C/D Ratio"
+  },
+  {
+   "fieldname": "re_rim_snt",
+   "fieldtype": "Data",
+   "label": "RE Rim/ISNT"
+  },
+  {
+   "fieldname": "le_rim_snt",
+   "fieldtype": "Data",
+   "label": "RE Rim/ISNT"
+  },
+  {
+   "fieldname": "gonioscopy_section",
+   "fieldtype": "Section Break",
+   "label": "GONIOSCOPY"
+  },
+  {
+   "fieldname": "gonioscopy_html",
+   "fieldtype": "HTML"
+  },
+  {
+   "fieldname": "gonioscopy_data",
+   "fieldtype": "Small Text",
+   "hidden": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "investigation",
+   "fieldtype": "Small Text",
+   "label": "INVESTIGATION"
+  },
+  {
+   "fieldname": "section_break_y7tvh",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "diagnosis_stage",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "diagnosis_stages",
+   "fieldtype": "HTML",
+   "options": "<h1>DIAGNOSIS / STAGE</h1>"
+  },
+  {
+   "fieldname": "od",
+   "fieldtype": "Select",
+   "label": "OD",
+   "options": "\nMild\nModerate\nAdvanced"
+  },
+  {
+   "fieldname": "target_iop_od",
+   "fieldtype": "Data",
+   "label": "Target IOP OD"
+  },
+  {
+   "fieldname": "os",
+   "fieldtype": "Select",
+   "label": "OS",
+   "options": "\nMild\nModerate\nAdvanced"
+  },
+  {
+   "fieldname": "target_iop_os",
+   "fieldtype": "Data",
+   "label": "Target IOP OS"
+  },
+  {
+   "fieldname": "management_section",
+   "fieldtype": "Section Break",
+   "label": "MANAGEMENT"
+  },
+  {
+   "fieldname": "managements",
+   "fieldtype": "Text Editor",
+   "label": "MANAGEMENTs"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2026-09-25 15:16:54.118471",
+ "modified_by": "Administrator",
+ "module": "HIS",
+ "name": "GLAUCOMA CLINICAL RECORD",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "select": 1,
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "All",
+   "select": 1,
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "show_title_field_in_link": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "patient_name"
+}

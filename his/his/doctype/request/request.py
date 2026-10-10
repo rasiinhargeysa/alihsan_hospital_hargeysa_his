@@ -28,6 +28,6 @@ class Request(Document):
 				"medical_department" : self.medical_department,
 				"full_name" : self.full_name
 			})
-			mat_req.insert(ignore_permissions = 1)
+			#mat_req.insert(ignore_permissions = 1)
 		
 

@@ -1,19 +1,9 @@
-
 <style>
 h1{
     margin: 0;
     padding: 0;
 
 }
-
-	/* body {
-			
-			margin: 0;
-			padding: 20px;
-			font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
-			   font-weight: 300;
-		} */
-	
 	   .mainclass
 	 {
 		
@@ -74,18 +64,21 @@ h1{
 			 display: block;
 			 width: 100%;
 			 
-			 height: 55px;
-			 padding-left: 10px;
+			 height: 40px;
+			 padding-left: 12px;
 			 
-			 font-size: 20px;
-			 line-height: 55px;
-			 text-shadow: 1px 1px 1px rgba(0,0,0,.3);
+			 font-size: 16px;
+			 font-weight: bold;
+			 line-height: 40px;
+			 color: #1a2b5c;
 			 box-sizing: border-box;
+			 border-bottom: 2px solid #f47920;
+			 margin-top: 18px;
 		 }
 	
 	
 		 .header-row {
-			 background: #8b8b8b;
+			 background: #1a2b5c;
 			 color: #fff;
 	
 		 }
@@ -94,12 +87,21 @@ h1{
 			display: table-row;
 		} 
 	
+		#table .row:nth-child(even) {
+			background: #f4f5f9;
+		}
+	
 		.cell {
 			display: table-cell;
 			
 			padding: 6px; 
 			border-bottom: 1px solid #e5e5e5;
 			text-align: center;
+		}
+	
+		.header-row .cell {
+			font-weight: bold;
+			letter-spacing: 0.5px;
 		}
 	
 		.primary {
@@ -251,13 +253,24 @@ h1{
 	
 		
 		<section>
-            <div style="width: 900px; margin:0 auto; display:flex; justify-content: center; flex-direction: column; align-items: center;">
-                <img class="mx" src="{{ letter_head }}" alt="Emty" />
-                <h1 style="font-size: 48px; "> Patient History<h1>
+            <div style="width: 100%; max-width: 700px; margin: 0 auto; display:flex; justify-content: center; flex-direction: column; align-items: center; box-sizing: border-box;">
+                <img class="mx" src="{{ letter_head }}" alt="Letter Head" style="max-width: 100%; height: auto;" />
+            </div>
+
+            <!-- brand divider bars, matching the PO print format -->
+            <div style="display:flex; width:100%; gap:6px; margin: 10px 0 18px 0;">
+                <div style="flex:1; height:3px; background:#1a2b5c;"></div>
+                <div style="flex:1; height:3px; background:#f47920;"></div>
+                <div style="flex:1; height:3px; background:#1a2b5c;"></div>
+                <div style="flex:1; height:3px; background:#f47920;"></div>
+            </div>
+
+            <div style="text-align:center; margin-bottom: 12px;">
+                <h1 style="font-size: 34px; letter-spacing: 6px; color: #1a2b5c; font-weight: bold; display:inline-block; border-bottom: 3px solid #f47920; padding-bottom: 6px;">PATIENT HISTORY</h1>
             </div>
         
 
-		<div class="mainclass" >
+		<div class="mainclass" style="border: 1px solid #1a2b5c;">
 	
 			  <div style = "text-align: center;" ><span class="text-center" ><strong>Patient Name :</strong> {{frappe.db.get_value("Patient" , patient , "patient_name")}}</span></div>
 			  <div class = "info">
@@ -288,7 +301,16 @@ h1{
 		
 			 {%set items = table %}
 			 {% for item in items %}
+			 {% set ns = namespace(has_content=false) %}
 			 {% if item['data'] %}
+				{% for data in item['data'] %}
+					{% set row_values = data.values() | list %}
+					{% if row_values and row_values[-1] %}
+						{% set ns.has_content = true %}
+					{% endif %}
+				{% endfor %}
+			 {% endif %}
+			 {% if item['data'] and ns.has_content %}
 			 <div class="caption">{{item.heading}}</div>	
 			 <div id="table">
 			   <div class="header-row row">
@@ -362,5 +384,3 @@ h1{
 				<!--<h1 style="text-align: center; color: #000;">**** End of Report ****</h1>-->
 		 
 		<!-- </div> -->
-	  
-	

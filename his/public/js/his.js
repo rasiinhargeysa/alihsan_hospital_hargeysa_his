@@ -1267,57 +1267,57 @@ function setup_datatable(columns, data, group) {
 
 	// 
 
-	this.table = new Tabulator("#history", {
-		// layout:"fitDataFill",
-		layout: "fitDataFill",
-		//  layout:"fitColumns",
-		// responsiveLayout:"collapse",
-		rowHeight: 30,
-		placeholder: "No Data Available",
-		//  selectable:true,
-		//  dataTree:true,
-		//  dataTreeStartExpanded:true,
-		groupStartOpen: false,
-		printAsHtml: true,
-		//  printHeader:`<img src = '/private/files/WhatsApp Image 2022-10-20 at 6.19.02 PM.jpeg'>`,
-		printFooter: "<h2>Example Table Footer<h2>",
-		groupBy: "date",
-		groupHeader: function (value, count, data, group) {
-			//value - the value all members of this group share
-			//count - the number of rows in this group
-			//data - an array of all the row data objects in this group
-			//group - the group component for the group
-			// console.log(group)
-			return value + "<span style=' margin-left:0px;'>(" + count + "   )</span>";
-		},
-		groupToggleElement: "header",
-		//  groupBy:groupbyD.length >0 ? groupbyD : "",
-		//  textDirection: frappe.utils.is_rtl() ? "rtl" : "ltr",
+	// this.table = new Tabulator("#history", {
+	// 	// layout:"fitDataFill",
+	// 	layout: "fitDataFill",
+	// 	//  layout:"fitColumns",
+	// 	// responsiveLayout:"collapse",
+	// 	rowHeight: 30,
+	// 	placeholder: "No Data Available",
+	// 	//  selectable:true,
+	// 	//  dataTree:true,
+	// 	//  dataTreeStartExpanded:true,
+	// 	groupStartOpen: false,
+	// 	printAsHtml: true,
+	// 	//  printHeader:`<img src = '/private/files/WhatsApp Image 2022-10-20 at 6.19.02 PM.jpeg'>`,
+	// 	printFooter: "<h2>Example Table Footer<h2>",
+	// 	groupBy: "date",
+	// 	groupHeader: function (value, count, data, group) {
+	// 		//value - the value all members of this group share
+	// 		//count - the number of rows in this group
+	// 		//data - an array of all the row data objects in this group
+	// 		//group - the group component for the group
+	// 		// console.log(group)
+	// 		return value + "<span style=' margin-left:0px;'>(" + count + "   )</span>";
+	// 	},
+	// 	groupToggleElement: "header",
+	// 	//  groupBy:groupbyD.length >0 ? groupbyD : "",
+	// 	//  textDirection: frappe.utils.is_rtl() ? "rtl" : "ltr",
 
-		columns: columns,
+	// 	columns: columns,
 
-		// [
-		// 	{formatter:"rowSelection", titleFormatter:"rowSelection", hozAlign:"center", headerSort:false, cellClick:function(e, cell){
-		// 		cell.getRow().toggleSelect();
-		// 	  }},
-		// 	{
-		// 		title:"Name", field:"name", width:200,
-		// 	},
-		// 	{title:"Group", field:"item_group", width:200},
-		// ],
-		// [
-		// {title:"Name", field:"name" , formatter:"link" , formatterParams:{
-		// 	labelField:"name",
-		// 	urlPrefix:`/app/${doct}/`,
+	// 	// [
+	// 	// 	{formatter:"rowSelection", titleFormatter:"rowSelection", hozAlign:"center", headerSort:false, cellClick:function(e, cell){
+	// 	// 		cell.getRow().toggleSelect();
+	// 	// 	  }},
+	// 	// 	{
+	// 	// 		title:"Name", field:"name", width:200,
+	// 	// 	},
+	// 	// 	{title:"Group", field:"item_group", width:200},
+	// 	// ],
+	// 	// [
+	// 	// {title:"Name", field:"name" , formatter:"link" , formatterParams:{
+	// 	// 	labelField:"name",
+	// 	// 	urlPrefix:`/app/${doct}/`,
 
-		// }},
-		// {title:"Customer", field:"customer" },
-		// {title:"Total", field:"net_total" , bottomCalc:"sum",},
+	// 	// }},
+	// 	// {title:"Customer", field:"customer" },
+	// 	// {title:"Total", field:"net_total" , bottomCalc:"sum",},
 
-		// ],
+	// 	// ],
 
-		data: data
-	});
+	// 	data: data
+	// });
 }
 
 function receipt(party, outstanding, vat) {

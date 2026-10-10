@@ -1,0 +1,70 @@
+{#
+  Main Hospital Dashboard — HTML shell
+
+  The Desk Page backend supplies live metrics, alerts, tables and chart payloads.
+  Each source report is presented as a dedicated section with its own cards and drill-down.
+#}
+<div id="main-hospital-dashboard" class="hcc-root">
+    <script id="hcc-chart-payload" type="application/json">{{ payload_json | safe }}</script>
+
+    <section class="hcc-hero" aria-labelledby="hcc-dashboard-title">
+        <div class="hcc-hero-copy">
+            <div class="hcc-eyebrow">AL-IHSAN HOSPITAL · MANAGEMENT VIEW</div>
+            <h1 id="hcc-dashboard-title">{{ title }}</h1>
+            <p>One Desk Page with dedicated OPD, Queue Time, IPD, OT, Laboratory, Pharmacy, Warehouse, Optical, HR with Employee Checkin attendance, Inventory, Sales and Finance sections.</p>
+            <div class="hcc-meta-row">
+                <span>Period <strong>{{ period | safe }}</strong></span>
+                <span>Queue Date <strong>{{ queue_date }}</strong></span>
+                <span>Updated <strong>{{ generated }}</strong></span>
+            </div>
+        </div>
+
+        <div class="hcc-overall hcc-status-{{ overall_class }}" aria-label="Overall status {{ overall_status }}">
+            <span class="hcc-overall-kicker">Main hospital dashboard status</span>
+            <strong>{{ overall_status }}</strong>
+            <span>{{ overall_label }}</span>
+            <small>{{ overall_reason }}</small>
+        </div>
+    </section>
+
+    {{ notice_html | safe }}
+
+    <section class="hcc-executive-strip" aria-labelledby="hcc-executive-title">
+        <div class="hcc-strip-heading">
+            <div>
+                <span class="hcc-section-kicker">EXECUTIVE SUMMARY</span>
+                <h2 id="hcc-executive-title">Hospital overview cards</h2>
+            </div>
+            <span class="hcc-strip-note">Select a card to jump to its report section</span>
+        </div>
+        <div class="hcc-kpi-grid" aria-label="Executive key performance indicators">
+            {{ card_html | safe }}
+        </div>
+    </section>
+
+    <nav class="hcc-tabs hcc-section-nav" aria-label="Main hospital dashboard sections">
+        <button type="button" class="hcc-tab is-active" data-hcc-target="overview">Overview</button>
+        <button type="button" class="hcc-tab" data-hcc-target="opd">OPD Report</button>
+        <button type="button" class="hcc-tab" data-hcc-target="queue">Queue Time Management</button>
+        <button type="button" class="hcc-tab" data-hcc-target="ipd">IPD Report</button>
+        <button type="button" class="hcc-tab" data-hcc-target="ot">OT Form Report</button>
+        <button type="button" class="hcc-tab" data-hcc-target="lab">Laboratory</button>
+        <button type="button" class="hcc-tab" data-hcc-target="pharmacy">Pharmacy Report</button>
+        <button type="button" class="hcc-tab" data-hcc-target="warehouse">Warehouse Report</button>
+        <button type="button" class="hcc-tab" data-hcc-target="optical">Optical Department</button>
+        <button type="button" class="hcc-tab" data-hcc-target="hr">HR Section</button>
+        <button type="button" class="hcc-tab" data-hcc-target="inventory">Inventory Section</button>
+        <button type="button" class="hcc-tab" data-hcc-target="sales">Sales Dashboard</button>
+        <button type="button" class="hcc-tab" data-hcc-target="finance">Financial Dashboard</button>
+    </nav>
+
+    {{ alert_html | safe }}
+
+    <main class="hcc-sections" aria-label="Detailed report sections">
+        {{ sections_html | safe }}
+    </main>
+
+    <footer class="hcc-footer-note">
+        Values use the selected filters. Stock exceptions read enabled mapped warehouses only: Pharmacy→Drug, Optical→Optical and Supermarket→Supermarket. Expired items are unavailable stock. HR attendance reads Employee Checkin and any accepted punch is Present. Short-lived caches and lazy charts improve load time; Refresh requests live recalculation.
+    </footer>
+</div>

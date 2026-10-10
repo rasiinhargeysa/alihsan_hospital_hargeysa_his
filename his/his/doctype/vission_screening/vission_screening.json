@@ -26,6 +26,7 @@
   "history_of_injury_or_surgery",
   "do_you_wear_glasses_or_contact_lenses",
   "history_of_chronic_diseases_dmhtn",
+  "type_chronic",
   "tests",
   "visual_acuity_column",
   "right_eye",
@@ -36,6 +37,10 @@
   "section_break_rjubx",
   "overall_vision_status",
   "diagnosis",
+  "refractive_error",
+  "refractive_error_type",
+  "surgery",
+  "surgery_type",
   "column_break_arzcx",
   "referral",
   "referral__comments"
@@ -221,11 +226,43 @@
    "fieldtype": "Select",
    "label": "Referral",
    "options": "\nYes"
+  },
+  {
+   "fieldname": "surgery",
+   "fieldtype": "Select",
+   "label": "Surgery Required",
+   "options": "\nYes\nNo"
+  },
+  {
+   "depends_on": "eval: doc.surgery== \"Yes\"",
+   "fieldname": "surgery_type",
+   "fieldtype": "Data",
+   "label": "Surgery Type"
+  },
+  {
+   "depends_on": "eval:doc.history_of_chronic_diseases_dmhtn == \"Yes\"",
+   "fieldname": "type_chronic",
+   "fieldtype": "Select",
+   "label": "Type",
+   "options": "\nDiabetes Mellitus\nHypertension"
+  },
+  {
+   "fieldname": "refractive_error",
+   "fieldtype": "Select",
+   "label": "Refractive Error",
+   "options": "\nYes\nNo"
+  },
+  {
+   "depends_on": "eval:doc.refractive_error==\"Yes\"",
+   "fieldname": "refractive_error_type",
+   "fieldtype": "Select",
+   "label": "Refractive Error Type",
+   "options": "\nMyopia\nHyperopia\nAstigmatism\nPresbyopia\nMixed"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-07-11 12:10:03.464718",
+ "modified": "2026-09-12 09:40:29.164065",
  "modified_by": "Administrator",
  "module": "HIS",
  "name": "Vission Screening",

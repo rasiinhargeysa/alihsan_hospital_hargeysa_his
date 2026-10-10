@@ -34,7 +34,7 @@ def transfer_patient(inpatient_record, service_unit, check_in, inpatient_type):
     frappe.db.set_value("Healthcare Service Unit", service_unit, "occupancy_status", "Occupied")
 
 @frappe.whitelist()
-def admit_p(inp_doc, service_unit, amount=0, discount=0, paid_amount=0, patient=None,  is_insurance=0, insurance=None, practitioner=None, comment= None, expected_discharge=None, qofka=None,partner_company=None,):
+def admit_p(inp_doc, service_unit, amount=0, discount=0, paid_amount=0, patient=None,  is_insurance=0, insurance=None, practitioner=None, comment= None, check_in= None, expected_discharge=None, qofka=None,partner_company=None,):
     discount = float(discount) or 0
     paid_amount = float(paid_amount) or 0
     amount =  float(amount) or 0
@@ -52,7 +52,7 @@ def admit_p(inp_doc, service_unit, amount=0, discount=0, paid_amount=0, patient=
 
     ip_doc.save()
    
-    check_in = frappe.utils.now()
+    # check_in = frappe.utils.now()
 
     admit_patient(ip_doc, service_unit, check_in, expected_discharge)
 

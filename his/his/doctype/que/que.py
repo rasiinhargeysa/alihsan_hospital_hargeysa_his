@@ -8,6 +8,12 @@ from his.api.Que_to_fee_validity import make_fee_validity
 from his.api.que_token_number import token_numebr
 from his.api.order_to_bill import create_que_order_bill
 class Que(Document):
+	def validate(self):
+		if self.patient:
+			correct_name = frappe.db.get_value("Patient", self.patient, "patient_name")
+			if correct_name and self.patient_name != correct_name:
+				self.patient_name = correct_name
+
 	def before_insert(self):
 		# pass
 		token_numebr(self)

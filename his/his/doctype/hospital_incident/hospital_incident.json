@@ -8,6 +8,7 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "matrix_html",
   "section_break_section",
   "incident_title",
   "incident_date",
@@ -15,6 +16,8 @@
   "incident_type",
   "severity",
   "status",
+  "date_and_time",
+  "reported_to",
   "reporting_details_section",
   "reported_by",
   "department",
@@ -83,13 +86,13 @@
    "fieldname": "severity",
    "fieldtype": "Select",
    "label": "Severity",
-   "options": "Low\nMedium\nHigh\nCritical"
+   "options": "Level 1 No harm (Near miss)\nLevel 2 Mild harm\nLevel 3 Moderate harm\nLevel 4 Severe harm\nLevel 5 Sentinel event"
   },
   {
    "fieldname": "status",
    "fieldtype": "Select",
    "label": "Status",
-   "options": "Open\nUnder Review Investigating\nAction Required\nClosed"
+   "options": "Reported \u2013 Incident has been submitted.\nAcknowledged \u2013 Responsible person confirmed receipt.\nUnder Review \u2013 Initial assessment is ongoing.\nEscalated \u2013 Incident has been sent to a higher authority.\nUnder Investigation \u2013 Formal investigation has started.\nAction Required \u2013 Corrective action has been assigned.\nMonitoring \u2013 Actions are being monitored.\nClosed \u2013 Incident has been completed and approved.\nReopened \u2013 Incident requires further review."
   },
   {
    "fieldname": "reporting_details_section",
@@ -251,11 +254,29 @@
    "fieldname": "closed_date",
    "fieldtype": "Date",
    "label": "Closed Date"
+  },
+  {
+   "description": "Reported To Users Will get Email Notification about this Incident.",
+   "fieldname": "reported_to",
+   "fieldtype": "Table MultiSelect",
+   "label": "Reported To",
+   "options": "Assignment Rule User",
+   "reqd": 1
+  },
+  {
+   "fieldname": "matrix_html",
+   "fieldtype": "HTML"
+  },
+  {
+   "fieldname": "date_and_time",
+   "fieldtype": "Datetime",
+   "label": "Date & Time",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-07-10 19:40:59.633814",
+ "modified": "2026-08-26 08:01:25.404558",
  "modified_by": "Administrator",
  "module": "HIS",
  "name": "Hospital Incident",

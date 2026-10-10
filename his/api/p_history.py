@@ -41,7 +41,7 @@ def get_history(patient , from_date = "2019-01-01", to_date = getdate()):
             select {fields}  {join_fields}
             from `tab{config.parent_document}`p
             {join}
-            where patient  = '{patient}' and  p.docstatus !=1
+            where patient  = '{patient}' and  p.docstatus !=2
 
         
          """ , as_dict = 1)

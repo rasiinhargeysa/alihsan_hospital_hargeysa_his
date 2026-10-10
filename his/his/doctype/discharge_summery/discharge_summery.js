@@ -13,7 +13,11 @@ frappe.ui.form.on('Discharge Summery', {
             };
         })
 
-	}
+	},
+     on_submit: function(frm) {
+        // Use frm.reload_doc() to fetch the latest values from the server and refresh the form UI
+        frm.reload_doc();
+     }
 });
 
 frappe.ui.form.on('Drug Prescription', {

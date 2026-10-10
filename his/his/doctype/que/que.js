@@ -57,7 +57,7 @@ frappe.ui.form.on('Que', {
             frm.set_df_property('practitioner',  'read_only', 1);
        
             //   frm.set_value("messege","?");
-            if (frm.doc.status=="Open") {
+            if (frm.doc.status=="Open" && frappe.user_roles.includes('Cashier')) {
                 var refer_btn = frm.add_custom_button(__("Refer To Another Doctor"), function () {
                     frappe.confirm('Are you sure you want to Refer?',
                         () => {
@@ -567,50 +567,9 @@ frappe.ui.form.on('Que', {
                        
 					}
 					frappe.model.set_value(frm.doctype, frm.docname, 'age', age);
-                    // alert(data.message.is_insurance)
-                    if (data.message.is_insurance){
-                     
-                      let d = new frappe.ui.Dialog({
-
-                              title: `This patient in insurance <strong>${frm.doc.patient}</strong> is in insurance <strong>${data.message.ref_insturance} </strong> do you want to Charge Patient or insurance
-
-                                <br>
-
-                              `,
-                              fields: [
-                              {
-                               label: 'Insurance',
-                               fieldname: 'btn',
-                               fieldtype: 'HTML',
-                               options: `<button type="button" class="btn btn-success" style="background-color: green" onclick='$(".modal-dialog").hide()'>Patient</button>
-                                        <button type="button" id = "insu" class="btn btn-danger" onclick='frappe.model.set_value("${frm.doctype}", "${frm.docname}", "is_insurance", 1 ); $(".modal-dialog").hide()' >insurance</button>`,
-                               
-                               }]
-
-                                
-                                
-                          });
-
-                          d.show();
-                      
-                        //   const button = document.getElementById('insu');
-                        //   button.addEventListener('click', function);
-                        
-                        // frappe.warn('This patient in insurance ',
-                        //         frm.doc.patient+ ', is in insurance '+ data.message.ref_insturance+' do you want to Charge Patient or insurance',
-                        //         () => {
-                        //             frappe.model.set_value(frm.doctype, frm.docname, 'is_insurance', 1);
-                        //             // action to perform if Continue is selected
-                        //         },
-                        //         'insurance',
-                        //         true // Sets dialog as minimizable
-                        //     )
-                        
-                    }
-                    if(data.message.is_employee){
-                       frm.set_value("is_employee" , 1)
-                       frm.set_value("employee" , data.message.linked_employee)
-                    }
+                    
+                   
+                   
 				}
 			});
 		}

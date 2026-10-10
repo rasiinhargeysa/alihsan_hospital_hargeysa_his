@@ -1,417 +1,273 @@
-console.log("is this working?")
-
-// .......
-
+// Ward Management page
+// Groups IPD rooms by floor, shows rate/ward pulled from
+// "Healthcare Service Unit Type", and supports live search across
+// room, bed, floor and rate.
 
 frappe.pages['ward-management'].on_page_load = function (wrapper) {
     new WardManagement(wrapper)
 }
 
+WardManagement = Class.extend({
 
-WardManagement = Class.extend(
-    
-    
-    {
-        init: function (wrapper) {
-            // .....intan ayan kusoo dary
-            this.xValues4 = []
-            this.yValues4 = []
-            // ... dhamaad inta aan kusoo dary
-            this.page = frappe.ui.make_app_page({
-              
-                parent: wrapper,
-                title: "Ward Management",
-                single_column: true
-            });
-            $('.page-head').hide()
-            this.make()
+    init: function (wrapper) {
+        this.page = frappe.ui.make_app_page({
+            parent: wrapper,
+            title: "Ward Management",
+            single_column: true
+        });
+        $('.page-head').hide()
+        this.make()
+    },
 
-            // this.make_grouping_btn()
-            // this.grouping_cols()
-        },
-        make: function () {
-            let me = this
-            frappe.call({
-				
-                method: 'his.api.ipd_dashboard.bed_status',
-                
-                callback: function(data) {
-                    
-                        let xValues2 = ["Occupied", "In Cleaning", "Discharge Ordered", "Vacant"];
-                        let yValues2 = [];
-                        let barColors2 = ["#b91d47", "#ffff00", "#ffa500", "#1e7145"];
-                    data.message.forEach(row=>{
-                        // xValues.push(row.account)
-                        yValues2.push(row.Occupied,row.InCleaning,row.Discharge,row.Vacant)
-                        console.log(data)
-    
-                        new Chart("myChart2", {
-                            type: "doughnut",
-                            data: {
-                              labels: xValues2,
-                              datasets: [
-                                {
-                                  backgroundColor: barColors2,
-                                  data: yValues2,
-                                },
-                              ],
-                            },
-                            options: {
-                              title: {
-                                display: true,
-                                text: "Bed Status",
-                              },
-                            },
-                          });
-                    // 	doctor+=`
-                    // 		<tr>
-     
-                    //   <td>${row.patient_name}</td>
-                    //   <td>${row.ref_practitioner || ""}</td>
-                    //   <td>${row.drug_code || ""}</td>
-                    //   <td>${row.quantity || "" }</td>
-                    //   <td>${row.ordered_qty || 0 }</td>
-                    //   <td>$${row.used_qty || 0}</td>
-                    
-                
-                      
-                    // </tr>`
-                        
-                    })
-                    
-                    
-                    
-                    // $("#doctorp").html(doctor)
-            
-    
-                }
-            })
+    make: function () {
+        let me = this
+        $(frappe.render_template("ward_management", me)).appendTo(me.page.main)
 
+        this.render_bed_status_chart()
+        this.setup_search()
+        this.load_wards()
+    },
 
-            $(frappe.render_template("ward_management", me)).appendTo(me.page.main)
-            let room_list = ``
-            let ul_nav = $('#nav_ul').empty()
-            let room_sel = ''
-            let room = ''
-            frappe.db.get_list('Healthcare Service Unit Type',
-                {
-                    fields: ['name', 'patient'],
-                    filters: {
-                        type: "IPD"
-                    },
-                    limit: 1000
-                }).then(records => {
-                    records.forEach((element, index) => {
-                        if (index == 0) {
-                            room = element.name
-                        }
-                //         room_list += `
-				// 	<li>
-				// 	<span class="bed_icon__"><i class="fa fa-bed"></i></span>
-				// 	<a  style = 'color: black;' class = "room_selec" id = "${element.name}">${element.name}</a>
-				//   </li>
-				// 	`
-                    })
-                    $(room_list).appendTo(nav_ul)
-                    get_beds(room)
+    // ---------------------------------------------------------------
+    // Bed status doughnut chart
+    // ---------------------------------------------------------------
+    render_bed_status_chart: function () {
+        frappe.call({
+            method: 'his.api.ipd_dashboard.bed_status',
+            callback: function (data) {
+                if (!data || !data.message) return
 
-                    room_sel = $(".room_selec")
-                    room_sel.click(e => {
-                        let room_name = e.target.id
-                        get_beds(room_name)
-                        // get_patient(room_name)
-                        // 
-                        // alert()
-                        // console.log("this is ",e.target.id)
+                let xValues2 = ["Occupied", "In Cleaning", "Discharge Ordered", "Vacant"]
+                let yValues2 = []
+                let barColors2 = ["#b91d47", "#ffff00", "#ffa500", "#1e7145"]
 
-
-
-
-
-                    })
-
+                data.message.forEach(row => {
+                    yValues2.push(row.Occupied, row.InCleaning, row.Discharge, row.Vacant)
                 })
 
-
-    
-
-
-
-
-
-        },
-
-        
-
-  
-    })
-    
-
-
-// function get_patient(room_name){
-// 	frappe.db.get_list('Inpatient Record', {
-// 		fields: ['patient_name', 'bed'],
-// 		filters: {
-// 			room: room_name,
-
-// 		}
-// 	}).then(records => {
-// 		// console.log(records);
-// 		let bed = ``
-// 		let sts_bg_class= "card_one_occupied"
-// 		btn=``
-// 		records.forEach(element => {
-// 			if(element.occupancy_status === "Occupied"){
-// 				sts_bg_class = "card_one_occupied"
-// 				btn = ''
-// 			}
-// 			else if(element.occupancy_status === "Vacant"){
-// 				sts_bg_class = "card_one_vocant"
-// 				btn =''
-// 			}
-
-// 			else{
-// 				sts_bg_class = "card_one_cleaning"
-// 			}
-// 			if(element.occupancy_status === "In Cleaning"){
-// 				// alert(element.name)
-// 					// sts_bg_class = "card_one_vocant_single"
-// 					btn = `<button class="btn btn-warning mb-3" style="color:white" onclick = "ready('${element.name}')"> Ready </button>`
-// 				}
-// 			bed += `
-// 			<div class="${sts_bg_class}">
-// 			<div class="bed_icon">
-// 			  <span><i class="fa fa-bed"></i></span>
-// 			</div>
-// 			<span class="bed_tex">${element.occupancy_status}</span>
-// 			<span class="bed_tex">${element.patient_name}</span>
-// 			<span class="bed_tex">${element.bed}</span>
-
-
-// 			${btn}
-// 		  </div>
-// 			`
-
-// 		});
-// 		// console.log(bed)
-// 		let beds = `
-
-// 		<div class="room1 mobile">
-// 		<h1>${room_name}</h1>
-// 		<div class="my_main_cards">
-
-
-
-// 		${bed}
-
-
-// 		</div>
-// 	  </div>
-// 		`
-
-// 		// Append beds to rooms section
-// 		$('#room').empty()
-// 		$(beds).appendTo('#room')
-
-// 	})
-
-// }
-
-// .... midka aan xiray maanta 20-11-2024
-
-// function get_beds(room_name) {
-//     frappe.db.get_list('Healthcare Service Unit', {
-//         fields: ['name', 'occupancy_status', 'patient'],
-//         filters: {
-//             service_unit_type: room_name
-//         },
-//         limit: 1000
-//     }).then(records => {
-//         // console.log(records);
-//         let bed = ``
-//         let sts_bg_class = "card_one_occupied"
-//         btn = ``
-
-
-//         records.forEach(element => {
-//             if (element.occupancy_status === "Occupied") {
-
-
-
-
-//                 sts_bg_class = "card_one_occupied"
-//                 btn = ''
-
-
-
-
-//                 // get_patient(room_name)
-
-
-//             }
-//             else if (element.occupancy_status === "Vacant") {
-//                 sts_bg_class = "card_one_vocant"
-//                 btn = ''
-//             }
-
-//             else {
-//                 sts_bg_class = "card_one_cleaning"
-//             }
-//             if (element.occupancy_status === "In Cleaning") {
-//                 // alert(element.name)
-//                 // sts_bg_class = "card_one_vocant_single"
-//                 btn = `<button class="btn btn-warning mb-3" style="color:white" onclick = "ready('${element.name}')"> Ready </button>`
-//             }
-
-//             bed += `
-// 				<div class="${sts_bg_class}">
-// 				<div class="bed_icon">
-// 				  <span><i class="fa fa-bed"></i></span>
-// 				</div>
-				
-// 				<span class="bed_tex">${element.name}</span>
-// 				<span class="bed_tex">${element.occupancy_status}</span>
-// 				<span class="bed_tex">${element.patient || ""}</span>
-// 				${btn}
-// 			  </div>
-// 				`
-//         });
-//         // console.log(bed)
-//         let beds = `
-			
-// 			<div class="room1 mobile">
-// 			<h1>${room_name}</h1>
-// 			<div class="my_main_cards">
-			
-	  
-			 
-// 			${bed}
-			
-	  
-// 			</div>
-// 		  </div>
-// 			`
-
-//         // Append beds to rooms section
-//         $('#room').empty()
-//         $(beds).appendTo('#room')
-
-//     })
-
-// }
-
-//  ........ kan waa mid practice saxan
-
-function get_beds() {
-    frappe.db.get_list('Healthcare Service Unit Type', {
-        fields: ['name'],
-        filters: { type: "IPD" },
-        limit: 1000
-    }).then(rooms => {
-        let roomsHTML = ``; // To store all room and bed HTML
-
-        let roomPromises = rooms.map(room => {
-            return frappe.db.get_list('Healthcare Service Unit', {
-                fields: ['name', 'occupancy_status', 'patient'],
-                filters: { service_unit_type: room.name },
-                limit: 1000
-            }).then(beds => {
-                // Generate bed HTML for each room
-                let bedHTML = ``;
-                let patientName;
-               
-
-                beds.forEach(bed => {
-                    let sts_bg_class = "card_one_occupied";
-                    frappe.db.get_value("Patient", bed.patient, "patient_name")
-                    .then(response => {
-                     patientName = response.message ? response.message.patient_name : "jj";
-                        // document.getElementById(`patient-name-${bed.name}`).innerText = patientName;
-                        console.log(patientName)
-                    })
-
-                    let btn = ``;
-                    // console.log(`Bed Name: ${bed.name}, Status: ${bed.occupancy_status}`);
-                    
-                    if (bed.occupancy_status === "Occupied") {
-                        sts_bg_class = "card_one_occupied";
-                    } else if (bed.occupancy_status === "Vacant") {
-                        sts_bg_class = "card_one_vocant";
-                    } else if (bed.occupancy_status === "In Cleaning") {
-                        console.log('value of status', bed.occupancy_status)
-                       
-                        btn = `<button class="btn btn-warning mb-3" style="color:white" onclick="ready('${bed.name}')">Ready</button>`;
-                    }else if(bed.occupancy_status == 'Discharge Ordered'){
-                        sts_bg_class = "card_discharge"
-
-                    }
-                        
-                   
-                        bedHTML += `
-                            <div class="${sts_bg_class}">
-                                <div class="bed_icon">
-                                    <span><i class="fa fa-bed"></i></span>
-                                </div>
-                                <span class="bed_tex">${bed.name}</span>
-                                <span class="bed_tex">${bed.occupancy_status}</span>
-                                <span class="bed_tex">${bed.patient || ""}</span>
-                                <span class="bed_tex" id = "patientNamePlaceholder"></span> 
-                                ${btn}
-                            </div>
-                        `;
-
-                        setTimeout(() => {
-                            document.getElementById('patientNamePlaceholder').textContent = patientName || "";
-                        }, 1000);
-                   // This will wait for 1 second before executing the code inside
-                    
-                    
+                new Chart("myChart2", {
+                    type: "doughnut",
+                    data: {
+                        labels: xValues2,
+                        datasets: [{
+                            backgroundColor: barColors2,
+                            data: yValues2,
+                        }],
+                    },
+                    options: {
+                        title: {
+                            display: true,
+                            text: "Bed Status",
+                        },
+                    },
                 });
+            }
+        })
+    },
 
-                // Append the room and its beds to the main HTML
-                roomsHTML += `
-                    <div class="room_block">
-                        <h2 style="color: black; margin-bottom: 10px;">${room.name}</h2>
-                        <div class="my_main_cards">
-                            ${bedHTML}
-                        </div>
+    // ---------------------------------------------------------------
+    // Search
+    // ---------------------------------------------------------------
+    setup_search: function () {
+        let me = this
+        $('#bed_search_input').on('keyup', function () {
+            me.filter_beds($(this).val().trim().toLowerCase())
+        })
+    },
+
+    filter_beds: function (term) {
+        $('.no_search_results').remove()
+
+        if (!term) {
+            $('.bed_card, .room_block, .floor_block').show()
+            return
+        }
+
+        let any_visible = false
+
+        $('.floor_block').each(function () {
+            let floor_visible = false
+
+            $(this).find('.room_block').each(function () {
+                let room_visible = false
+
+                $(this).find('.bed_card').each(function () {
+                    let $bed = $(this)
+                    let match = ($bed.data('bed') || '').toString().includes(term) ||
+                        ($bed.data('room') || '').toString().includes(term) ||
+                        ($bed.data('floor') || '').toString().includes(term) ||
+                        ($bed.data('rate') || '').toString().includes(term) ||
+                        ($bed.data('ward') || '').toString().includes(term)
+
+                    $bed.toggle(match)
+                    if (match) {
+                        room_visible = true
+                        any_visible = true
+                    }
+                })
+
+                $(this).toggle(room_visible)
+                if (room_visible) floor_visible = true
+            })
+
+            $(this).toggle(floor_visible)
+        })
+
+        if (!any_visible) {
+            $('#room').append('<div class="no_results no_search_results">No rooms or beds match your search.</div>')
+        }
+    },
+
+    // ---------------------------------------------------------------
+    // Data loading: load everything up front (room types, then all
+    // their beds in a single query), then group/render client-side.
+    // ---------------------------------------------------------------
+    load_wards: function () {
+        let me = this
+
+        frappe.db.get_list('Healthcare Service Unit Type', {
+            fields: ['name', 'floor', 'rate', 'ward'],
+            filters: { type: "IPD" , disabled:0},
+            limit: 1000
+        }).then(room_types => {
+            if (!room_types.length) {
+                $('#room').html('<div class="no_results">No IPD wards found.</div>')
+                return
+            }
+
+            let room_type_names = room_types.map(rt => rt.name)
+
+            // Single bulk query for every bed across every room type,
+            // instead of one query per room type.
+            return frappe.db.get_list('Healthcare Service Unit', {
+                fields: ['name', 'occupancy_status', 'patient', 'service_unit_type'],
+                filters: { service_unit_type: ["in", room_type_names, ] , disabled: 0},
+                limit: 5000
+            }).then(all_beds => {
+                me.render_floors(room_types, all_beds)
+            })
+        })
+    },
+
+    render_floors: function (room_types, all_beds) {
+        let me = this
+
+        // Group beds by their room (service_unit_type) for fast lookup
+        let beds_by_room = {}
+        all_beds.forEach(bed => {
+            beds_by_room[bed.service_unit_type] = beds_by_room[bed.service_unit_type] || []
+            beds_by_room[bed.service_unit_type].push(bed)
+        })
+
+        // Group room types by floor
+        let floors = {}
+        room_types.forEach(rt => {
+            let floor_name = rt.floor || "Unassigned Floor"
+            floors[floor_name] = floors[floor_name] || []
+            floors[floor_name].push(rt)
+        })
+
+        let floor_names = Object.keys(floors).sort()
+
+        let floors_html = floor_names.map(floor_name => {
+            let room_types_in_floor = floors[floor_name]
+            let rooms_html = room_types_in_floor
+                .map(rt => me.render_room_block(rt, floor_name, beds_by_room[rt.name] || []))
+                .join('')
+
+            let bed_count = room_types_in_floor.reduce((total, rt) => total + (beds_by_room[rt.name] || []).length, 0)
+
+            return `
+                <details class="floor_block" data-floor="${floor_name}" open>
+                    <summary class="floor_title">
+                        ${frappe.utils.escape_html(floor_name)}
+                        <span class="floor_count">${room_types_in_floor.length} room${room_types_in_floor.length === 1 ? '' : 's'} &middot; ${bed_count} bed${bed_count === 1 ? '' : 's'}</span>
+                    </summary>
+                    <div class="floor_content">
+                        ${rooms_html}
                     </div>
-                `;
-            });
-            
-        });
+                </details>
+            `
+        }).join('')
 
-        // Wait for all room data to be processed
-        Promise.all(roomPromises).then(() => {
-            $('#room').empty(); // Clear existing content
-            $(roomsHTML).appendTo('#room'); // Add new content
-        });
-    });
-}
+        $('#room').empty()
+        $(floors_html).appendTo('#room')
+    },
 
-// Call the function to automatically display all rooms and beds
-get_beds();
+    render_room_block: function (rt, floor_name, beds) {
+        let me = this
+        let bed_cards = beds.map(bed => me.render_bed_card(bed, rt, floor_name)).join('')
+        let rate_html = rt.rate ? `<span class="room_rate">Rate: ${format_currency(rt.rate)}</span>` : ''
+        let ward_html = rt.ward ? `<span class="room_ward">${frappe.utils.escape_html(rt.ward)}</span>` : ''
 
+        return `
+            <div class="room_block" data-room="${rt.name}">
+                <h3 class="room_title">
+                    ${frappe.utils.escape_html(rt.name)}
+                    ${ward_html}
+                    ${rate_html}
+                </h3>
+                <div class="my_main_cards">
+                    ${bed_cards || '<div class="no_results">No beds in this room.</div>'}
+                </div>
+            </div>
+        `
+    },
 
+    render_bed_card: function (bed, rt, floor_name) {
+        let sts_bg_class = "card_one_occupied"
+        let btn = ``
 
+        if (bed.occupancy_status === "Occupied") {
+            sts_bg_class = "card_one_occupied"
+        } else if (bed.occupancy_status === "Vacant") {
+            sts_bg_class = "card_one_vocant"
+        } else if (bed.occupancy_status === "In Cleaning") {
+            sts_bg_class = "card_one_cleaning"
+            btn = `<button class="btn btn-warning mb-3" style="color:white" onclick="ready('${bed.name}')">Ready</button>`
+        } else if (bed.occupancy_status === "Discharge Ordered") {
+            sts_bg_class = "card_discharge"
+        }
 
+        let searchable = {
+            bed: (bed.name || '').toLowerCase(),
+            room: (rt.name || '').toLowerCase(),
+            floor: (floor_name || '').toLowerCase(),
+            rate: (rt.rate || '').toString().toLowerCase(),
+            ward: (rt.ward || '').toString().toLowerCase(),
+        }
+
+        return `
+            <div class="${sts_bg_class} bed_card"
+                data-bed="${searchable.bed}"
+                data-room="${searchable.room}"
+                data-floor="${searchable.floor}"
+                data-rate="${searchable.rate}"
+                data-ward="${searchable.ward}">
+                <div class="bed_icon"><span><i class="fa fa-bed"></i></span></div>
+                <span class="bed_tex">${frappe.utils.escape_html(bed.name)}</span>
+                <span class="bed_tex bed_floor">${frappe.utils.escape_html(floor_name)}</span>
+                <span class="bed_tex">${frappe.utils.escape_html(bed.occupancy_status || "")}</span>
+                <span class="bed_tex">${frappe.utils.escape_html(bed.patient || "")}</span>
+                ${btn}
+            </div>
+        `
+    },
+})
 
 function ready(bed) {
     frappe.call({
-        method: "his.api.ward_management.ready", //dotted path to server method
+        method: "his.api.ward_management.ready", // dotted path to server method
         args: {
             "bed": bed
         },
         callback: function (r) {
-            // frappe.msgprint(r)
             frappe.utils.play_sound("submit")
             frappe.show_alert({
                 message: __('Bed: ' + bed + " Vacanted Successfully!!"),
                 indicator: 'green',
-
             }, 5);
             location.reload();
-
         }
     });
 }

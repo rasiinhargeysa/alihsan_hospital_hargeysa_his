@@ -1,361 +1,166 @@
-{%- from "templates/print_formats/standard_macros.html" import add_header,
-	 render_field -%}
+<style>
+  .ps-wrap { font-size: 9pt; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+  .ps-wrap table { width: 100%; border-collapse: collapse; }
+  .ps-wrap th, .ps-wrap td { border: 1px solid #999; padding: 5px; vertical-align: top; }
+  .ps-wrap th { background-color: #eee !important; text-align: left; font-weight: bold; -webkit-print-color-adjust: exact; }
+  .ps-head { display: flex; justify-content: space-between; align-items: center; font-size: 8pt; }
+  .ps-title { text-align: center; margin: 10px 0 14px; }
+  .ps-title h2 { margin: 0; font-size: 16pt; }
+  .ps-two { display: flex; gap: 16px; margin-bottom: 12px; }
+  .ps-two > div { width: 100%; }
+  .ps-cards { display: flex; gap: 10px; margin-bottom: 14px; }
+  .ps-card { width: 100%; background: #f4f4f2 !important; padding: 8px 10px; -webkit-print-color-adjust: exact; }
+  .ps-card .lbl { font-size: 8pt; color: #555; }
+  .ps-card .val { font-size: 14pt; font-weight: bold; }
+  .ps-sec { margin: 18px 0 8px; font-size: 11pt; font-weight: bold; }
+  .ps-num { text-align: right; }
+  .ps-tot td { background: #f4f4f2 !important; font-weight: bold; -webkit-print-color-adjust: exact; }
+  .ps-receipt td { background: #f0f6e8 !important; -webkit-print-color-adjust: exact; }
+  .ps-note { margin-top: 12px; border-top: 1px solid #ccc; padding-top: 8px; font-size: 8pt; color: #555; }
+  .ps-dup { color: #a32d2d; font-size: 8pt; }
+</style>
 
-{% macro get_alignment(col) %}
-{%- if col.fieldtype in ('Int', 'Float', 'Currency', 'Check') %} class="text-right" {% endif -%}
-{% endmacro %}
+{%- set party = filters['party'][0] -%}
+{%- set totals = {} -%}
+{%- set counts = {} -%}
+{%- set visits = {} -%}
+{%- set names = {} -%}
+{%- set receipts = [] -%}
+{%- set credit_total = [] -%}
 
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>{{ title }}</title>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-	<meta name="generator" content="frappe">
-	<link type="text/css" rel="stylesheet" href="/assets/css/printview.css">
+{%- for row in data -%}
+  {%- if row.posting_date -%}
+    {%- if row.voucher_type in ["Journal Entry", "Sales Invoice"] -%}
+      {%- set info = frappe.db.get_value(row.voucher_type, row.voucher_no, ["patient", "patient_name"], as_dict=True) -%}
+      {%- if info and info.patient -%}
+        {%- set pid = info.patient -%}
+        {%- set _ = totals.update({pid: totals.get(pid, 0) + (row.debit or 0)}) -%}
+        {%- set _ = counts.update({pid: counts.get(pid, 0) + 1}) -%}
+        {%- set daykey = pid ~ "|" ~ row.posting_date -%}
+        {%- if daykey not in visits -%}{%- set _ = visits.update({daykey: 1}) -%}{%- endif -%}
+        {%- if pid not in names -%}{%- set _ = names.update({pid: info.patient_name or ""}) -%}{%- endif -%}
+      {%- endif -%}
+    {%- endif -%}
+    {%- if row.voucher_type == "Payment Entry" and (row.credit or 0) > 0 -%}
+      {%- set _ = receipts.append(row) -%}
+      {%- set _ = credit_total.append(row.credit or 0) -%}
+    {%- endif -%}
+  {%- endif -%}
+{%- endfor -%}
 
-	<style>
-			@media screen {
-		     .print-format-gutter {
-		         background-color: #d1d8dd;
-		         padding: 30px 0px;
-		    }
-		     .print-format {
-		         background-color: white;
-		         box-shadow: 0px 0px 9px rgba(0,0,0,0.5);
-		         max-width: 8.3in;
-		         min-height: 11.69in;
-		         padding: 0.25in;
-		         margin: auto;
-		    }
-		     .print-format.landscape {
-		         max-width: 11.69in;
-		         padding: 0.2in;
-		    }
-		     .page-break {
-		         padding: 30px 0px;
-		         border-bottom: 1px dashed #888;
-		    }
-			
-		     .page-break:first-child {
-		         padding-top: 0px;
-		    }
-		     .page-break:last-child {
-		         border-bottom: 0px;
-		    }
-		    /* mozilla hack for images in table */
-		     body:last-child .print-format td img {
-		         width: 100% !important;
-		    }
-		     @media(max-width: 767px) {
-		         .print-format {
-		             padding: 0.2in;
-		        }
-		    }
-		}
-		 @media print {
-		     .print-format p {
-		         margin-left: 1px;
-		         margin-right: 1px;
-		    }
-		}
-		
-		 .disabled-check {
-		     color: #eee;
-		}
-		 .data-field {
-		     margin-top: 5px;
-		     margin-bottom: 5px;
-		}
-		 .data-field .value {
-		     word-wrap: break-word;
-		}
-		 .important .value {
-		     font-size: 120%;
-		     font-weight: bold;
-		}
-		 .important label {
-		     line-height: 1.8;
-		     margin: 0px;
-		}
-		 .table {
-		     margin: 20px 0px;
-		}
-		 .square-image {
-		     width: 100%;
-		     height: 0;
-		     padding: 50% 0;
-		     background-size: contain;
-		    /*background-size: cover;
-		    */
-		     background-repeat: no-repeat !important;
-		     background-position: center center;
-		     border-radius: 4px;
-		}
-		 .print-item-image {
-		     object-fit: contain;
-		}
-		 .pdf-variables, .pdf-variable, .visible-pdf {
-		     display: none !important;
-		}
-		 .print-format {
-		     font-size: 9pt;
-		     font-family: "Helvetica Neue", Helvetica, Arial, "Open Sans", sans-serif;
-		     -webkit-print-color-adjust:exact;
-		}
-		 .print-format table {
-		     font-size: 9pt;
-		     font-family: "Helvetica Neue", Helvetica, Arial, "Open Sans", sans-serif;
-		     -webkit-print-color-adjust:exact;
-		}
-		 .page-break {
-		     page-break-after: always;
-		}
-		 /* .print-heading {
-		     border-bottom: 1px solid #aaa;
-		     margin-bottom: 10px;
-		} */
-		 /* .print-heading h2 {
-		     margin: 0px;
-		}
-		 .print-heading h4 {
-		     margin-top: 5px;
-		} */
-		 table.no-border, table.no-border td {
-		     border: 0px;
-		}
-		 .print-format label {
-		    /* wkhtmltopdf breaks label into multiple lines when it is inline-block */
-		     display: block;
-		}
-		 .print-format img {
-		     max-width: 100%;
-		}
-		 .print-format table td > .primary:first-child {
-		     font-weight: bold;
-		}
-		 .print-format td, .print-format th {
-		     vertical-align: top !important;
-		     padding: 6px !important;
-		}
-		 .print-format p {
-		     margin: 3px 0px 3px;
-		}
-		 table td div {
-		    /* needed to avoid partial cutting of text between page break in wkhtmltopdf */
-		     page-break-inside: avoid !important;
-		}
-		/* hack for webkit specific browser */
-		 @media (-webkit-min-device-pixel-ratio:0) {
-		     thead, tfoot {
-		         display: table-header-group;
-		    }
-		}
-		 [document-status] {
-		     margin-bottom: 5mm;
-		}
-		 .signature-img {
-		     background: #fff;
-		     border-radius: 3px;
-		     margin-top: 5px;
-		     max-height: 150px;
-		}
-		 .print-preview [data-fieldtype="Table"] {
-		     overflow: auto;
-		}
-		 .print-heading {
-		     text-align: right;
-		     text-transform: uppercase;
-		     color: #666;
-		     padding-bottom: 20px;
-		     margin-bottom: 20px;
-		     border-bottom: 1px solid #d1d8dd;
-		}
-		 .print-heading h2 {
-		     font-size: 24px;
-		}
-		 .print-format th {
-		     background-color: #eee !important;
-		     border-bottom: 0px !important;
-		}
-		/* modern format: for-test */
+{%- set visit_count = [] -%}
+{%- for k in visits -%}{%- set _ = visit_count.append(1) -%}{%- endfor -%}
 
-	</style>
-</head>
+<div class="ps-wrap">
 
+  <div class="ps-head">
+    <div>Printed date: {{ _("{0}").format(date_time) }}</div>
+    <div>Printed by: {{ frappe.db.get_value("User", frappe.session.user, "full_name") }}</div>
+  </div>
 
-<body>
-<div class="print-format-gutter">
-		<div class="print-format" class="hidden-pdf">
+  {% if letter_head %}
+  <div class="letter-head">{{ letter_head }}</div>
+  {% endif %}
 
-			<div id="header-html">
-				{% if letter_head %}
-					<div class="letter-head">{{ letter_head }}</div>
-				{% endif %}
-			</div>
+  <div class="ps-title"><h2>Patient summary</h2></div>
 
-			<!-- <h2 class="text-center">{{ _("Statement of Account") }}</h2> -->
-			<h4 class="text-center">
-					{{ filters['party'][0] }}
-			</h4>
+  <div class="ps-two">
+    <div>
+      <table>
+        <tr><th style="width:38%;">ID</th><td>{{ party }}</td></tr>
+        <tr><th>Name</th><td>{{ frappe.db.get_value("Customer", party, "customer_name") }}</td></tr>
+      </table>
+    </div>
+    <div>
+      <table>
+        <tr><th style="width:38%;">Date from</th><td>{{ frappe.format(filters['from_date'], {'fieldtype': 'Date'}) }}</td></tr>
+        <tr><th>Date to</th><td>{{ frappe.format(filters['to_date'], {'fieldtype': 'Date'}) }}</td></tr>
+      </table>
+    </div>
+  </div>
 
-			<h5 class="text-center">
-				Statement for period:
-				{{ frappe.format(filters['from_date'] , {'fieldtype': 'Date'})}}
-				{{ _("to") }}
-				{{ frappe.format(filters['to_date'] , {'fieldtype': 'Date'})}}
-			</h5>
-			<hr>
+  <div class="ps-cards">
+    <div class="ps-card"><div class="lbl">Patients</div><div class="val">{{ totals | length }}</div></div>
+    <div class="ps-card"><div class="lbl">Visits</div><div class="val">{{ visit_count | length }}</div></div>
+    <div class="ps-card"><div class="lbl">Charge lines</div><div class="val">{{ counts.values() | sum }}</div></div>
+    <div class="ps-card"><div class="lbl">Total charges</div><div class="val">{{ frappe.utils.fmt_money(totals.values() | sum, currency=currency) }}</div></div>
+  </div>
 
-			<table class="table table-bordered">
-				<thead>
-					<tr>
-						<th class="text-center" style="width: 15%">{{ _("Date") }}</th>
-						<th class="text-center" style="width: 10%">{{ _("Type") }}</th>
-						<!-- <th class="text-center" style="width: 43%">{{ _("Description") }}</th> -->
-						<th class="text-center" style="width: 25%">{{ _("Reference") }}</th>
-						<th class="text-center" style="width: 15%">{{ _("Debit") }}</th>
-						<th class="text-center" style="width: 15%">{{ _("Credit") }}</th>
-						<th class="text-center" style="width: 20%">{{ _("Balance") }}</th>
-					</tr>
-				</thead>
-				<tbody>
-					{% for row in data %}
-						<tr>
-						{% if(row.posting_date) %}
-							<td>
-							{{ frappe.format(row.posting_date, {'fieldtype': 'Date'})}}</td>
-							<td>
-								{% if (row.voucher_type == "Sales Invoice") and (row.credit > 0) and (frappe.db.get_value('Sales Invoice',  row.voucher_no  , 'is_return') ==  0) %}
-									{{ _("Cash Sales") }}
-									{% elif (row.voucher_type == "Sales Invoice") and (row.credit == 0) and (frappe.db.get_value('Sales Invoice',  row.voucher_no  , 'is_return') ==  0) %}
-								
-									{{ _("Invoice") }}
-									{% elif (row.voucher_type == "Payment Entry") %}
-								
-									{{ _("Reciept") }}
+  <table>
+    <tr>
+      <th style="width:6%;">#</th>
+      <th style="width:16%;">Patient ID</th>
+      <th style="width:40%;">Patient name</th>
+      <th style="width:10%;">Visits</th>
+      <th style="width:10%;">Lines</th>
+      <th style="width:18%;" class="ps-num">Total charges</th>
+    </tr>
+    {% for pid, amt in totals | dictsort(by='value', reverse=True) %}
+    <tr>
+      <td>{{ loop.index }}</td>
+      <td>{{ pid }}</td>
+      <td>{{ names[pid] }}</td>
+      <td>
+        {%- set v = [] -%}
+        {%- for k in visits -%}{%- if k.split("|")[0] == pid -%}{%- set _ = v.append(1) -%}{%- endif -%}{%- endfor -%}
+        {{ v | length }}
+      </td>
+      <td>{{ counts[pid] }}</td>
+      <td class="ps-num">{{ frappe.utils.fmt_money(amt, currency=currency) }}</td>
+    </tr>
+    {% endfor %}
+    <tr class="ps-tot">
+      <td colspan="5" class="ps-num">Total charges</td>
+      <td class="ps-num">{{ frappe.utils.fmt_money(totals.values() | sum, currency=currency) }}</td>
+    </tr>
+  </table>
 
-									{% else %}
-									
-								{% endif %}
-								{% if (row.voucher_type == "Sales Invoice" and frappe.db.get_value('Sales Invoice',  row.voucher_no  , 'is_return') == 1) %}
-								
-									{{ _("Credit Note") }}
+  <div class="ps-sec">Receipts</div>
 
-								{% endif %}
-							</td>
-							
-							<!-- <td>
-								
-							
-							  </td> -->
-							
-							<td>
-								{%if (row.voucher_type == "Payment Entry") %}
+  <table>
+    <tr>
+      <th style="width:14%;">Date</th>
+      <th style="width:18%;">User</th>
+      <th style="width:38%;">Description</th>
+      <th style="width:12%;">Refrence</th>
+      <th style="width:18%;" class="ps-num">Credit</th>
+    </tr>
+    {% for row in receipts %}
+    {% set pe = frappe.get_doc("Payment Entry", row.voucher_no) %}
+    <tr class="ps-receipt">
+      <td>{{ row.posting_date }}</td>
+      <td>{{ frappe.db.get_value("User", pe.owner, "full_name") }}</td>
+      <td>
+        {{ pe.remarks or pe.mode_of_payment or "Payment received" }}
+        <br><span style="font-size:8pt; font-style:italic;">Paid {{ frappe.utils.fmt_money(pe.paid_amount, currency=currency) }}
+        {% if (row.credit - pe.paid_amount) > 0 %} &middot; discount {{ frappe.utils.fmt_money(row.credit - pe.paid_amount, currency=currency) }}{% endif %}</span>
+      </td>
+      <td><a href="/app/payment-entry/{{ row.voucher_no }}" target="_blank">{{ row.voucher_no.split("-")[3] if row.voucher_no.count("-") >= 3 else row.voucher_no }}</a></td>
+      <td class="ps-num">{{ frappe.utils.fmt_money(row.credit, currency=currency) }}</td>
+    </tr>
+    {% endfor %}
+    {% if not receipts %}
+    <tr><td colspan="5" style="text-align:center; color:#777;">No receipts in this period</td></tr>
+    {% endif %}
+    <tr class="ps-tot">
+      <td colspan="4" class="ps-num">Total receipts</td>
+      <td class="ps-num">{{ frappe.utils.fmt_money(credit_total | sum, currency=currency) }}</td>
+    </tr>
+  </table>
 
-								<a href="/app/payment-entry/{{ row.voucher_no }}" target="_blank">{{ row.voucher_no }}</a> 
-								{% endif %}
-								
-								{% if row.voucher_type == "Sales Invoice" %}
-								<a href="/app/sales-invoice/{{ row.voucher_no }}" target="_blank">{{ row.voucher_no }}</a> 
-								{% set sales_doc = frappe.get_doc("Sales Invoice" , row.voucher_no) %}
-			
-							
+  <div class="ps-sec">Settlement</div>
 
-								{% endif %}
-								</td>
-								<td style="text-align: right">
-									{{ frappe.utils.fmt_money(row.debit, currency=currency) }}</td>
-								<td style="text-align: right">
-									{{ frappe.utils.fmt_money(row.credit, currency=currency) }}</td>
-						{% else %}
-							<td></td>
-							<td></td>
-						
-							<td><b>{{ row.account | replace("'","") }}</b></td>
-							<td></td>
-							<td></td>
-						
-						
-							
-						{% endif %}
-							<td style="text-align: right">
-								{{ frappe.utils.fmt_money(row.balance, currency=currency) }}
-							</td>
-							
-						</tr>
-						{% if row.voucher_type == "Sales Invoice" %} 
-								{% set sales_doc =frappe.get_doc("Sales Invoice" , row.voucher_no) %}
-								{% set item_group = [] %} 
-								<tr>
-									<td></td>
-									<td></td>
-									<td><strong>Item</strong></td>
-									<td><strong>QTY</strong></td>
-									<td><strong>Rate</strong></td>
-									<td></td>
-									<!-- <td><strong>Amount</strong></td> -->
+  <table>
+    <tr><td class="ps-num" style="width:82%;">Total charges</td><td class="ps-num">{{ frappe.utils.fmt_money(totals.values() | sum, currency=currency) }}</td></tr>
+    <tr><td class="ps-num">Less receipts</td><td class="ps-num">{{ frappe.utils.fmt_money(credit_total | sum, currency=currency) }}</td></tr>
+    <tr class="ps-tot"><td class="ps-num">Balance due</td><td class="ps-num">{{ frappe.utils.fmt_money((totals.values() | sum) - (credit_total | sum), currency=currency) }}</td></tr>
+  </table>
 
-								</tr>
-								{% for item in sales_doc.items %} 
-								{% if item.item_code %} 
-								
-							
-							
-								<tr>
-									<td></td>
-									<td></td>
-									<td>{{ item.item_code }}</td>
-									<td>{{ item.qty }}</td>
-									<td>${{ item.rate }}</td>
-									<td></td>
-									<!-- <td>${{ item.amount }}</td> -->
+  <div class="ps-note">
+    Patient totals cover charges only. Receipts are settled against the account, not against individual patients.
+    {% if (totals.values() | sum) != data[-1].debit %}
+    <br><span class="ps-dup">Charge lines without a patient record are excluded &mdash; statement total debit is {{ frappe.utils.fmt_money(data[-1].debit, currency=currency) }}.</span>
+    {% endif %}
+  </div>
 
-								</tr>
-								{% endif %}  {% endfor %} {% endif %} 
-					{% endfor %}
-				</tbody>
-			</table>
-
-	
-			
-			<p><b>
-				Thank you for your business!
-			</b></p>
-			<p>
-				Please make payemnts to the company name with details on the latest Invoice.
-			</p>
-			<p>
-				Note: Please confirm the outstanding balance. Should you have any inquiries concerning this statement do contact us on the contact details from the latest invoice.
-			</p>
-		
-
-			{% if not frappe.db.get_value("System Settings", "System Settings", "hide_footer_in_auto_email_reports")|int %}
-			<table class="more-info" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: {{ max_width }}">
-				<tr>
-					<td>
-						<p>
-							{{ _("This report was generated on {0}").format(date_time) }}
-						</p>
-					</td>
-				</tr>
-			</table>
-			{% endif %}
-
-		</div>
 </div>
-<script>
- document.addEventListener('DOMContentLoaded', () => {
-	const page_div = document.querySelector('.page-break');
-
-	page_div.style.display = 'flex';
-	page_div.style.flexDirection = 'column';
-
-	const footer_html = document.getElementById('footer-html');
-	footer_html.classList.add('hidden-pdf');
-	footer_html.classList.remove('visible-pdf');
-	footer_html.style.order = 1;
-	footer_html.style.marginTop = '20px';
- });
-</script>
-</body>
-

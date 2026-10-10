@@ -3763,3 +3763,191 @@ a:hover {
     background: #f1f7ff;
 }
   
+/* ===== Additions: header, floor grouping, room cards, bed search ===== */
+
+.ward_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 10px 10px 0 10px;
+}
+
+.ward_page_title {
+    color: #222944;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0 0 4px 0;
+}
+
+.ward_page_subtitle {
+    color: #35324e;
+    opacity: 0.6;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.floor_block {
+    margin: 0 10px 20px 10px;
+    background: #fbfbfd;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.floor_title {
+    color: #222944;
+    font-size: 1.15rem;
+    font-weight: bold;
+    padding: 14px 18px;
+    border-bottom: 2px solid #1975d2;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+}
+
+.floor_title::-webkit-details-marker {
+    display: none;
+}
+
+.floor_title::before {
+    content: "";
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #1975d2;
+    flex-shrink: 0;
+}
+
+.floor_title::after {
+    content: "\25BE";
+    margin-left: auto;
+    color: #1975d2;
+    font-size: 0.9rem;
+    transition: transform 150ms ease-in-out;
+}
+
+.floor_block:not([open]) .floor_title::after {
+    transform: rotate(-90deg);
+}
+
+.floor_count {
+    font-size: 0.8rem;
+    font-weight: normal;
+    opacity: 0.55;
+    margin-left: 4px;
+}
+
+.floor_content {
+    padding: 16px 18px 4px 18px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 14px;
+    align-items: start;
+}
+
+.room_block {
+    margin: 0;
+    height: 100%;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 14px 16px 18px 16px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    box-sizing: border-box;
+}
+
+.room_title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    color: #222944;
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin: 0 0 12px 0;
+}
+
+.room_ward {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #1975d2;
+    background: rgba(25, 117, 210, 0.1);
+    border-radius: 20px;
+    padding: 3px 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.room_rate {
+    font-size: 0.8rem;
+    font-weight: normal;
+    opacity: 0.6;
+}
+
+.my_main_cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.bed_card {
+    width: 140px;
+    min-width: 140px;
+    box-sizing: border-box;
+    transition: transform 150ms ease-in-out, box-shadow 150ms ease-in-out;
+}
+
+.bed_floor {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    opacity: 0.85;
+}
+
+.bed_card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.bed_search_wrap {
+    padding: 15px 10px 0 10px;
+}
+
+.bed_search_input {
+    width: 100%;
+    max-width: 420px;
+    padding: 10px 14px;
+    font-size: 0.9rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+    transition: border 200ms ease-in-out;
+}
+
+.bed_search_input:focus {
+    border: 1px solid #1975d2;
+}
+
+.no_results {
+    padding: 20px;
+    color: #35324e;
+    opacity: 0.6;
+    font-size: 1rem;
+    text-align: center;
+}
+
+@media (max-width: 640px) {
+    .ward_header {
+        flex-direction: column;
+    }
+
+    .floor_content {
+        grid-template-columns: 1fr;
+    }
+}

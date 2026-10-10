@@ -1,0 +1,242 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "REFF-.#####",
+ "creation": "2026-08-15 12:13:05.522765",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "user",
+  "username",
+  "pid",
+  "patient_name",
+  "age",
+  "sex",
+  "mobile",
+  "address",
+  "emergency_contact_name",
+  "emergency_contact_number",
+  "surgeon_doctor",
+  "column_break_hwgfu",
+  "department",
+  "reason_for_refferal",
+  "requested_speciality",
+  "proposed_procedure",
+  "priority",
+  "date",
+  "amount",
+  "discount",
+  "referred__clinic",
+  "laboratory_tests_done",
+  "if_yes",
+  "consent_form_signed",
+  "admission_done",
+  "admission_type"
+ ],
+ "fields": [
+  {
+   "default": "User",
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "User",
+   "options": "User",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fetch_from": "user.full_name",
+   "fieldname": "username",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Username",
+   "read_only": 1
+  },
+  {
+   "fieldname": "pid",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "PID"
+  },
+  {
+   "fieldname": "patient_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Patient Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "age",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Age",
+   "reqd": 1
+  },
+  {
+   "fieldname": "sex",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Sex",
+   "options": "Gender",
+   "reqd": 1
+  },
+  {
+   "fieldname": "mobile",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Mobile",
+   "reqd": 1
+  },
+  {
+   "fieldname": "address",
+   "fieldtype": "Data",
+   "label": "Address"
+  },
+  {
+   "fieldname": "emergency_contact_name",
+   "fieldtype": "Data",
+   "label": "Emergency Contact Name"
+  },
+  {
+   "fieldname": "emergency_contact_number",
+   "fieldtype": "Data",
+   "label": "Emergency Contact Number"
+  },
+  {
+   "fieldname": "department",
+   "fieldtype": "Link",
+   "label": "Department",
+   "options": "Medical Department"
+  },
+  {
+   "fieldname": "reason_for_refferal",
+   "fieldtype": "Data",
+   "label": "Reason For Refferal"
+  },
+  {
+   "fieldname": "requested_speciality",
+   "fieldtype": "Data",
+   "label": "Requested Speciality"
+  },
+  {
+   "fieldname": "proposed_procedure",
+   "fieldtype": "Data",
+   "label": "Proposed Procedure",
+   "reqd": 1
+  },
+  {
+   "fieldname": "priority",
+   "fieldtype": "Select",
+   "label": "Priority",
+   "options": "Elective\nEmergency\nUrgent"
+  },
+  {
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "label": "Amount",
+   "reqd": 1
+  },
+  {
+   "fieldname": "discount",
+   "fieldtype": "Currency",
+   "label": "Discount"
+  },
+  {
+   "fieldname": "referred__clinic",
+   "fieldtype": "Select",
+   "label": "Referred  Clinic",
+   "options": "\nAl Ihsan Eye Clinic\nAl Ihsan Medical Center (Siinay)\nAl Ihsan Medical Center (Ina Mooge)\nAl Ihsan Medical Center (Kilelka)",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_hwgfu",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "surgeon_doctor",
+   "fieldtype": "Link",
+   "label": "Surgeon Doctor",
+   "options": "Healthcare Practitioner"
+  },
+  {
+   "fieldname": "laboratory_tests_done",
+   "fieldtype": "Select",
+   "label": "Laboratory Tests Done",
+   "options": "Yes\nNo\nPending",
+   "reqd": 1
+  },
+  {
+   "fieldname": "consent_form_signed",
+   "fieldtype": "Select",
+   "label": "Consent Form Signed",
+   "options": "Yes\nNo\nPending",
+   "reqd": 1
+  },
+  {
+   "fieldname": "if_yes",
+   "fieldtype": "Data",
+   "label": "If yes"
+  },
+  {
+   "fieldname": "admission_done",
+   "fieldtype": "Select",
+   "label": "Admission Done",
+   "options": "Yes\nNo"
+  },
+  {
+   "fieldname": "admission_type",
+   "fieldtype": "Data",
+   "label": "Admission Type"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-08-30 13:18:21.979395",
+ "modified_by": "Administrator",
+ "module": "HIS",
+ "name": "Referral Form For Clinics",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "All",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

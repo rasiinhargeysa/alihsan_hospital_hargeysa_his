@@ -110,7 +110,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-05-19 11:59:30.167285",
+ "modified": "2026-09-28 10:37:00.741607",
  "modified_by": "Administrator",
  "module": "HIS",
  "name": "Inpatient Medication",
@@ -132,6 +132,7 @@
    "write": 1
   },
   {
+   "cancel": 1,
    "create": 1,
    "email": 1,
    "export": 1,
@@ -145,6 +146,7 @@
    "write": 1
   },
   {
+   "cancel": 1,
    "email": 1,
    "export": 1,
    "print": 1,
@@ -153,6 +155,7 @@
    "role": "Doctor",
    "select": 1,
    "share": 1,
+   "submit": 1,
    "write": 1
   },
   {
@@ -165,6 +168,7 @@
    "report": 1,
    "role": "Maternity",
    "share": 1,
+   "submit": 1,
    "write": 1
   }
  ],

@@ -1,204 +1,127 @@
 import frappe
 from frappe.utils import today
 current_date = today()
+
 def get_context(context):
 	return context
+
 
 @frappe.whitelist(allow_guest=True)
 def get_doctors():
     room = str(frappe.form_dict.get("room", ""))
 
     # Fetch doctors based on the given room number
-    query = f"""
-    SELECT 
-        practitioner_name,
-        doctor_room,
-        department,
-        break
-    FROM `tabHealthcare Practitioner`
-    WHERE doctor_room = '{room}'
-    """
-
-    doctors = frappe.db.sql(query, as_dict=True)
+    doctors = frappe.db.sql(
+        """
+        SELECT
+            practitioner_name,
+            doctor_room,
+            department,
+            break
+        FROM `tabHealthcare Practitioner`
+        WHERE doctor_room = %s
+        """,
+        (room,),
+        as_dict=True,
+    )
 
     # Fetch queue list filtered by room number
     # Patient stays in the list until status is "Closed" - being "Called" no longer removes them
-    query_que = f"""
-    SELECT 
-        practitioner_name,
-        token_no,
-        patient_name,
-        que_steps
-    FROM `tabQue`
-    WHERE 
-        date = CURDATE()
-        AND status != "Closed"
-        AND practitioner_name IN (
-            SELECT practitioner_name FROM `tabHealthcare Practitioner` WHERE doctor_room = '{room}'
-        )
-    ORDER BY token_no ASC
-    """
-    que = frappe.db.sql(query_que, as_dict=True)
+    que = frappe.db.sql(
+        """
+        SELECT
+            practitioner_name,
+            token_no,
+            patient_name,
+            que_steps
+        FROM `tabQue`
+        WHERE
+            date = CURDATE()
+            AND status != "Closed"
+            AND practitioner_name IN (
+                SELECT practitioner_name FROM `tabHealthcare Practitioner` WHERE doctor_room = %s
+            )
+        ORDER BY token_no ASC
+        """,
+        (room,),
+        as_dict=True,
+    )
 
-    # Fetch the called queue list (patients already called by the doctor, still open)
-    called_que = f"""
-    SELECT 
-        practitioner_name,
-        token_no,
-        patient_name,
-        que_steps
-    FROM `tabQue`
-    WHERE 
-        date = CURDATE()
-        AND status != "Closed"
-        AND que_steps = "Called"
-        AND practitioner_name IN (
-            SELECT practitioner_name FROM `tabHealthcare Practitioner` WHERE doctor_room = '{room}'
-        )
-    ORDER BY token_no ASC
-    """
-    c_que = frappe.db.sql(called_que, as_dict=True)
-
-    all_doc_query_ques = """
-        SELECT 
-            q.practitioner_name,
-            hp.doctor_room,
-            q.token_no,
-            q.patient_name,
-            q.que_steps
-        FROM `tabQue` q
-        LEFT JOIN `tabHealthcare Practitioner` hp 
-            ON q.practitioner_name = hp.practitioner_name
-        WHERE 
-            q.date = CURDATE()
-            AND q.status != "Closed"
-        ORDER BY q.modified DESC
-    """
-
-    ques = frappe.db.sql(all_doc_query_ques, as_dict=True)
-
-    all_doc_called_que = """
-        SELECT 
-            q.practitioner_name,
-            hp.doctor_room,
-            q.token_no,
-            q.patient_name,
-            q.que_steps
-        FROM `tabQue` q
-        LEFT JOIN `tabHealthcare Practitioner` hp 
-            ON q.practitioner_name = hp.practitioner_name
-        WHERE 
-            q.date = CURDATE()
-            AND q.status != "Closed"
-            AND q.que_steps = "Called"
-        ORDER BY q.modified DESC
-    """
-
-    called_ques = frappe.db.sql(all_doc_called_que, as_dict=True)
-
-    # Structure called queue by doctor
-    by_doc_call = {item["practitioner_name"]: item for item in c_que}
+    # NOTE: "called" queue (by_doc_call) intentionally NOT queried here.
+    # The list-style queue screen that calls get_doctors() only reads
+    # `que` and `doctors` from the response - `by_doc_call` was fetched
+    # but never rendered, so the query was pure overhead. If a future
+    # screen needs it, add it back using the same pattern as get_drshiine().
 
     return {
         "que": que,
         "doctors": doctors,
-        "by_doc_call": by_doc_call,
-        "ques": ques,
-        "called_ques": called_ques
+        "by_doc_call": {},
     }
+
 
 @frappe.whitelist(allow_guest=True)
 def get_drshiine():
     room = str(frappe.form_dict.get("room", ""))
-    frappe.errprint(room)
     if room == "drshiine":
         room = 1
 
     # Fetch doctors based on the given room number
-    query = f"""
-    SELECT 
-        practitioner_name,
-        doctor_room,
-        department,
-        break
-    FROM `tabHealthcare Practitioner`
-    WHERE doctor_room = '{room}'
-    """
-
-    doctors = frappe.db.sql(query, as_dict=True)
+    doctors = frappe.db.sql(
+        """
+        SELECT
+            practitioner_name,
+            doctor_room,
+            department,
+            break
+        FROM `tabHealthcare Practitioner`
+        WHERE doctor_room = %s
+        """,
+        (room,),
+        as_dict=True,
+    )
 
     # Fetch queue list filtered by room number
     # Patient stays in the list until status is "Closed" - being "Called" no longer removes them
-    query_que = f"""
-    SELECT 
-        practitioner_name,
-        token_no,
-        patient_name,
-        que_steps
-    FROM `tabQue`
-    WHERE 
-        date = CURDATE()
-        AND status != "Closed"
-        AND practitioner_name IN (
-            SELECT practitioner_name FROM `tabHealthcare Practitioner` WHERE doctor_room = '{room}'
-        )
-    ORDER BY token_no ASC
-    """
-    que = frappe.db.sql(query_que, as_dict=True)
+    que = frappe.db.sql(
+        """
+        SELECT
+            practitioner_name,
+            token_no,
+            patient_name,
+            que_steps
+        FROM `tabQue`
+        WHERE
+            date = CURDATE()
+            AND status != "Closed"
+            AND practitioner_name IN (
+                SELECT practitioner_name FROM `tabHealthcare Practitioner` WHERE doctor_room = %s
+            )
+        ORDER BY token_no ASC
+        """,
+        (room,),
+        as_dict=True,
+    )
 
     # Fetch the called queue list (patients already called by the doctor)
-    called_que = f"""
-    SELECT 
-        practitioner_name,
-        from_no,
-        to_no,
-        date
-    FROM `tabQue Managment`
-    WHERE 
-        date = CURDATE()
-        AND practitioner_name IN (
-            SELECT practitioner_name FROM `tabHealthcare Practitioner` WHERE doctor_room = '{room}'
-        )
-    ORDER BY modified ASC
-    """
-    c_que = frappe.db.sql(called_que, as_dict=True)
-
-    all_doc_query_ques = """
-        SELECT 
-            q.practitioner_name,
-            hp.doctor_room,
-            q.token_no,
-            q.patient_name,
-            q.que_steps
-        FROM `tabQue` q
-        LEFT JOIN `tabHealthcare Practitioner` hp 
-            ON q.practitioner_name = hp.practitioner_name
-        WHERE 
-            q.date = CURDATE()
-            AND q.status != "Closed"
-        ORDER BY q.modified DESC
-    """
-
-    ques = frappe.db.sql(all_doc_query_ques, as_dict=True)
-
-    all_doc_called_que = """
-        SELECT 
-            q.practitioner_name,
-            hp.doctor_room,
-            q.token_no,
-            q.patient_name,
-            q.que_steps
-        FROM `tabQue` q
-        LEFT JOIN `tabHealthcare Practitioner` hp 
-            ON q.practitioner_name = hp.practitioner_name
-        WHERE 
-            q.date = CURDATE()
-            AND q.status != "Closed"
-            AND q.que_steps = "Called"
-        ORDER BY q.modified DESC
-    """
-
-    called_ques = frappe.db.sql(all_doc_called_que, as_dict=True)
+    c_que = frappe.db.sql(
+        """
+        SELECT
+            practitioner_name,
+            from_no,
+            to_no,
+            date
+        FROM `tabQue Managment`
+        WHERE
+            date = CURDATE()
+            AND practitioner_name IN (
+                SELECT practitioner_name FROM `tabHealthcare Practitioner` WHERE doctor_room = %s
+            )
+        ORDER BY modified ASC
+        """,
+        (room,),
+        as_dict=True,
+    )
 
     # Structure called queue by doctor
     by_doc_call = {item["practitioner_name"]: item for item in c_que}
@@ -207,51 +130,72 @@ def get_drshiine():
         "que": que,
         "doctors": doctors,
         "by_doc_call": by_doc_call,
-        "ques": ques,
-        "called_ques": called_ques
     }
 
 
 @frappe.whitelist()
 def get_collection():
+    que = frappe.db.sql(
+        """
+        SELECT
+            token_no,
+            patient_name,
+            que_steps
+        FROM `tabSample Collection`
+        WHERE date = CURDATE() AND que_steps != "Called"
+        ORDER BY modified DESC
+        """,
+        as_dict=True,
+    )
 
-	query_que = """SELECT 
-	token_no,
-	patient_name,
+    c_que = frappe.db.sql(
+        """
+        SELECT
+            token_no,
+            patient_name,
+            que_steps
+        FROM `tabSample Collection`
+        WHERE date = CURDATE() AND que_steps = "Called"
+        ORDER BY modified DESC
+        """,
+        as_dict=True,
+    )
 
-	
-	que_steps
-		FROM `tabSample Collection`
-		where date = CURDATE()  and que_steps != "Called"
-		
-		order by  modified desc
-		
-		"""
-	que =frappe.db.sql(query_que , as_dict = 1)
-	
-
-	
-	called_que = """SELECT 
-	
-	token_no,
-	patient_name,
-	
-	que_steps
-		FROM `tabSample Collection`
-		where date = CURDATE()  and que_steps = "Called"
-		
-		order by  modified desc
-		
-		"""
-	c_que = frappe.db.sql(called_que , as_dict = 1)
-	
-
-	# cnx.close()
-
-
-	return que , c_que
+    return que, c_que
 
 
 @frappe.whitelist()
 def is_user_logged_in(user):
 	pass
+
+
+def on_queue_change(doc, method=None):
+    """
+    Hooked to Que and Que Managment doc_events (see hooks.py).
+    Fires whenever a patient is added, called, or closed, and pushes a
+    lightweight realtime event so screens can refresh instantly instead
+    of waiting on a poll interval.
+
+    Kept deliberately tiny: we do NOT send the queue data itself here,
+    just a signal + which doctor_room changed. The screen re-fetches via
+    the existing REST endpoint on receipt, so there's only one place
+    (get_doctors / get_drshiine) that builds the actual payload.
+    """
+    doctor_room = None
+    practitioner_name = getattr(doc, "practitioner_name", None)
+
+    if practitioner_name:
+        doctor_room = frappe.db.get_value(
+            "Healthcare Practitioner",
+            {"practitioner_name": practitioner_name},
+            "doctor_room",
+        )
+
+    frappe.publish_realtime(
+        event="queue_update",
+        message={
+            "doctor_room": doctor_room,
+            "doctype": doc.doctype,
+        },
+        after_commit=True,
+    )

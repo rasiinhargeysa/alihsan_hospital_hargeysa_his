@@ -56,7 +56,9 @@ ADM = Class.extend(
 			let currdate = this.currDate
 		let tbldata = []
 		frappe.db.get_list('Inpatient Record', {
-			fields: ['name','patient','patient_name', 'age', 'dob', 'type' ,'room' , 'bed' , 'admitted_datetime' , 'medical_department', 'admission_practitioner' , 'diagnose'],
+			fields: ['name','patient','patient_name', 'age', 'dob', 'type' ,'room' , 'bed' , 'admitted_datetime' , 'medical_department', 'admission_practitioner' , 'diagnose',
+				'inpatient_occupancies.check_in as check_in'
+			],
 			filters: {
 				"status": 'Admitted'
 			
@@ -89,10 +91,12 @@ ADM = Class.extend(
 			{title:"PID", field:"patient" ,  headerFilter:"input"},
 			{title:"Patient Name", field:"patient_name" ,  headerFilter:"input"},
 			{title:"Type", field:"type" ,  headerFilter:"input"},
-			{title:"Date", field:"admitted_datetime" ,  headerFilter:"input"},
+			{title:"Admited Date", field:"admitted_datetime" ,  headerFilter:"input"},
+			{title:"Check in", field:"check_in" ,  headerFilter:"input"},
+			
 			{title:"Duration", field:"duration" ,  headerFilter:"input" , formatter:durationformatter},
 			{title:"Doctor Name", field:"admission_practitioner" ,  headerFilter:"input",},
-			{title:"Medical Department", field:"medical_department" ,  headerFilter:"input",},
+			// {title:"Medical Department", field:"medical_department" ,  headerFilter:"input",},
 			// {title:"Floor", field:"floor" ,  headerFilter:"input",},
 			{title:"Room", field:"room" ,  headerFilter:"input",},
 			

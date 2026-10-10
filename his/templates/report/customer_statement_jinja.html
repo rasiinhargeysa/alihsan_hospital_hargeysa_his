@@ -419,7 +419,18 @@ margin-left: 370px; */
               {% endif %}
               {% if row.voucher_type == "Journal Entry" %}
               {% if frappe.db.get_value("Customer", filters['party'][0],"customer_group")== "Insurance" %}
-              <span style="line-break: anywhere;">  <p>{{ frappe.db.get_value("Journal Entry", row.voucher_no, "patient") or ""}} </p>{{ frappe.db.get_value("Journal Entry", row.voucher_no, "patient_name") or ""}}</span>
+           
+                      <span style="line-break: anywhere;">
+                          {% set patient = frappe.db.get_value("Journal Entry", row.voucher_no, "patient") %}
+                          {% set patient_name = frappe.db.get_value("Journal Entry", row.voucher_no, "patient_name") or "-" %}
+                          {% set insurance_id = frappe.db.get_value("Patient", patient, "insurance_id") or "-" %}
+
+                          <p><b>ID:</b> {{ insurance_id or "" }}</p>
+                          <p><b>Name:</b> {{ patient_name or "" }}</p>
+                          <p><b>Patient ID:</b> {{ patient or "" }}</p>
+                      </span>
+                    
+
               {% else %}
               <span style="line-break: anywhere;">{{ frappe.db.get_value("Journal Entry", row.voucher_no, "remark") or ""}}</span>
               {% endif %}

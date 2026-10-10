@@ -1,218 +1,330 @@
-# Copyright (c) 2015, Frappe Technologies Pvt. Ltd. and Contributors
-# License: GNU General Public License v3. See license.txt
-
-# Copyright (c) 2015, Frappe Technologies Pvt. Ltd. and Contributors and contributors
+# Copyright (c) 2026, Al-Ihsan Hospital and contributors
 # For license information, please see license.txt
 
+"""Employee Balance Summary.
+
+Visible columns:
+    Employee ID | Employee Name | Mobile | Balance | Statement
+
+The report reads balances directly from GL Entry by Employee party. It does not
+filter by Account.account_type, so accounts whose Account Type is blank remain
+included.
+
+Signed balance convention:
+    balance > 0  -> debit balance; employee owes the company
+    balance < 0  -> credit balance; company owes the employee
+"""
+
+import json
+from decimal import Decimal, InvalidOperation, ROUND_HALF_UP
+from html import escape
 
 import frappe
-from frappe import _, scrub
-from frappe.utils import cint, flt
-from six import iteritems
-import math
+from frappe import _
+from frappe.utils import getdate, nowdate
 
-from erpnext.accounts.party import get_partywise_advanced_payment_amount
-from erpnext.accounts.report.accounts_receivable.accounts_receivable import ReceivablePayableReport
+
+MONEY_QUANT = Decimal("0.01")
+ZERO = Decimal("0")
+SQL_ZERO_TOLERANCE = Decimal("0.000000001")
 
 
 def execute(filters=None):
-	args = {
-		"party_type": "Employee",
-		"naming_by": ["Buying Settings", "supp_master_name"],
-	}
+    filters = frappe._dict(filters or {})
+    _validate_filters(filters)
 
-	return AccountReceivableSummary(filters).run(args)
+    columns = get_columns()
+    data = get_data(filters)
 
-
-class AccountReceivableSummary(ReceivablePayableReport):
-	def run(self, args):
-		self.party_type = args.get("party_type")
-		self.party_naming_by = frappe.db.get_value(
-			args.get("naming_by")[0], None, args.get("naming_by")[1]
-		)
-		self.get_columns()
-		self.get_data(args)
-		return self.columns, self.data
-
-	def get_data(self, args):
-		self.data = []
-
-		self.receivables = ReceivablePayableReport(self.filters).run(args)[1]
-
-		self.get_party_total(args)
-
-		party_advance_amount = (
-			get_partywise_advanced_payment_amount(
-				self.party_type,
-				self.filters.report_date,
-				self.filters.show_future_payments,
-				self.filters.company,
-			)
-			or {}
-		)
-
-		if self.filters.show_gl_balance:
-			gl_balance_map = get_gl_balance(self.filters.report_date)
-
-		for party, party_dict in iteritems(self.party_total):
-			if math.isclose(party_dict.outstanding, 0, abs_tol=1e-12):  # You can adjust the tolerance as needed
-				continue
-
-			row = frappe._dict()
-
-			row.party = party
-			if self.party_naming_by == "Naming Series":
-				row.party_name = frappe.get_cached_value(
-					self.party_type, party, scrub(self.party_type) + "_name"
-				)
-			row.employee_name = frappe.get_value(self.party_type,party,"employee_name")
-			row.mobile_no = frappe.get_value("Employee",party,"cell_number")
-			row.statement =f"""<button class= 'btn btn-primary' onClick='statementemployee("{party}")'>Statements</button>"""
-			row.update(party_dict)
-
-			# Advance against party
-			row.advance = party_advance_amount.get(party, 0)
-
-			# In AR/AP, advance shown in paid columns,
-			# but in summary report advance shown in separate column
-			row.paid -= row.advance
-
-			if self.filters.show_gl_balance:
-				row.gl_balance = gl_balance_map.get(party)
-				row.diff = flt(row.outstanding) - flt(row.gl_balance)
-
-			self.data.append(row)
-
-	def get_party_total(self, args):
-		self.party_total = frappe._dict()
-
-		for d in self.receivables:
-			self.init_party_total(d)
-
-			# Add all amount columns
-			for k in list(self.party_total[d.party]):
-				if k not in ["currency", "sales_person"]:
-
-					self.party_total[d.party][k] += d.get(k, 0.0)
-
-			# set territory, customer_group, sales person etc
-			self.set_party_details(d)
-
-	def init_party_total(self, row):
-		self.party_total.setdefault(
-			row.party,
-			frappe._dict(
-				{
-					"invoiced": 0.0,
-					"paid": 0.0,
-					"credit_note": 0.0,
-					"outstanding": 0.0,
-					
-					"range1": 0.0,
-					"range2": 0.0,
-					"range3": 0.0,
-					"range4": 0.0,
-					"range5": 0.0,
-					"total_due": 0.0,
-					"sales_person": [],
-				}
-			),
-		)
-
-	def set_party_details(self, row):
-		self.party_total[row.party].currency = row.currency
-
-		for key in ("territory", "customer_group", "supplier_group"):
-			if row.get(key):
-				self.party_total[row.party][key] = row.get(key)
-
-		if row.sales_person:
-			self.party_total[row.party].sales_person.append(row.sales_person)
-
-	def get_columns(self):
-		self.columns = []
-		self.add_column(
-			label=_(self.party_type),
-			fieldname="party",
-			fieldtype="Link",
-			options=self.party_type,
-			width=180,
-		)
-
-		if self.party_naming_by == "Naming Series":
-			self.add_column(_("{0} Name").format(self.party_type), fieldname="party_name", fieldtype="Data")
-		self.add_column(_("Empoyee Name"), fieldname="employee_name", width=400, fieldtype="Data")
-		self.add_column(_("Mobile No"), fieldname="mobile_no", fieldtype="Data")
-		# credit_debit_label = "Credit Note" if self.party_type == "Customer" else "Debit Note"
-
-		# self.add_column(_("Advance Amount"), fieldname="advance")
-		# self.add_column(_("Invoiced Amount"), fieldname="invoiced")
-		# self.add_column(_("Paid Amount"), fieldname="paid")
-		# self.add_column(_(credit_debit_label), fieldname="credit_note")
-		self.add_column(_("Balance"), fieldname="outstanding")
-		self.add_column(_("Print Statement"), fieldname="statement" , fieldtype="Data")
-
-		if self.filters.show_gl_balance:
-			self.add_column(_("GL Balance"), fieldname="gl_balance")
-			self.add_column(_("Difference"), fieldname="diff")
-
-		# self.setup_ageing_columns()
-
-		if self.party_type == "Customer":
-			# self.add_column(
-			# 	label=_("Territory"), fieldname="territory", fieldtype="Link", options="Territory"
-			# )
-			# self.add_column(
-			# 	label=_("Customer Group"),
-			# 	fieldname="customer_group",
-			# 	fieldtype="Link",
-			# 	options="Customer Group",
-			# )
-			if self.filters.show_sales_person:
-				self.add_column(label=_("Sales Person"), fieldname="sales_person", fieldtype="Data")
-		else:
-			pass
-			# self.add_column(
-			# 	label=_("Supplier Group"),
-			# 	fieldname="supplier_group",
-			# 	fieldtype="Link",
-			# 	options="Supplier Group",
-				
-			# )
-
-		# self.add_column(
-		# 	label=_("Currency"), fieldname="currency", fieldtype="Link", options="Currency", width=80
-		# )
-
-	def setup_ageing_columns(self):
-		for i, label in enumerate(
-			[
-				"0-{range1}".format(range1=self.filters["range1"]),
-				"{range1}-{range2}".format(
-					range1=cint(self.filters["range1"]) + 1, range2=self.filters["range2"]
-				),
-				"{range2}-{range3}".format(
-					range2=cint(self.filters["range2"]) + 1, range3=self.filters["range3"]
-				),
-				"{range3}-{range4}".format(
-					range3=cint(self.filters["range3"]) + 1, range4=self.filters["range4"]
-				),
-				"{range4}-{above}".format(range4=cint(self.filters["range4"]) + 1, above=_("Above")),
-			]
-		):
-			self.add_column(label=label, fieldname="range" + str(i + 1))
-
-		# Add column for total due amount
-		self.add_column(label="Total Amount Due", fieldname="total_due")
+    # columns, data, message, chart, report_summary, skip_total_rows
+    return columns, data, None, None, None, 1
 
 
-def get_gl_balance(report_date):
-	return frappe._dict(
-		frappe.db.get_all(
-			"GL Entry",
-			fields=["party", "sum(debit -  credit)"],
-			filters={"posting_date": ("<=", report_date), "is_cancelled": 0},
-			group_by="party",
-			as_list=1,
-		)
-	)
+def _validate_filters(filters):
+    if not filters.get("company"):
+        frappe.throw(_("Company is required."))
+
+    filters.report_date = getdate(
+        filters.get("report_date") or nowdate()
+    )
+
+    if filters.get("statement_from_date"):
+        filters.statement_from_date = getdate(
+            filters.statement_from_date
+        )
+
+        if filters.statement_from_date > filters.report_date:
+            frappe.throw(
+                _("Statement From Date cannot be after Report Date.")
+            )
+
+
+def _to_decimal(value):
+    if value in (None, ""):
+        return ZERO
+
+    try:
+        return Decimal(str(value))
+    except (InvalidOperation, TypeError, ValueError):
+        return ZERO
+
+
+def _round_money(value):
+    """Round final employee balance to exactly 2 decimal places."""
+
+    amount = _to_decimal(value).quantize(
+        MONEY_QUANT,
+        rounding=ROUND_HALF_UP,
+    )
+
+    # Prevent -0.00.
+    if amount == ZERO:
+        amount = ZERO
+
+    return float(amount)
+
+
+def _doctype_fields(doctype):
+    if not frappe.db.exists("DocType", doctype):
+        return set()
+
+    meta = frappe.get_meta(doctype)
+
+    return {
+        "name",
+        "creation",
+        "modified",
+        "owner",
+        "modified_by",
+        "docstatus",
+        "idx",
+    }.union(
+        df.fieldname
+        for df in meta.fields
+        if df.fieldname
+    )
+
+
+def _employee_mobile_sql():
+    """Resolve the available mobile field on Employee."""
+
+    employee_fields = _doctype_fields("Employee")
+
+    for fieldname in (
+        "cell_number",
+        "personal_mobile_no",
+        "mobile_no",
+    ):
+        if fieldname in employee_fields:
+            return "NULLIF(TRIM(emp.`{0}`), '')".format(
+                fieldname
+            )
+
+    return "NULL"
+
+
+def get_columns():
+    return [
+        {
+            "label": _("Employee ID"),
+            "fieldname": "employee",
+            "fieldtype": "Link",
+            "options": "Employee",
+            "width": 170,
+        },
+        {
+            "label": _("Employee Name"),
+            "fieldname": "employee_name",
+            "fieldtype": "Data",
+            "width": 280,
+        },
+        {
+            "label": _("Mobile"),
+            "fieldname": "mobile_no",
+            "fieldtype": "Data",
+            "width": 150,
+        },
+        {
+            "label": _("Balance"),
+            "fieldname": "balance",
+            "fieldtype": "Currency",
+            "options": "currency",
+            "precision": 2,
+            "width": 170,
+        },
+        {
+            "label": _("Statement"),
+            "fieldname": "statement",
+            "fieldtype": "Data",
+            "width": 125,
+        },
+    ]
+
+
+def get_data(filters):
+    gl_fields = _doctype_fields("GL Entry")
+
+    conditions = [
+        "gle.company = %(company)s",
+        "gle.posting_date <= %(report_date)s",
+        "gle.party_type = 'Employee'",
+        "gle.party IS NOT NULL",
+        "gle.party != ''",
+    ]
+
+    if "is_cancelled" in gl_fields:
+        conditions.append(
+            "COALESCE(gle.is_cancelled, 0) = 0"
+        )
+    elif "docstatus" in gl_fields:
+        conditions.append(
+            "gle.docstatus = 1"
+        )
+
+    values = {
+        "company": filters.company,
+        "report_date": filters.report_date,
+        "zero_tolerance": str(SQL_ZERO_TOLERANCE),
+    }
+
+    if filters.get("employee"):
+        conditions.append(
+            "gle.party = %(employee)s"
+        )
+        values["employee"] = filters.employee
+
+    if filters.get("account"):
+        conditions.append(
+            "gle.account = %(account)s"
+        )
+        values["account"] = filters.account
+
+    mobile_sql = _employee_mobile_sql()
+
+    rows = frappe.db.sql(
+        """
+        SELECT
+            gle.party AS employee,
+
+            MAX(
+                COALESCE(
+                    NULLIF(
+                        TRIM(emp.employee_name),
+                        ''
+                    ),
+                    gle.party
+                )
+            ) AS employee_name,
+
+            MAX(
+                {mobile_sql}
+            ) AS mobile_no,
+
+            SUM(
+                COALESCE(gle.debit, 0)
+                - COALESCE(gle.credit, 0)
+            ) AS balance
+
+        FROM `tabGL Entry` gle
+
+        LEFT JOIN `tabEmployee` emp
+            ON emp.name = gle.party
+
+        WHERE {where_clause}
+
+        GROUP BY
+            gle.party
+
+        HAVING ABS(
+            SUM(
+                COALESCE(gle.debit, 0)
+                - COALESCE(gle.credit, 0)
+            )
+        ) > %(zero_tolerance)s
+
+        ORDER BY
+            ABS(
+                SUM(
+                    COALESCE(gle.debit, 0)
+                    - COALESCE(gle.credit, 0)
+                )
+            ) DESC,
+            employee_name ASC
+        """.format(
+            mobile_sql=mobile_sql,
+            where_clause=" AND ".join(
+                conditions
+            ),
+        ),
+        values,
+        as_dict=True,
+    )
+
+    currency = (
+        frappe.db.get_value(
+            "Company",
+            filters.company,
+            "default_currency",
+        )
+        or frappe.defaults.get_global_default(
+            "currency"
+        )
+        or ""
+    )
+
+    data = []
+
+    for result in rows:
+        party = result.get("employee")
+
+        balance = _round_money(
+            result.get("balance")
+        )
+
+        # Hide values that become 0.00.
+        if not party or balance == 0.0:
+            continue
+
+        party_dict = frappe._dict(
+            employee_name=(
+                result.get("employee_name")
+                or party
+            ),
+            mobile_no=(
+                result.get("mobile_no")
+                or ""
+            ),
+            balance=balance,
+
+            # Used by the Currency formatter.
+            # This is not a visible column.
+            currency=currency,
+        )
+
+        row = frappe._dict()
+
+        row.employee = party
+
+        # Add employee values first.
+        row.update(party_dict)
+
+        # Safely prepare Employee ID for JavaScript.
+        party_argument = escape(
+            json.dumps(str(party)),
+            quote=True,
+        )
+
+        # Add button after row.update so it is not overwritten.
+        row.statement = f"""
+            <button
+                type="button"
+                class="btn btn-primary btn-xs"
+                onclick='statementemployee({party_argument})'
+            >
+                {_("Statements")}
+            </button>
+        """
+
+        data.append(row)
+
+    return data

@@ -1,0 +1,287 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "P-Reff-.####",
+ "creation": "2026-08-20 13:18:04.137332",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "patient_id",
+  "patient_name",
+  "mobile",
+  "age",
+  "sex",
+  "column_break_wscgn",
+  "date",
+  "time",
+  "address",
+  "section_break_asztm",
+  "presenting_complaint",
+  "column_break_c35zc",
+  "history_of_present_illness",
+  "column_break_m1icx",
+  "relevant_medical_history",
+  "clinical_assessment_section",
+  "bp",
+  "column_break_snoqh",
+  "pr",
+  "column_break_hk3sf",
+  "temp",
+  "column_break_7zslw",
+  "o2",
+  "section_break_zoxud",
+  "physical_examination_clinical_findings",
+  "column_break_qm4ti",
+  "diagnosis",
+  "column_break_h6b8g",
+  "investigations",
+  "column_break_zwdok",
+  "treatment",
+  "referrals_section",
+  "patient_condition_before_referral",
+  "column_break_slwf2",
+  "reason_for_referral",
+  "column_break_wfdif",
+  "referral_priority",
+  "column_break_152w4",
+  "doctor"
+ ],
+ "fields": [
+  {
+   "fieldname": "patient_id",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Patient ID",
+   "reqd": 1
+  },
+  {
+   "fieldname": "patient_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Patient Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "mobile",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Mobile",
+   "reqd": 1
+  },
+  {
+   "fieldname": "age",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Age",
+   "reqd": 1
+  },
+  {
+   "fieldname": "sex",
+   "fieldtype": "Link",
+   "label": "Sex",
+   "options": "Gender",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_wscgn",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Today",
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "label": "Date",
+   "reqd": 1
+  },
+  {
+   "default": "Now",
+   "fieldname": "time",
+   "fieldtype": "Time",
+   "label": "Time",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_asztm",
+   "fieldtype": "Section Break",
+   "label": "CLINICAL INFORMATION"
+  },
+  {
+   "fieldname": "address",
+   "fieldtype": "Data",
+   "label": "Address"
+  },
+  {
+   "fieldname": "presenting_complaint",
+   "fieldtype": "Data",
+   "label": "Presenting Complaint"
+  },
+  {
+   "fieldname": "column_break_c35zc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "history_of_present_illness",
+   "fieldtype": "Data",
+   "label": "History of Present Illness"
+  },
+  {
+   "fieldname": "column_break_m1icx",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "relevant_medical_history",
+   "fieldtype": "Data",
+   "label": "Relevant Medical History"
+  },
+  {
+   "fieldname": "clinical_assessment_section",
+   "fieldtype": "Section Break",
+   "label": "CLINICAL ASSESSMENT"
+  },
+  {
+   "fieldname": "bp",
+   "fieldtype": "Data",
+   "label": "Bp"
+  },
+  {
+   "fieldname": "column_break_snoqh",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "pr",
+   "fieldtype": "Data",
+   "label": "PR"
+  },
+  {
+   "fieldname": "column_break_hk3sf",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "temp",
+   "fieldtype": "Data",
+   "label": "Temp"
+  },
+  {
+   "fieldname": "column_break_7zslw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "o2",
+   "fieldtype": "Data",
+   "label": "O2"
+  },
+  {
+   "fieldname": "section_break_zoxud",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "physical_examination_clinical_findings",
+   "fieldtype": "Data",
+   "label": "Physical Examination / Clinical Findings"
+  },
+  {
+   "fieldname": "column_break_qm4ti",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "diagnosis",
+   "fieldtype": "Data",
+   "label": "Diagnosis"
+  },
+  {
+   "fieldname": "column_break_h6b8g",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "investigations",
+   "fieldtype": "Data",
+   "label": "Investigations"
+  },
+  {
+   "fieldname": "column_break_zwdok",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "treatment",
+   "fieldtype": "Data",
+   "label": "Treatment"
+  },
+  {
+   "fieldname": "referrals_section",
+   "fieldtype": "Section Break",
+   "label": "REFERRALS"
+  },
+  {
+   "fieldname": "patient_condition_before_referral",
+   "fieldtype": "Select",
+   "label": "Patient condition before referral",
+   "options": "\nStable\nSerious but Stable\nUnstable\nCritical\nEmergency"
+  },
+  {
+   "fieldname": "column_break_slwf2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "reason_for_referral",
+   "fieldtype": "Data",
+   "label": "REASON FOR REFERRAL"
+  },
+  {
+   "fieldname": "column_break_wfdif",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "referral_priority",
+   "fieldtype": "Select",
+   "label": "REFERRAL PRIORITY",
+   "options": "\nEMERGENCY\nURGENT\nROUTINE"
+  },
+  {
+   "fieldname": "column_break_152w4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "doctor",
+   "fieldtype": "Data",
+   "label": "Doctor"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-08-20 13:31:04.060967",
+ "modified_by": "Administrator",
+ "module": "HIS",
+ "name": "PATIENT REFERRAL FORM CLINIC",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "All",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

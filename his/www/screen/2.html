@@ -24,7 +24,7 @@
         }
 
        .branding-header {
-            background: #FFFF;
+            background: #FFFFFF;
             padding: 2vh 4vw;
             display: flex;
             align-items: center;
@@ -34,8 +34,8 @@
         }
 
         .hospital-logo {
-            width: 40vh; /* Adjust as needed */
-            height: 15vh; /* Adjust as needed */
+            width: 40vh;
+            height: 15vh;
             display: grid;
             place-items: center;
         }
@@ -237,7 +237,6 @@
             <div class="room-number" id="roomNumber"></div>
         </div>
         <div style="display: flex; align-items: center; gap: 2vw;">
-            <!-- <button id="testSoundBtn" style="font-size: 2vh; padding: 1vh 2vw; background: #00b4d8; color: #001a33; border: none; border-radius: 0.5vh; cursor: pointer; font-weight: bold;">🔔 Test sound</button> -->
             <div style="font-size: 3vh; color: #90e0ef;">
                 Bukaanka sugaya: <span id="queueCount"></span>
             </div>
@@ -265,17 +264,28 @@
 
     <div class="news-ticker">
         <div class="ticker-content">
-            📢 Tixraac Degdeg ah: 6677  •
+             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Welcome to Al-Ihsan Specialist Hospital, We Care Before We Cure
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Please follow staff instructions and maintain order in the waiting area
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Thank you for choosing Al-Ihsan Specialist Hospital &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </div>
     </div>
+
+    <!-- Served directly by your bench's own socket.io server - no external CDN dependency -->
+    <script src="/socket.io/socket.io.js"></script>
 
     <script>
         let queueList = [];
         let doctors = [];
-        let calledQueue = {};
         let currentPatient = null;
         let lastAnnouncedToken = null; // tracks the last token we already beeped for
-        const updateInterval = 5000; // Every 5 seconds for near real-time updates
+
+        // Sound is mission-critical, so polling never fully depends on the
+        // socket working. Connected: light sanity-check poll. Disconnected:
+        // fast, reliable fallback close to the original 5s behavior, so a
+        // called patient is never missed because of a socket problem.
+        let socketConnected = false;
+        const connectedPollInterval    = 30000; // socket healthy
+        const disconnectedPollInterval = 15000;  // socket down
 
         const url = window.location.href;
         let room = url.split("/").pop();
@@ -293,10 +303,8 @@
                 if (audioCtx.state === 'suspended') {
                     audioCtx.resume().then(() => console.log('AudioContext resumed, state:', audioCtx.state));
                 }
-                // Play a near-silent blip so iOS/Chrome fully unlock the audio pipeline
                 playTone(1, 0.0001, 'sine');
 
-                // Prime the speech synthesis engine too, so the first real announcement isn't dropped
                 if ('speechSynthesis' in window) {
                     const primer = new SpeechSynthesisUtterance(' ');
                     primer.volume = 0;
@@ -328,44 +336,21 @@
             oscillator.stop(audioCtx.currentTime + 0.4);
         }
 
-        // Three-note rising chime used to signal a newly called patient
         function playCallChime() {
             if (!audioCtx) {
                 console.warn('playCallChime skipped: audioCtx not unlocked yet. Tap the screen first.');
                 return;
             }
             console.log('Playing call chime');
-            playTone(523.25, 0.25, 'sine');               // note 1 (C5)
-            setTimeout(() => playTone(659.25, 0.25, 'sine'), 250);  // note 2 (E5)
-            setTimeout(() => playTone(784, 0.25, 'sine'), 500);     // note 3 (G5)
+            playTone(523.25, 0.25, 'sine');
+            setTimeout(() => playTone(659.25, 0.25, 'sine'), 250);
+            setTimeout(() => playTone(784, 0.25, 'sine'), 500);
         }
 
         document.getElementById('soundUnlockOverlay').addEventListener('click', unlockAudio);
-        // Also try to unlock on the very first tap/click anywhere, in case the overlay is missed
         document.body.addEventListener('click', unlockAudio, { once: true });
 
-        // Manual test button - lets staff verify the chime + voice work, independent of live queue changes
-        // document.getElementById('testSoundBtn').addEventListener('click', () => {
-        //     unlockAudio();
-        //     playCallChime();
-        //     setTimeout(() => speakAnnouncement(999, '5'), 900);
-        // });
-
-        /* ---------------- Voice announcement (English) ----------------
-           3-layer fallback so it also works inside Fully Kiosk, where the
-           WebView's built-in speechSynthesis is unreliable:
-
-           Layer 1: window.fully.textToSpeech() — Fully Kiosk's native
-                    Android TTS, with the locale forced to en_US via
-                    setTextToSpeechParams() first (this is the actual fix —
-                    without it Fully can silently fail on a missing locale).
-           Layer 2: Fully Kiosk's local REST API (localhost:2323), used if
-                    the JS interface isn't injected.
-           Layer 3: Web Speech API — used in regular browsers like Chrome.
-        ---------------------------------------------------------------- */
-        // Only attempt Fully-specific sound paths when actually running inside
-        // Fully Kiosk. On a normal browser (Chrome, etc.) this is false, so
-        // speakAnnouncement() goes straight to Web Speech, same as before.
+        /* ---------------- Voice announcement (English) ---------------- */
         const isFullyKioskEnv = /fully/i.test(navigator.userAgent) || typeof window.fully !== 'undefined';
 
         function speakAnnouncement(tokenNo, roomNo) {
@@ -373,7 +358,6 @@
                 ? `Patient number ${tokenNo}, please come to room ${roomNo}`
                 : `Patient number ${tokenNo}, please come in`;
 
-            // Layer 1: Fully Kiosk JS interface
             if (window.fully && typeof window.fully.textToSpeech === 'function') {
                 try {
                     if (typeof window.fully.setTextToSpeechParams === 'function') {
@@ -392,15 +376,11 @@
                 return;
             }
 
-            // Not on Fully Kiosk at all (e.g. testing in Chrome) — go straight
-            // to Web Speech, exactly like the original file did.
             if (!isFullyKioskEnv) {
                 speakViaWebSpeech(text);
                 return;
             }
 
-            // On Fully Kiosk but window.fully wasn't injected (JS interface
-            // setting is off) — try its REST API instead.
             speakViaFullyRest(text);
         }
 
@@ -428,7 +408,7 @@
             utterance.rate = 0.9;
             utterance.volume = 1;
             utterance.onerror = (e) => console.error('Speech error:', e);
-            window.speechSynthesis.cancel(); // stop any queued announcement before speaking the new one
+            window.speechSynthesis.cancel();
             window.speechSynthesis.speak(utterance);
         }
 
@@ -449,12 +429,10 @@
 
                 if (data && data.message) {
                     if (JSON.stringify(queueList) !== JSON.stringify(data.message.que) ||
-                        JSON.stringify(doctors) !== JSON.stringify(data.message.doctors) ||
-                        JSON.stringify(calledQueue) !== JSON.stringify(data.message.by_doc_call)) {
+                        JSON.stringify(doctors) !== JSON.stringify(data.message.doctors)) {
 
                         queueList = data.message.que || [];
                         doctors = data.message.doctors || [];
-                        calledQueue = data.message.by_doc_call || {};
 
                         updateDisplay();
                     }
@@ -483,7 +461,6 @@
             document.querySelector('.current-number').textContent = currentPatient ? `${currentPatient.token_no}` : '-';
             document.querySelector('.current-name').textContent = currentPatient ? currentPatient.patient_name : '';
 
-            // Beep + English voice announcement only when the front-of-queue patient actually changes
             const currentToken = currentPatient ? currentPatient.token_no : null;
             if (currentToken !== null && currentToken !== lastAnnouncedToken) {
                 playCallChime();
@@ -502,8 +479,52 @@
             document.getElementById('roomNumber').textContent = doctor.doctor_room ? `Qolka ${doctor.doctor_room}` : "Unknown Room";
         }
 
-        fetchQuePatients();
-        setInterval(fetchQuePatients, updateInterval);
+        /* ---------------- Realtime ---------------- */
+        let socket = null;
+
+        function connectRealtime() {
+            socket = io(baseUrl, {
+                path: "/socket.io",
+                withCredentials: true,
+                reconnection: true,
+                reconnectionDelay: 2000,
+            });
+
+            socket.on("connect", () => {
+                console.log("Realtime connected");
+                socketConnected = true;
+                fetchQuePatients();
+            });
+
+            socket.on("disconnect", () => {
+                console.warn("Realtime disconnected - switching to fast fallback polling so sound isn't delayed");
+                socketConnected = false;
+            });
+
+            socket.on("connect_error", () => {
+                socketConnected = false;
+            });
+
+            socket.on("queue_update", (data) => {
+                if (!data) return;
+                if (String(data.doctor_room) === String(room)) {
+                    fetchQuePatients();
+                }
+            });
+        }
+
+        // Self-rescheduling poll loop, interval adapts to socket health.
+        function scheduleNextPoll() {
+            const interval = socketConnected ? connectedPollInterval : disconnectedPollInterval;
+            setTimeout(async () => {
+                await fetchQuePatients();
+                scheduleNextPoll();
+            }, interval);
+        }
+
+        fetchQuePatients();          // initial load
+        connectRealtime();           // push-based updates
+        scheduleNextPoll();          // adaptive safety net
     </script>
 
 </body>

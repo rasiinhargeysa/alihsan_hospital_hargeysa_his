@@ -242,9 +242,9 @@ d.show();
         // frm.add_custom_button('Today ', () => {
         //     consoleerp_hi(frm.doc.patient , frm.doc.patient_name , true)
         //   }, 'History');
-          frm.add_custom_button('History', () => {
-            consoleerp_hi(frm.doc.patient , frm.doc.patient_name )
-          }, 'History');
+        //   frm.add_custom_button('History', () => {
+        //     consoleerp_hi(frm.doc.patient , frm.doc.patient_name )
+        //   }, 'History');
  
 
 
@@ -443,74 +443,48 @@ d.show();
 		// your code here
      }
     
-        var missed=  frm.add_custom_button(__("Missed"), function(){
+//         var missed=  frm.add_custom_button(__("Missed"), function(){
 	       
 	       
-            //frappe.msgprint(frm.doc.practitioner);
-            frappe.call({
-                     method: "his.api.steps.missed", //dotted path to server method
-                     args: {
-                         "doc":frm.doc.que,
-                         "doctor":frm.doc.practitioner
+//             //frappe.msgprint(frm.doc.practitioner);
+//             frappe.call({
+//                      method: "his.api.steps.missed", //dotted path to server method
+//                      args: {
+//                          "doc":frm.doc.que,
+//                          "doctor":frm.doc.practitioner
                          
  
                          
                          
                       
-                     },
-                     callback: function(r) {
-                         let count=r.message[0].min;
-                         console.log(r)
-                  if(count){
-                    frappe.db.set_value("Que" ,r.message[0].name , "que_steps" , "Called" )       // frappe.msgprint(count);
-                 if(frm.doc.patient_encounter){
-                 frappe.set_route('Form', 'Patient Encounter', frm.doc.patient_encounter);
-             }else{
-                 frappe.new_doc("Patient Encounter",{"que": r.message[0].name, "patient": r.message[0].patient,"practitioner" : r.message[0].practitioner})
-                 // count+1
+//                      },
+//                      callback: function(r) {
+//                          let count=r.message[0].min;
+//                          console.log(r)
+//                   if(count){
+//                     frappe.db.set_value("Que" ,r.message[0].name , "que_steps" , "Called" )       // frappe.msgprint(count);
+//                  if(frm.doc.patient_encounter){
+//                  frappe.set_route('Form', 'Patient Encounter', frm.doc.patient_encounter);
+//              }else{
+//                  frappe.new_doc("Patient Encounter",{"que": r.message[0].name, "patient": r.message[0].patient,"practitioner" : r.message[0].practitioner})
+//                  // count+1
                
  
-             }
-         }
-         else{
-             frappe.msgprint(__('There is no patient in your que '));
-         }
+//              }
+//          }
+//          else{
+//              frappe.msgprint(__('There is no patient in your que '));
+//          }
                         
                          
-                     }
+//                      }
                      
- });
+//  });
             
-        })
+//         })
      
 	},
-       onload(frm) {
-  
-        // alert(doctor)
-           frappe.call({
-                    method: "his.api.steps.All_que_numbers", //dotted path to server method
-                    args: {
-                        "doctor":frm.doc.practitioner
 
-                        
-                        
-                     
-                    },
-                    callback: function(r) {
-                      
-        let token_n=` <div  style="margin:0 auto;
-        padding: 5px 10px;
-        width:40%;
-        border:2px solid #333; ">
-        
-         <h4 style="color:black;text-align:center;font-size: 20px;">${frm.doc.token_n || 0} Remain ${r.message[0].number}</h4>
-       </div>`
-
-      
-        frm.set_df_property("token","options",token_n);
-    }
-    });
-       }
 })
 
 

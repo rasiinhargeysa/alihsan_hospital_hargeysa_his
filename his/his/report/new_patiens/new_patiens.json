@@ -8,7 +8,6 @@
  "doctype": "Report",
  "filters": [
   {
-   "default": "Today",
    "fieldname": "from",
    "fieldtype": "Date",
    "label": "From Date",
@@ -16,7 +15,6 @@
    "wildcard_filter": 0
   },
   {
-   "default": "Today",
    "fieldname": "to",
    "fieldtype": "Date",
    "label": "To Date",
@@ -27,13 +25,13 @@
  "idx": 0,
  "is_standard": "Yes",
  "letter_head": "logo",
- "modified": "2025-03-11 16:25:12.437660",
+ "modified": "2026-10-04 12:00:51.341218",
  "modified_by": "Administrator",
  "module": "HIS",
  "name": "NEW Patiens",
  "owner": "Administrator",
  "prepared_report": 0,
- "query": "SELECT \npatient as \"PatientID:Data:100\",\npatient_name as \"Patient Name:Data:200\",\nmobile as \"Mobile:Data:100\",\ngender AS \"Sex\",\nage As \"Age\",\ndistrict AS \"District\",\npractitioner_name as \"Doctor Name:Data:150\"\n\nFROM `tabQue`\nWHERE \n    date BETWEEN %(from)s AND %(to)s\n    and que_type='New Patient'",
+ "query": "SELECT \npatient as \"PatientID:Data:100\",\npatient_name as \"Patient Name:Data:300\",\nmobile as \"Mobile:Data:120\",\ngender AS \"Sex:Data:80\",\nage As \"Age\",\ndistrict AS \"District:Data:150\",\npractitioner_name as \"Doctor Name:Data:250\",\nque_type as \"Que Type:Data:150\"\n\nFROM `tabQue`\nWHERE \n    date BETWEEN %(from)s AND %(to)s\n    and que_type='New Patient'",
  "ref_doctype": "Que",
  "report_name": "NEW Patiens",
  "report_type": "Query Report",
