@@ -38,6 +38,7 @@ def get_doctors():
         WHERE
             date = CURDATE()
             AND status != "Closed"
+            AND status != "Canceled"
             AND practitioner_name IN (
                 SELECT practitioner_name FROM `tabHealthcare Practitioner` WHERE doctor_room = %s
             )
@@ -94,6 +95,7 @@ def get_drshiine():
         WHERE
             date = CURDATE()
             AND status != "Closed"
+            AND status != "Canceled"
             AND practitioner_name IN (
                 SELECT practitioner_name FROM `tabHealthcare Practitioner` WHERE doctor_room = %s
             )
