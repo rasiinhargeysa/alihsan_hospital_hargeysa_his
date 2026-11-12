@@ -133,6 +133,7 @@
    "fetch_from": "medical_department.type",
    "fieldname": "department",
    "fieldtype": "Link",
+   "hidden": 1,
    "label": "Department",
    "options": "Hospital Department"
   },
@@ -176,7 +177,7 @@
  "icon": "fa fa-ticket",
  "is_submittable": 1,
  "links": [],
- "modified": "2026-08-18 10:57:59.777737",
+ "modified": "2026-11-01 18:11:48.101738",
  "modified_by": "Administrator",
  "module": "HIS",
  "name": "Request",

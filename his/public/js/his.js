@@ -1138,57 +1138,58 @@ function get_history(patient, tab) {
 				});
 			}
 			else if (tab == "va") {
-				this.table = new Tabulator("#va", {
-					// layout:"fitDataFill",
-					layout: "fitDataFill",
-					//  layout:"fitColumns",
-					// responsiveLayout:"collapse",
-					rowHeight: 30,
-					placeholder: "No Data Available",
-					//  selectable:true,
-					//  dataTree:true,
-					//  dataTreeStartExpanded:true,
-					groupStartOpen: false,
-					printAsHtml: true,
-					//  printHeader:`<img src = '/private/files/WhatsApp Image 2022-10-20 at 6.19.02 PM.jpeg'>`,
-					printFooter: "<h2>Example Table Footer<h2>",
-					groupBy: "date",
-					groupHeader: function (value, count, data, group) {
-						//value - the value all members of this group share
-						//count - the number of rows in this group
-						//data - an array of all the row data objects in this group
-						//group - the group component for the group
-						// console.log(group)
-						return value + "<span style=' margin-left:0px;'>(" + count + "   )</span>";
-					},
-					groupToggleElement: "header",
-					//  groupBy:groupbyD.length >0 ? groupbyD : "",
-					//  textDirection: frappe.utils.is_rtl() ? "rtl" : "ltr",
+				render_va_cards("#va", data);
+				// this.table = new Tabulator("#va", {
+				// 	// layout:"fitDataFill",
+				// 	layout: "fitDataFill",
+				// 	//  layout:"fitColumns",
+				// 	// responsiveLayout:"collapse",
+				// 	rowHeight: 30,
+				// 	placeholder: "No Data Available",
+				// 	//  selectable:true,
+				// 	//  dataTree:true,
+				// 	//  dataTreeStartExpanded:true,
+				// 	groupStartOpen: false,
+				// 	printAsHtml: true,
+				// 	//  printHeader:`<img src = '/private/files/WhatsApp Image 2022-10-20 at 6.19.02 PM.jpeg'>`,
+				// 	printFooter: "<h2>Example Table Footer<h2>",
+				// 	groupBy: "date",
+				// 	groupHeader: function (value, count, data, group) {
+				// 		//value - the value all members of this group share
+				// 		//count - the number of rows in this group
+				// 		//data - an array of all the row data objects in this group
+				// 		//group - the group component for the group
+				// 		// console.log(group)
+				// 		return value + "<span style=' margin-left:0px;'>(" + count + "   )</span>";
+				// 	},
+				// 	groupToggleElement: "header",
+				// 	//  groupBy:groupbyD.length >0 ? groupbyD : "",
+				// 	//  textDirection: frappe.utils.is_rtl() ? "rtl" : "ltr",
 
-					columns: columns,
+				// 	columns: columns,
 
-					// [
-					// 	{formatter:"rowSelection", titleFormatter:"rowSelection", hozAlign:"center", headerSort:false, cellClick:function(e, cell){
-					// 		cell.getRow().toggleSelect();
-					// 	  }},
-					// 	{
-					// 		title:"Name", field:"name", width:200,
-					// 	},
-					// 	{title:"Group", field:"item_group", width:200},
-					// ],
-					// [
-					// {title:"Name", field:"name" , formatter:"link" , formatterParams:{
-					// 	labelField:"name",
-					// 	urlPrefix:`/app/${doct}/`,
+				// 	// [
+				// 	// 	{formatter:"rowSelection", titleFormatter:"rowSelection", hozAlign:"center", headerSort:false, cellClick:function(e, cell){
+				// 	// 		cell.getRow().toggleSelect();
+				// 	// 	  }},
+				// 	// 	{
+				// 	// 		title:"Name", field:"name", width:200,
+				// 	// 	},
+				// 	// 	{title:"Group", field:"item_group", width:200},
+				// 	// ],
+				// 	// [
+				// 	// {title:"Name", field:"name" , formatter:"link" , formatterParams:{
+				// 	// 	labelField:"name",
+				// 	// 	urlPrefix:`/app/${doct}/`,
 
-					// }},
-					// {title:"Customer", field:"customer" },
-					// {title:"Total", field:"net_total" , bottomCalc:"sum",},
+				// 	// }},
+				// 	// {title:"Customer", field:"customer" },
+				// 	// {title:"Total", field:"net_total" , bottomCalc:"sum",},
 
-					// ],
+				// 	// ],
 
-					data: data
-				});
+				// 	data: data
+				// });
 			}
 			else {
 				if (columns) {
@@ -1758,4 +1759,102 @@ function renew(name) {
 		callback: function (r) {
 		}
 	});
+}
+
+
+function render_va_cards(selector, data) {
+    const esc = x => (x === null || x === undefined || x === "") ? "" : frappe.utils.escape_html(String(x));
+    const $el = $(selector);
+
+    const VA = [
+        ["VA",         "r_va",          "l_va"],
+        ["PIN HOLE",   "r_pin_hole",    "l_pin_hole"],
+        ["WITH GLASS", "r_white_class", "l_white_class"],
+        ["IOP",        "iop_right",     "iop_left"],
+    ];
+    const AS = [
+        ["LID",    "lid",    "lid2"],
+        ["CONJ",   "conj",   "conj2"],
+        ["CORNEA", "cornea", "cornea2"],
+        ["AC",     "ac",     "ac2"],
+        ["PUPIL",  "pupil",  "pupil2"],
+        ["LENS",   "lens",   "lens2"],
+    ];
+
+    const target = cx => `
+        <svg width="130" height="130" viewBox="0 0 200 200" fill="none" stroke="#16215c" stroke-width="1">
+            <circle cx="100" cy="100" r="95"/>
+            <circle cx="100" cy="100" r="63"/>
+            <circle cx="100" cy="100" r="31"/>
+            <line x1="5" y1="100" x2="195" y2="100"/>
+            <line x1="100" y1="5" x2="100" y2="195"/>
+            <ellipse cx="${cx}" cy="100" rx="9" ry="11" fill="#fbf6ef"/>
+        </svg>`;
+
+    const fundus = (img, cx) => img
+        ? `<img src="${esc(img)}" width="130" height="130" style="background:#fff">`
+        : target(cx);
+
+    const fmt_date = d => {
+        try { return frappe.datetime.str_to_user(d); } catch (e) { return d || ""; }
+    };
+
+    const card = (r, i) => `
+        <details class="vap-card" ${i === 0 ? "open" : ""}>
+            <summary class="vap-head">
+                <a href="/app/va-examination/${esc(r.sr)}" target="_blank">${esc(r.sr)}</a>
+                <span>${esc(fmt_date(r.date))} &nbsp; ${esc((r.time || "").toString().slice(0, 8))}</span>
+            </summary>
+
+            <div class="vap-bar">Visual acuity examination</div>
+            <table class="vap-t">
+                <colgroup><col style="width:30%"><col style="width:35%"><col style="width:35%"></colgroup>
+                <thead><tr><th>Examination</th><th>Right eye</th><th>Left eye</th></tr></thead>
+                <tbody>
+                    ${VA.map(x => `<tr><td class="k">${x[0]}</td><td>${esc(r[x[1]])}</td><td>${esc(r[x[2]])}</td></tr>`).join("")}
+                </tbody>
+            </table>
+
+            <div class="vap-bar">Anterior segment examination</div>
+            <table class="vap-t">
+                <colgroup><col style="width:40%"><col style="width:20%"><col style="width:40%"></colgroup>
+                <thead><tr><th>Right eye</th><th>Examination</th><th>Left eye</th></tr></thead>
+                <tbody>
+                    ${AS.map(x => `<tr><td>${esc(r[x[1]])}</td><td class="k">${x[0]}</td><td>${esc(r[x[2]])}</td></tr>`).join("")}
+                </tbody>
+            </table>
+
+            <div class="vap-bar">Posterior segment drawing</div>
+            <table class="vap-t">
+                <thead><tr><th>Right eye</th><th>Left eye</th></tr></thead>
+                <tbody><tr>
+                    <td class="fd">${fundus(r.fundus_drawing_re, 128)}</td>
+                    <td class="fd">${fundus(r.fundus_drawing_le, 72)}</td>
+                </tr></tbody>
+            </table>
+
+            <div class="vap-bar">Other comments</div>
+            <div class="vap-cm">${
+                frappe.utils.xss_sanitise
+                    ? frappe.utils.xss_sanitise(r.other_comments || "")
+                    : esc(r.other_comments)
+            }</div>
+        </details>`;
+
+    $el.html(`
+        <style>
+            .vap-card { border:1px solid var(--border-color); border-radius:10px; margin-bottom:12px; overflow:hidden; background:var(--card-bg); }
+            .vap-head { display:flex; justify-content:space-between; padding:8px 14px; background:#fbf6ef; border-bottom:2px solid #f5821f; font-size:12px; font-weight:600; color:#16215c; cursor:pointer; }
+            .vap-bar  { background:#16215c; color:#fff; padding:6px 14px; font-size:12px; font-weight:600; letter-spacing:.4px; }
+            .vap-t    { width:100%; table-layout:fixed; border-collapse:collapse; font-size:12px; margin:0; }
+            .vap-t th { background:#fbf6ef; color:#16215c; font-weight:600; border:1px solid #f5821f; padding:5px 8px; text-align:center; }
+            .vap-t td { border:1px solid var(--border-color); padding:6px 8px; text-align:center; height:30px; color:var(--text-color); word-wrap:break-word; }
+            .vap-t td.k  { font-weight:600; color:#16215c; background:#fbf6ef; }
+            .vap-t td.fd { height:auto; padding:10px 0; }
+            .vap-cm   { padding:10px 14px; font-size:12px; line-height:1.5; min-height:40px; }
+        </style>
+        ${data && data.length
+            ? data.map(card).join("")
+            : "<div class='text-muted' style='padding:10px'>No Data Available</div>"}
+    `);
 }

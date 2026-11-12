@@ -1,0 +1,49 @@
+{
+ "add_total_row": 1,
+ "columns": [],
+ "creation": "2026-11-02 19:16:03.019779",
+ "disable_prepared_report": 0,
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [
+  {
+   "fieldname": "Start_date",
+   "fieldtype": "Date",
+   "label": "From Date",
+   "mandatory": 1,
+   "wildcard_filter": 0
+  },
+  {
+   "fieldname": "End_date",
+   "fieldtype": "Date",
+   "label": "To Date",
+   "mandatory": 1,
+   "wildcard_filter": 0
+  }
+ ],
+ "idx": 0,
+ "is_standard": "Yes",
+ "letter_head": "logo",
+ "modified": "2026-11-02 19:21:12.232444",
+ "modified_by": "Administrator",
+ "module": "HIS",
+ "name": "services Report draft",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "query": "SELECT \r\n    I.item_code AS \"Item Code:Data:250\",\r\n    I.item_group AS \"Service Type:Data:150\",\r\n    I.description AS \"Description:Data:250\",\r\n    SUM(I.qty) AS \"Total Qty:Float:120\",\r\n    AVG(I.net_rate) AS \"Average Net Rate:Currency:120\",\r\n    SUM(I.net_amount) AS \"Total Net Amount:Currency:150\"\r\n\r\nFROM \r\n    `tabSales Invoice` S\r\n\r\nINNER JOIN \r\n    `tabSales Invoice Item` I \r\n    ON S.name = I.parent\r\n\r\nWHERE \r\n    S.docstatus = 0\r\n    AND S.so_type = 'Pharmacy'\r\n    AND S.posting_date BETWEEN %(Start_date)s AND %(End_date)s\r\n\r\nGROUP BY \r\n    I.item_code,\r\n    I.item_group,\r\n    I.description\r\n\r\nORDER BY \r\n    I.item_code;",
+ "ref_doctype": "Sales Invoice",
+ "report_name": "services Report draft",
+ "report_type": "Query Report",
+ "roles": [
+  {
+   "role": "Accounts User"
+  },
+  {
+   "role": "Accounts Manager"
+  },
+  {
+   "role": "Employee Self Service"
+  }
+ ]
+}

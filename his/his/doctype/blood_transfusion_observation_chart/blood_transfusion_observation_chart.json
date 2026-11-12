@@ -25,6 +25,7 @@
  ],
  "fields": [
   {
+   "fetch_from": "patient.first_name",
    "fieldname": "name_of_patient",
    "fieldtype": "Link",
    "in_list_view": 1,
@@ -79,7 +80,7 @@
   {
    "fieldname": "amount",
    "fieldtype": "Data",
-   "label": "Amount transfused"
+   "label": "Amount transfused Unit"
   },
   {
    "fieldname": "observation_section",
@@ -116,7 +117,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-09-08 14:24:46.124358",
+ "modified": "2026-11-01 18:51:18.118885",
  "modified_by": "Administrator",
  "module": "HIS",
  "name": "BLOOD TRANSFUSION OBSERVATION CHART",
@@ -161,7 +162,6 @@
    "write": 1
   }
  ],
- "row_format": "Dynamic",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": []

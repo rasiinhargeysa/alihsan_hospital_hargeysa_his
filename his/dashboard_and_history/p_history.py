@@ -250,27 +250,23 @@ def visits_h(patient ):
     """ , as_dict = True)
     return data
 @frappe.whitelist()
-def va_h(patient ):
-    #  appointment_date  as Date,
-    data = frappe.db.sql(f""" 
-    
-    select  
-    name as sr, 
-    date as Date,
-    time  as `Time`,
-    va as `R VA`,
-    pin_hole as `R Pin Hole`,
-    white_glass as `R White Class`,
-    va1 as `L VA`,
-    pin2 as `L Pin Hole`,
-    glass2 as `L White Class`
-
-   
-
-    from `tabVA Examination`  
-      where patient = "{patient}" and docstatus !=2
-    
-    """ , as_dict = True)
+def va_h(patient):
+    data = frappe.db.sql("""
+        select
+            name as sr,
+            date as Date,
+            time as `Time`,
+            va as `R VA`,
+            pin_hole as `R Pin Hole`,
+            white_glass as `R White Class`,
+            va1 as `L VA`,
+            pin2 as `L Pin Hole`,
+            glass2 as `L White Class`,
+            t.*
+        from `tabVA Examination` t
+        where patient = %(patient)s and docstatus != 2
+        order by date desc, time desc
+    """, {"patient": patient}, as_dict=True)
     return data
 
 @frappe.whitelist()

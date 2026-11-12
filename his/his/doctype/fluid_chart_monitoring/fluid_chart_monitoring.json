@@ -12,6 +12,10 @@
   "patient_name",
   "gender",
   "age",
+  "column_break_hhe2j",
+  "date",
+  "time",
+  "section_break_rrkua",
   "monitoring"
  ],
  "fields": [
@@ -43,11 +47,31 @@
    "fieldtype": "Table",
    "label": "Monitoring",
    "options": "fluid monitoring"
+  },
+  {
+   "fieldname": "column_break_hhe2j",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Today",
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "label": "Date"
+  },
+  {
+   "fieldname": "time",
+   "fieldtype": "Time",
+   "label": "Time"
+  },
+  {
+   "default": "Now",
+   "fieldname": "section_break_rrkua",
+   "fieldtype": "Section Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-06-06 16:34:47.101150",
+ "modified": "2026-11-01 17:44:18.632600",
  "modified_by": "Administrator",
  "module": "HIS",
  "name": "fluid chart monitoring",
